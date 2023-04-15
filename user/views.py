@@ -11,9 +11,9 @@ from django.core.cache import cache
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from .models import CustomUser, GoogleCredentials
-from django.contrib.auth import authenticate, login, logout
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponse
 
 

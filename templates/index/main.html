@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8" />
+      <title>Ansiant Beatstore</title>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+      <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap" rel="stylesheet"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+      <script src="{% static 'js/parallax.min.js' %}"></script>
+      <script src="{% static 'js/parallax.js' %}"></script>
+      <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.0.2/dist/simpleParallax.min.js"></script>
+      <link rel="stylesheet prefetch" href={% static 'css/stars.css'%} />
+      <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+      <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+      <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Freehand&display=swap');
+      </style>
+  </head>
+  <body>
+  <header>
+        <div class="mainContainer">
+            <div class="header" value="0">
+                <div class="leftHeader">
+                    <img src="{% static 'images/logo.png' %}" alt="" class="scale click-item" />
+                </div>
+                <div class="rightHeader">
+                    <div class="rightHeaderItem">
+                        <span class="scale click-item">PLAYLIST</span>
+                    </div>
+                    <div class="rightHeaderItem">
+                        <span class="scale click-item">CONTACT</span>
+                    </div>
+                    <div class="rightHeaderItem" onclick="window.location='{% url 'profile' %}'">
+                        <span class="scale click-item">ACCOUNT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="videocontainer">
+        <video autoplay muted loop>
+            <source src="/media/video/blueback.mp4" type="video/mp4" />
+        </video>
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="caption">
+            <div class="logoFirstPageLines">
+                <img src="{% static 'images/bezfona.png' %}" alt="" class="scale" />
+                <p class="logoFirstPageText scale">BEATSTORE</p>
+                <p class="logoFirstPageSlogan scale">Your sound ♪</p>
+            </div>
+        </div>
+    </div>
+    <div class="background-gr">
+        <div id="limiter-container">
+            <div class="title-last-beats">
+                <p>New Releases</p>
+            </div>
+            <div class="container-last-beats">
+                <div class="last-beat-item">
+                    <div class="last-beat-item-img">
+                        <img src="{% static 'images/beat1.jfif' %}" alt="">
+                    </div>
+                    <div class="title-last-beat-item">
+                        <p>Moonlight</p>
+                    </div>
+                    <div class="about-last-beat-item">
+                        <p>Lyric beat<br>BPM: 96<br>Tonal: C#<br>Time: 2:46<br><br></p>
+                    </div>
+                    <div class="price-last-beat-item">
+                        <p>50$</p>
+                    </div>
+                </div>
+                <div class="button-to-playlist">
+                    <button click-item scale>To Listen ↓</button>
+                </div>
+            </div>
+        </div>
+        <div class="socials-container">
+            <div class="parallax-image-container wow fadeInLeft">
+                <img src="{% static 'images/studio.jpg' %}" alt="" class="parallax-image" style="margin-bottom: 50px">
+            </div>
+            <div class="left-block-social-container wow fadeInRight">
+                <p>Subscribe to my socials:</p>
+            </div>
+            <div class="right-block-social-container wow fadeInLeft">
+                <div class="up-right-social-container">
+                    <img src="{% static 'images/tt black.png' %}" alt="">
+                    <img src="{% static 'images/inst.png' %}" alt="">
+                    <img src="{% static 'images/youtube.png' %}" alt="">
+                    <img src="{% static 'images/tg.png' %}" alt="">
+                    <img src="{% static 'images/spotify.png' %}" alt="">
+                </div>
+                <div class="bottom-right-social-container">
+                    <p>#AnsiantBeats</p>
+                </div>
+            </div>
+        </div>
+        <div class="playlist-container">
+            <div class="limiter-container-playlist">
+                <p class="pre-logo element-animation">Beat Store</p>
+                <p class="pre-logo-slogan element-animation">All rights belong to "AnsiantBeats"</p>
+                <div class="playlist-beatstore">
+                     <div class="playlist-header">
+                        <div class="left-playlist-header">
+                            <label for="search"></label>
+                            <input id="search" type="text" size="40" placeholder="Try search beat.." autocomplete="off" />
+                            <img src="{% static 'images/icons8-поиск-90.png' %}" alt="" />
+                        </div>
+                        <div class="right-playlist-header">
+                            <div class="shopping-cart">
+                                <img src="{% static 'images/korzina.png' %}" alt="" />
+                                <p>0 <span>$</span></p>
+                            </div>
+                            <div class="playlist-filter">
+                                <img src="{% static 'images/filter.png' %}" alt="" />
+                            </div>
+                            <div class="playlist-account">
+                                <img src="{% static 'images/account.png' %}" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="criteria-playlist">
+                        <div class="clear-block"></div>
+                        <div class="title-block">
+                            <p>Title</p>
+                        </div>
+                        <div class="title-block">
+                            <p>Type</p>
+                        </div>
+                        <div class="title-block">
+                            <p>Tonal</p>
+                        </div>
+                        <div class="title-block">
+                            <p>Bpm</p>
+                        </div>
+                        <div class="title-block">
+                            <p>Time</p>
+                        </div>
+                        <div class="title-block">
+                            <p>Price</p>
+                        </div>
+                    </div>
+                    <div class="items-playlist">
+                        <div class="item-beat">
+                            <div class="clear-block">
+                                <div class="number-beat">
+                                    <p>1</p>
+                                </div>
+                                <div class="img-beat">
+                                    <img src="{% static 'images/beat1.jfif' %}" alt="" />
+                                </div>
+                            </div>
+                            <div class="item-info">
+                                <p>Areamin</p>
+                            </div>
+                            <div class="item-info">
+                                <p>Liric</p>
+                            </div>
+                            <div class="item-info">
+                                <p>Bm</p>
+                            </div>
+                            <div class="item-info">
+                                <p>101</p>
+                            </div>
+                            <div class="item-info">
+                                <p>3:25</p>
+                            </div>
+                            <div class="item-info">
+                                <p>20$</p>
+                            </div>
+                            <div class="button-buy">
+                                <img src="{% static 'images/BUY.png' %}" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player">
+                        <div class="player-time">
+                            <div class="time-labels">
+                                <div>0:12</div>
+                                <div>3:21</div>
+                            </div>
+                            <div class="time-control">
+                                <label for="range"></label>
+                                <input id="range" type="range" style="height: 5px; border-radius: 5px;" >
+                            </div>
+                        </div>
+                        <div class="player-bottom">
+                            <div class="player-info">
+                                <div class="song-title">
+                                    <span>Moodlive</span>
+                                </div>
+                                <div class="song-author">
+                                    <span>AnsiantBeats</span>
+                                </div>
+                            </div>
+                            <div class="player-controls">
+                                <div class="prev-song-control">
+                                    <img src="{% static 'images/last.png' %}" alt="" class="img-controlls left">
+                                </div>
+                                <div class="play-state-control">
+                                    <img src="{% static 'images/play.png' %}" alt="" class="img-controlls">
+                                </div>
+                                <div class="next-song-control">
+                                    <img src="{% static 'images/next.png' %}" alt="" class="img-controlls right">
+                                </div>
+                            </div>
+                            <div class="player-menu-controls">
+                                <div class="download-song">
+                                    <img src="{% static 'images/download.png' %}" alt="" class="img-controlls left">
+                                </div>
+                                <div class="share-song">
+                                    <img src="{% static 'images/share.png' %}" alt="" class="img-controlls left">
+                                </div>
+                                <div class="player-menu">
+                                    <img src="{% static 'images/more.png' %}" alt="" class="img-controlls">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="licenses-container">
+            <div class="parallax-image-container wow fadeInRight">
+                <img src="{% static 'images/studio4.jpg' %}" alt="моя картинка" class="parallax-image" style="margin-top: 80px;">
+            </div>
+            <div class="up-block-questions-container wow fadeInLeft">
+                <p>What licenses are there ?</p>
+            </div>
+            <div class="bottom-block-questions-container wow fadeInLeft">
+                <div class="up-block-questions-container">
+                    <img src="{% static 'images/license.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="license-container">
+            <div class="license-item">
+                <div class="license-type">
+                    <p>Basic Lease</p>
+                </div>
+                <div class="license-about">
+                    <p class="license-about-item">
+                        · Receive Untagged MP3
+                    </p>
+                    <p class="license-about-item">
+                        · Sell Up To 2,000 Units
+                    </p>
+                    <p class="license-about-item">
+                        · 50,000 Stream Cap
+                    </p>
+                    <p class="license-about-item">
+                        · Must Credit «Prod. AnsiantBeats»
+                    </p>
+                    <p class="license-about-item">
+                        · Non-commercial use
+                    </p>
+                </div>
+                  <div class="price-license">
+                    <p>25$</p>
+                  </div>
+                <div class="license-button-more">
+                    <button>More info</button>
+                </div>
+            </div>
+            <div class="license-item">
+            <div class="license-type">
+                <p>Wav Lease</p>
+            </div>
+            <div class="license-about">
+                <p class="license-about-item">
+                    · Receive Untagged WAV
+                </p>
+                <p class="license-about-item">
+                    · Sell Up To 50,000 Units
+                </p>
+                <p class="license-about-item">
+                    · 100,000 Stream Cap
+                </p>
+                <p class="license-about-item">
+                    · Must Credit «Prod. AnsiantBeats»
+                </p>
+                <p class="license-about-item">
+                    · Non-commercial use
+                </p>
+            </div>
+            <div class="price-license">
+                <p>35$</p>
+            </div>
+            <div class="license-button-more">
+                <button>More info</button>
+            </div>
+        </div>
+        <div class="license-item">
+            <div class="license-type">
+                <p>Pro Lease</p>
+            </div>
+            <div class="license-about">
+            <p class="license-about-item">
+                · Receive Untagged WAV + Trackout Stems
+            </p>
+            <p class="license-about-item">
+                · Sell Up To 7,000 Units
+            </p>
+            <p class="license-about-item">
+                · 250,000 Stream Cap
+            </p>
+            <p class="license-about-item">
+                · Must Credit «Prod. AnsiantBeats»
+            </p>
+            <p class="license-about-item">
+                · Commercial use
+            </p>
+            </div>
+            <div class="price-license">
+                <p>50$</p>
+            </div>
+            <div class="license-button-more">
+                <button>More info</button>
+            </div>
+        </div>
+        <div class="license-item">
+            <div class="license-type">
+                <p>Exclusive</p>
+            </div>
+            <div class="license-about">
+                <p class="license-about-item">
+                    · Receive Untagged WAV + Trackout Stems
+                </p>
+                <p class="license-about-item">
+                    · Sell Unlimited
+                </p>
+                <p class="license-about-item">
+                    · Unlimited Stream Cap
+                </p>
+                <p class="license-about-item">
+                    · Must Credit «Prod. AnsiantBeats»
+                </p>
+            </div>
+            <div class="price-license">
+                <p>
+                    <b>80$</b>
+                </p>
+            </div>
+            <div class="license-button-more">
+                <button>More info</button>
+            </div>
+            </div>
+        </div>
+        <div class="button-to-licenses">
+            <button>More about license</button>
+        </div>
+        <div class="preview-questions-container">
+            <div class="parallax-image-container wow fadeInLeft">
+                <img src="{% static 'images/studio3.jpg' %}" alt="" class="parallax-image">
+            </div>
+            <div class="up-block-questions-container wow fadeInRight">
+                <p>Frequently asked questions</p>
+            </div>
+            <div class="bottom-block-questions-container wow fadeInRight">
+                <img src="{% static 'images/about.png' %}" alt="">
+            </div>
+        </div>
+        <div id="limiter-container">
+            <div class="questions-container">
+            <details>
+                <summary>How can I buy beats on your website?</summary>
+                <p>Click + next to the beats and select the license you want to purchase. Repeat this step for the desired number of beats. Click “Buy Now” in the top right corner choose whether you want to pay with PayPal or credit card.</p>
+            </details>
+            <details >
+                <summary>What about the rights?</summary>
+                <p>All rights are included! You’ll never have to worry about royalties, fees, reporting, or payouts. All the income from further use of the beat is yours, with absolutely no limits. And there’s no fear of copyright strikes – use your new beat anywhere!</p>
+            </details>
+            <details>
+                <summary>What are exclusive rights?</summary>
+                <p>After purchasing exclusive rights, the respective beat will be removed from the beat store. From this point on, the beat may no longer be resold and belongs to you. All exclusive beats include unlimited commercial rights and are delivered as untagged MP3 files, WAV files and trackouts.</p>
+            </details>
+            <details>
+                <summary>I want to upgrade my license. How does that work?</summary>
+                <p>You can upgrade your ‘unlimited’ license to a higher license type at any time. An upgrade to exclusive rights is only possible if the beat in question has not previously been sold as an exclusive. Please, contact us,  if you want to upgrade your license. We deduct the amount already paid and you only pay the difference.</p>
+            </details>
+            <details>
+                <summary>Are the beats completely untagged?</summary>
+                <p>Yes, all beats are completely untagged after the purchase of any license.</p>
+            </details>
+            <details>
+                <summary>Can I get some beats for free?</summary>
+                <p>Yes! We also offer free downloads for most of our instrumentals. These ‘free beats’ may only be used for non-commercial purposes and contain voice tags. In other words you are allowed to upload your song to YouTube, Soundcloud etc. but you are not allowed to monetize it. To download a free beat, please click on the green arrow next to a beat. Enter your name and email address and the download link will be emailed to you.</p>
+            </details>
+            </div>
+        </div>
+        <footer>
+            <p>
+                Design and make by <span>@AnsiantBeats</span>
+            </p>
+        </footer>
+    </div>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+  </body>
+</html>

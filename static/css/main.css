@@ -30,7 +30,7 @@ body::-webkit-scrollbar-thumb {
 
 #headerBackground {
   height: 100vh;
-  background-image: url(images/lenghtBackground.png);
+  background-image: url(/static/images/bottom.png);
   background-size: 100%;
   object-fit: contain;
   background-repeat: no-repeat;
@@ -1053,7 +1053,7 @@ summary:before {
   top: .4em;
   right: .3em;
   color: transparent;
-  background: url("images/bottom.png") no-repeat 50% 50% / 1em 1em;
+  background: url("/static/images/bottom.png") no-repeat 50% 50% / 1em 1em;
   width: 1em;
   height: 1em;  
   content: "";
