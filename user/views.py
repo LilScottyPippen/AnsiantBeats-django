@@ -1,25 +1,23 @@
-
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.template.loader import render_to_string
-
-from .forms import CreateUserForm
-from django.urls import reverse
-from django.conf import settings
-import urllib.parse
-from .models import CustomUser, GoogleCredentials
-from django.http import HttpResponseBadRequest, HttpResponse
-import requests
 import json
 import uuid
 import random
+import requests
+import urllib.parse
+from django.urls import reverse
+from django.conf import settings
+from .forms import CreateUserForm
+from django.contrib import messages
 from django.core.cache import cache
 from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from .models import CustomUser, GoogleCredentials
+from django.contrib.auth import authenticate, login, logout
+from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseBadRequest, HttpResponse
 
-# Create your views here.
 
-def userLogin(request):
+def user_login(request):
     if request.user.is_anonymous:
         if request.method == 'POST':
             email = request.POST.get("email")
@@ -36,7 +34,8 @@ def userLogin(request):
         return redirect('/')
     return render(request, 'user/login.html')
 
-def userReg(request):
+
+def user_reg(request):
     if request.user.is_anonymous:
         form = CreateUserForm()
         if request.method == 'POST':
@@ -51,6 +50,7 @@ def userReg(request):
     }
     return render(request, 'user/registration.html', context)
 
+
 def google_auth(request):
     redirect_uri = request.build_absolute_uri(reverse('google_callback'))
     params = {
@@ -61,6 +61,7 @@ def google_auth(request):
     }
     url = 'https://accounts.google.com/o/oauth2/auth?' + urllib.parse.urlencode(params)
     return redirect(url)
+
 
 def google_callback(request):
     if 'error' in request.GET:
@@ -96,14 +97,15 @@ def google_callback(request):
                         return HttpResponse('Authentication failed')
                 else:
                     user, created = CustomUser.objects.get_or_create(email=user_info['email'])
-                    credentials = GoogleCredentials.objects.create(user=user, access_token=access_token, id_token=id_token, email=user_info['email'])
+                    credentials = GoogleCredentials.objects.create(user=user, access_token=access_token,
+                                                                   id_token=id_token, email=user_info['email'])
                     credentials.save()
                     if user is not None:
                         login(request, user)
                         return redirect('/')
                     else:
                         return HttpResponse('Authentication failed')
-                return redirect('/')
+
 
 def reset_password(request):
     if request.method == 'POST':
@@ -122,16 +124,18 @@ def reset_password(request):
             messages.info(request, 'Not found email!')
     return render(request, 'user/reset_password.html')
 
+
 def send_verification_email(email, code):
     subject = 'Email verification code'
     message = render_to_string('user/verification_email.html', {'code': code})
     recipient_list = [email]
     send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
 
+
 def confirm_email(request, email, token):
     code = cache.get(email)
-    getToken = cache.get(token)
-    if getToken == token:
+    get_token = cache.get(token)
+    if get_token == token:
         if request.method == 'POST':
             if code == request.POST.get('code'):
                 return redirect('changePassword', email, token)
@@ -139,14 +143,15 @@ def confirm_email(request, email, token):
         return redirect('login')
     return render(request, 'user/confirm_email.html')
 
+
 def change_password(request, email, token):
-    getToken = cache.get(token)
-    if getToken == token:
+    get_token = cache.get(token)
+    if get_token == token:
         if request.method == 'POST':
-            newPassword = request.POST.get('password')
-            if len(newPassword) >= 6:
+            new_password = request.POST.get('password')
+            if len(new_password) >= 6:
                 user = CustomUser.objects.get(email=email)
-                user.set_password(newPassword)
+                user.set_password(new_password)
                 user.save()
                 return redirect('login')
             else:
@@ -154,3 +159,13 @@ def change_password(request, email, token):
     else:
         return redirect('auth')
     return render(request, 'user/changePassword.html')
+
+
+@login_required(login_url='login')
+def user_profile(request):
+    return render(request, 'user/cab.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
