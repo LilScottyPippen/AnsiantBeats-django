@@ -97,7 +97,7 @@
                 </div>
               </div>
             </div>
-            <div class="button-to-playlist-container" onclick="window.location='main.html'">
+            <div class="button-to-playlist-container" onclick="window.location='{% url 'index' %}'">
               <div class="to-playlist-icon-block">
                   <img src="{% static 'images/back2.png' %}" alt="">
               </div>
@@ -274,7 +274,7 @@
                     <p>Instagram</p>
                 </div>
                 <div class="info-setting-profile">
-                    <p>@{{ request.user }}</p>
+                    <p>@{{ request.user.username }}</p>
                 </div>
               </div>
               <div class="item-setting-profile">
