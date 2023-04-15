@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
@@ -15,6 +16,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'Email: {self.email} | Username: {self.username}'
+
 
 class GoogleCredentials(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
