@@ -1,6 +1,9 @@
+
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.template.loader import render_to_string
+
 from .forms import CreateUserForm
 from django.urls import reverse
 from django.conf import settings
@@ -9,6 +12,10 @@ from .models import CustomUser, GoogleCredentials
 from django.http import HttpResponseBadRequest, HttpResponse
 import requests
 import json
+import uuid
+import random
+from django.core.cache import cache
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -97,3 +104,53 @@ def google_callback(request):
                     else:
                         return HttpResponse('Authentication failed')
                 return redirect('/')
+
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            code = ''
+            token = str(uuid.uuid4())
+            for i in range(6):
+                code += str(random.randint(0, 9))
+            print(code)
+            cache.set(email, code, 300)
+            cache.set(token, token, 300)
+            send_verification_email(email, code)
+            return redirect('confirmEmail', email, token)
+        except:
+            messages.info(request, 'Not found email!')
+    return render(request, 'user/reset_password.html')
+
+def send_verification_email(email, code):
+    subject = 'Email verification code'
+    message = render_to_string('user/verification_email.html', {'code': code})
+    recipient_list = [email]
+    send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
+
+def confirm_email(request, email, token):
+    code = cache.get(email)
+    getToken = cache.get(token)
+    if getToken == token:
+        if request.method == 'POST':
+            if code == request.POST.get('code'):
+                return redirect('changePassword', email, token)
+    else:
+        return redirect('login')
+    return render(request, 'user/confirm_email.html')
+
+def change_password(request, email, token):
+    getToken = cache.get(token)
+    if getToken == token:
+        if request.method == 'POST':
+            newPassword = request.POST.get('password')
+            if len(newPassword) >= 6:
+                user = CustomUser.objects.get(email=email)
+                user.set_password(newPassword)
+                user.save()
+                return redirect('login')
+            else:
+                print('Password invalid')
+    else:
+        return redirect('auth')
+    return render(request, 'user/changePassword.html')

@@ -52,50 +52,23 @@
 
                 </div>
                 <div class="title-content">
-                    <p>SING IN</p>
+                    <p>CONFIRM EMAIL</p>
                 </div>
             </div>
             <form method="post">
                 <div class="input-container">
                         {% csrf_token %}
                         <div class="input-block">
-                            <input name="email" placeholder="Email" type="email">
-                        </div>
-                        <div class="input-block">
-                            <input name="password" placeholder="Password" type="password">
+                            <input name="code" placeholder="Code" type="text">
                         </div>
                         {% for message in messages %}
                             <div class="error">{{ message }}</div>
                         {% endfor %}
                 </div><br>
-                <div class="options-container">
-                    <div class="remember-block">
-                        <input type="checkbox" id="remember-check-box" name="Remember" checked>
-                        <label for="remember-check-box">Remember me</label>
-                    </div>
-                    <div class="reset-password-block">
-                        <p onclick="window.location='{% url 'resetPassword' %}'">
-                            Forget password?
-                        </p>
-                    </div>
-                </div><br>
                     <br><div class="login-button-container">
-                        <button type="submit">Login</button>
-                    </div>
-                    <div align="center" style="margin-top: 20px">
-                        <a href="{% url 'google_auth' %}"><img src="{% static 'images/google.png' %}" width="35px" alt=""></a>
+                        <button type="submit">Confirm</button>
                     </div>
             </form>
-            <div class="create-account-container">
-                <div class="create-account-block">
-                    <p class="text-create-account">
-                        Don’t have an account?
-                    </p>
-                    <p class="button-create-account" onclick="window.location='{% url 'reg' %}'">
-                        Create new
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
