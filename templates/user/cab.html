@@ -34,7 +34,11 @@
                   <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
               </div>
               <div class="account-name-block">
-                  <p>{{ request.user.username }}</p>
+                  {% if request.user.username %}
+                      <p>{{ request.user.username }}</p>
+                  {% else %}
+                      <p>{{ request.user.email|truncatechars:20 }}</p>
+                  {% endif %}
               </div>
             </div>
             <div class="items-menu-container">

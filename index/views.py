@@ -8,6 +8,6 @@ def index_page(request):
 
     context = {
         'beat': beat,
-        'last_beat': last_beat
+        'last_beat': last_beat,
     }
     return render(request, 'index/main.html', context)

@@ -577,6 +577,7 @@ header {
   display: inline-block;
   object-fit: contain;
   width: 25%;
+  cursor: pointer;
 }
 
 .shopping-cart p {
@@ -596,6 +597,7 @@ header {
   width: 25%;
   margin-top: auto;
   margin-bottom: auto;
+  cursor: pointer;
 }
 
 .playlist-account {
@@ -605,6 +607,7 @@ header {
 .playlist-account img {
   object-fit: contain;
   width: 40%;
+  cursor: pointer;
 }
 
 .criteria-playlist {

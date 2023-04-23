@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ansiant Beatstore</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/shopping-cart.css' %}" />
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="{% static 'js/parallax.min.js' %}"></script>
+    <script src="{% static 'js/parallax.js' %}"></script>
+    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.0.2/dist/simpleParallax.min.js"></script>
+    <link rel="stylesheet prefetch" href="{% static 'css/stars.css' %}" />
+    <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="background-image-container">
+        <img src="{% static 'images/bezfona-background.png' %}" alt="" class="background-image">
+      </div>
+      <div class="container">
+        <div class="menu-container">
+          <div class="limiter-menu-container">
+            <div class="top-account-container">
+                <div class="account-avatar-block">
+                    <img src="{% static 'images/purchase.png' %}" alt="">
+                </div>
+              <div class="account-name-block">
+                <p>SHOPPING CART</p>
+              </div>
+            </div>
+            <div class="items-menu-container">
+              <div class="items-menu">
+                <div class="item-menu order">
+                  <div class="item-icon-block">
+                    <img src="{% static 'images/order.png' %}" alt="">
+                  </div>
+                  <div class="item-text-block">
+                    <p> ORDERING</p>
+                  </div>
+                </div>
+                <div class="item-menu payment">
+                    <div class="item-icon-block">
+                      <img src="{% static 'images/pay.png' %}" alt="">
+                    </div>
+                    <div class="item-text-block">
+                      <p> PAYMENT</p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="button-to-playlist-container" onclick="window.location='main.html'">
+              <div class="to-playlist-icon-block">
+                <img src="{% static 'images/back2.png' %}" alt="">
+              </div>
+              <div class="to-playlist-text-block">
+                <p>TO BEATSTORE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-container">
+            <div class="content-limiter-container">
+                  <div class="top-title-block">
+                    <div class="product-title-block">
+                      <p>Product</p>
+                    </div>
+                    <div class="amount-title-block">
+                      <p>Amount</p>
+                    </div>
+                    <div class="license-title-block">
+                      <p>
+                        License
+                      </p>
+                    </div>
+                  </div>
+                  <div class="cart-products-container">
+
+                  </div>
+            </div>
+            <div class="right-total-container">
+              <div class="coupon-container">
+                <div class="content-coupon-container">
+                  <p>Coupon code</p>
+                    <label>
+                        <input name="coupon-input-element"/>
+                    </label>
+                    <button>Apply</button>
+                </div>
+              </div>
+              <div class="amount-info-container">
+                  <div class="amount-content">
+                    <div class="title-amount">
+                      <p>Gross</p>
+                      <p>Discount</p>
+                      <p>Total</p>
+                    </div>
+                    <div class="cost-amount">
+                      <p>0$</p>
+                      <p>-0$</p>
+                      <p>0$</p>
+                    </div>
+                  </div>
+              </div>
+              <div class="reviewed-container">
+                <input type="checkbox" class="custom-checkbox" name="scales" checked>
+                <label for="scales">I reviewed and agree to the Track(s) License Agreements</label>
+              </div>
+              <div class="payment-container">
+                <button> 
+                  <img src="{% static 'images/pay.png' %}" alt="">
+                  <p>Pay via paypal or credit card</p>
+                </button>
+              </div>
+              <div class="policy-container">
+                <p>Read <span>refund policy</span></p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/shopping-cart.js' %}"></script>
+  </body>
+</html>

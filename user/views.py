@@ -169,3 +169,7 @@ def user_profile(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
+
+
+def shopping_cart(request):
+    return render(request, 'user/shopping-cart.html')

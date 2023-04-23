@@ -26,24 +26,24 @@
   </head>
   <body>
   <header>
-        <div class="mainContainer">
-            <div class="header" value="0">
-                <div class="leftHeader">
-                    <img src="{% static 'images/logo.png' %}" alt="" class="scale click-item" />
+      <div class="mainContainer">
+          <div class="header" value="0">
+              <div class="leftHeader">
+                  <img src="{% static 'images/logo.png' %}" alt="" class="scale click-item" />
+              </div>
+              <div class="rightHeader">
+                  <div class="rightHeaderItem">
+                      <span class="scale click-item">PLAYLIST</span>
+                  </div>
+                <div class="rightHeaderItem">
+                    <span class="scale click-item">CONTACT</span>
                 </div>
-                <div class="rightHeader">
-                    <div class="rightHeaderItem">
-                        <span class="scale click-item">PLAYLIST</span>
-                    </div>
-                    <div class="rightHeaderItem">
-                        <span class="scale click-item">CONTACT</span>
-                    </div>
-                    <div class="rightHeaderItem" onclick="window.location='{% url 'profile' %}'">
-                        <span class="scale click-item">ACCOUNT</span>
-                    </div>
+                <div class="rightHeaderItem" onclick="window.location='{% url 'profile' %}'">
+                    <span class="scale click-item">ACCOUNT</span>
                 </div>
             </div>
         </div>
+    </div>
     </header>
     <div id="videocontainer">
         <video autoplay muted loop>
@@ -68,7 +68,7 @@
                 {% for beat in last_beat %}
                     <div class="last-beat-item">
                         <div class="last-beat-item-img">
-                            <img src="{{ beat.cover.url }}" alt="">
+                            <img src="{{ beat.cover }}" alt="">
                         </div>
                         <div class="title-last-beat-item">
                             <p>{{ beat.title }}</p>
@@ -119,14 +119,14 @@
                         </div>
                         <div class="right-playlist-header">
                             <div class="shopping-cart">
-                                <img src="{% static 'images/korzina.png' %}" alt="" />
+                                <img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'"/>
                                 <p>0 <span>$</span></p>
                             </div>
                             <div class="playlist-filter">
                                 <img src="{% static 'images/filter.png' %}" alt="" />
                             </div>
                             <div class="playlist-account">
-                                <img src="{% static 'images/account.png' %}" alt="" />
+                                <img src="{% static 'images/account.png' %}" alt="" onclick="window.location='{% url 'profile' %}'" />
                             </div>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                                         <p>{{ forloop.counter }}</p>
                                     </div>
                                     <div class="img-beat">
-                                        <img src="{{ beat.cover.url }}" alt="" />
+                                        <img src="{{ beat.cover }}" alt="" />
                                     </div>
                                 </div>
                                 <div class="item-info">
