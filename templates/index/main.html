@@ -181,7 +181,7 @@
                                     <p>{{ beat.price|floatformat }}$</p>
                                 </div>
                                 <div class="button-buy">
-                                    <img src="{% static 'images/BUY.png' %}" alt="" />
+                                    <img src="{% static 'images/BUY.png' %}" alt="" onclick="window.location='{% url 'add_to_cart' beat.beat_id %}'"/>
                                 </div>
                             </div>
                         {% endfor %}

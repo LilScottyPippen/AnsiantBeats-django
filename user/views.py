@@ -3,6 +3,7 @@ import uuid
 import random
 import requests
 import urllib.parse
+from index.models import Beat
 from django.urls import reverse
 from django.conf import settings
 from .forms import CreateUserForm
@@ -15,7 +16,6 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponse
-
 
 def user_login(request):
     if request.user.is_anonymous:
@@ -171,5 +171,38 @@ def user_logout(request):
     return redirect('login')
 
 
+def add_to_cart(request, beat_id):
+    beat = Beat.objects.get(beat_id=beat_id)
+    cart = request.session.get('cart', {})
+    cart[beat_id] = {
+        'id': beat.beat_id,
+        'title': beat.title,
+        'cover': beat.cover,
+        'price': beat.price
+    }
+    request.session['cart'] = cart
+
+    return redirect('shop_cart')
+
+
 def shopping_cart(request):
-    return render(request, 'user/shopping-cart.html')
+    cart = request.session.get('cart', {})
+
+    cart_items = []
+
+    for item in cart.values():
+        beat = Beat.objects.get(beat_id=item['id'])
+        cart_items.append({
+            'id': beat.beat_id,
+            'title': beat.title,
+            'cover': beat.cover,
+            'type': beat.type,
+            'tonal': beat.tonal,
+            'bpm': beat.bpm,
+            'price': beat.price
+        })
+
+    context = {
+        'cart': cart_items
+    }
+    return render(request, 'user/shopping-cart.html', context)
