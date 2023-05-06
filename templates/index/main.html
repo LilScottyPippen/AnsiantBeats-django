@@ -120,7 +120,7 @@
                         <div class="right-playlist-header">
                             <div class="shopping-cart">
                                 <img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'"/>
-                                <p>0 <span>$</span></p>
+                                <p><span>{{ amount|floatformat }}$</span></p>
                             </div>
                             <div class="playlist-filter">
                                 <img src="{% static 'images/filter.png' %}" alt="" />

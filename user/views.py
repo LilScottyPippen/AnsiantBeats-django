@@ -176,9 +176,6 @@ def add_to_cart(request, beat_id):
     cart = request.session.get('cart', {})
     cart[beat_id] = {
         'id': beat.beat_id,
-        'title': beat.title,
-        'cover': beat.cover,
-        'price': beat.price
     }
     request.session['cart'] = cart
 
@@ -189,7 +186,7 @@ def shopping_cart(request):
     cart = request.session.get('cart', {})
 
     cart_items = []
-
+    amount = 0
     for item in cart.values():
         beat = Beat.objects.get(beat_id=item['id'])
         cart_items.append({
@@ -201,8 +198,9 @@ def shopping_cart(request):
             'bpm': beat.bpm,
             'price': beat.price
         })
-
+        amount += beat.price
     context = {
-        'cart': cart_items
+        'cart': cart_items,
+        'amount': amount
     }
     return render(request, 'user/shopping-cart.html', context)
