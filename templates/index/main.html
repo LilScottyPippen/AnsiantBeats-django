@@ -181,7 +181,10 @@
                                     <p>{{ beat.price|floatformat }}$</p>
                                 </div>
                                 <div class="button-buy">
-                                    <img src="{% static 'images/BUY.png' %}" alt="" onclick="window.location='{% url 'add_to_cart' beat.beat_id %}'"/>
+                                    {% if beat.beat_id|stringformat:'s' in cart.keys %}
+                                    {% else %}
+                                        <img src="{% static 'images/BUY.png' %}" alt="" onclick="window.location='{% url 'add_to_cart' beat.beat_id %}'"/>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

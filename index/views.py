@@ -12,10 +12,10 @@ def index_page(request):
     for item in cart.values():
         beat_cart = Beat.objects.get(beat_id=item['id'])
         amount += beat_cart.price
-
     context = {
         'beat': beat,
         'last_beat': last_beat,
-        'amount': amount
+        'amount': amount,
+        'cart': cart
     }
     return render(request, 'index/main.html', context)
