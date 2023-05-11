@@ -13,9 +13,11 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from .models import CustomUser, GoogleCredentials
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
+
 
 def user_login(request):
     if request.user.is_anonymous:
@@ -204,3 +206,38 @@ def shopping_cart(request):
         'amount': amount
     }
     return render(request, 'user/shopping-cart.html', context)
+
+
+def get_cart(request):
+    cart = request.session.get('cart', {})
+    cart_items = []
+    for item in cart.values():
+        beat = Beat.objects.get(beat_id=item['id'])
+        cart_items.append({
+            'id': beat.beat_id,
+            'title': str(beat.title),
+            'cover': str(beat.cover),
+            'type': str(beat.type),
+            'tonal': str(beat.tonal),
+            'bpm': str(beat.bpm),
+            'price': str(beat.price)
+        })
+    data = json.dumps(cart_items)
+    return JsonResponse(data, safe=False)
+
+
+@csrf_exempt
+def delete_item(request, pk):
+    cart = request.session.get('cart', {})
+    item_found = False
+    for key, item in cart.items():
+        if item['id'] == pk:
+            del cart[key]
+            request.session['cart'] = cart
+            item_found = True
+            break
+
+    if item_found:
+        return JsonResponse({'success': True}, safe=False)
+    else:
+        return JsonResponse({'success': False}, safe=False)

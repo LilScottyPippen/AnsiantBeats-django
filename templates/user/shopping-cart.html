@@ -107,7 +107,45 @@
                                 </select>
                                   <img src="{% static 'images/privacy.png' %}" alt="">
                               </div>
+                              <button class="remove-item-btn" data-item-id="{{ cart.id }}">Удалить</button>
                           </div>
+                          <script>
+                          $('body').on('click', '.remove-item-btn', function(event) {
+                              event.preventDefault();
+                              var itemId = $(this).attr('data-item-id');
+                              $.ajax({
+                                url: '/delete_item/' + itemId,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'item_id': itemId
+                                },
+                                success: function(response) {
+                                    if (response.success) {
+                                        $.get('/get_cart', function(data) {
+                                            var products = JSON.parse(data);
+                                            var html = ''
+                                            let amount = 0
+                                            for (let i = 0; i < products.length; i++) {
+                                                html +=  '<div class="product-item">'
+                                                html += '<div class="number-product-block"> <p>' + (i+1) +'</p></div>'
+                                                html += '<div class="product-img"><img src="' + products[i].cover + '" alt=""></div>';
+                                                html += '<div class="product-title"> <p><span>' + products[i].title +'&ensp;|&ensp;</span> ' + products[i].type + ' | ' + products[i].tonal + ' | ' + products[i].bpm + ' bpm</p> </div>'
+                                                html += '<div class="amount-product"> <p>' + products[i].price + '$</p> </div>'
+                                                html += '<div class="license-product"><select name="" id="cusSelectbox"><option value=basic>BASIC(MP3)</option><option value=premium>PREMIUM(MP3, WAV AND TRACK STEMS)</option><option value=track>TRACKOUT(MP3, WAV AND TRACK STEMS)</option><option value=unlim>UNLIMITED(MP3, WAV AND TRACK STEMS)</option><option value=exclusive>EXCLISIVE(Make an offer..)</option></select><img src="{% static 'images/privacy.png' %}" alt=""></div>'
+                                                html += '<button class="remove-item-btn" data-item-id="' + products[i].id + '">Удалить</button></div>'
+                                                amount += products[i].price
+                                            }
+
+                                            $('.cart-products-container').html(html);
+                                            amount = Number(amount)
+                                            html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
+                                            $('.amount-info-container').html(html)
+                                        });
+                                    }
+                                }
+                            })});
+                          </script>
                       {% endfor %}
                   </div>
             </div>
