@@ -17,7 +17,7 @@
       <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
       <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
-      <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+{#      <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>#}
       <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
       <style>
@@ -130,6 +130,45 @@
                             </div>
                         </div>
                     </div>
+                    <script>
+                        $('body').on('click', '.btn-buy', function(event) {
+                            event.preventDefault();
+                            let itemId = $(this).attr('data-item-id')
+                            $.ajax({
+                                url: '/add_to_cart/' + itemId,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'item_id': itemId
+                                },
+                                success: function (response){
+                                    if(response.success){
+                                        $.get('/get_cart', function(data){
+                                            let products = JSON.parse(data);
+                                            let amount = 0
+                                            let html = ''
+                                            let isMatch = false
+                                            for (let i = 0; i < products.length; i++) {
+                                                amount += Number(products[i].price)
+                                            }
+                                            for(let j = 0; j < products.length; j++){
+                                                console.log(itemId + '|' + products[j].id)
+                                                if(String(itemId) === String(products[j].id)){
+                                                    isMatch = true
+                                                }
+                                            }
+                                            html += '<img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location={% url 'shop_cart' %}"/>'
+                                            html += '<p><span>' + amount + '$</span></p>'
+                                            $('.shopping-cart').html(html)
+                                            if(isMatch === true) {
+                                                $(event.target).closest('.button-buy').remove();
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    </script>
                     <div class="criteria-playlist">
                         <div class="clear-block"></div>
                         <div class="title-block">
@@ -183,7 +222,7 @@
                                 <div class="button-buy">
                                     {% if beat.beat_id|stringformat:'s' in cart.keys %}
                                     {% else %}
-                                        <img src="{% static 'images/BUY.png' %}" alt="" onclick="window.location='{% url 'add_to_cart' beat.beat_id %}'"/>
+                                        <img class="btn-buy" src="{% static 'images/BUY.png' %}" data-item-id="{{ beat.beat_id }}" alt=""/>
                                     {% endif %}
                                 </div>
                             </div>

@@ -173,6 +173,7 @@ def user_logout(request):
     return redirect('login')
 
 
+@csrf_exempt
 def add_to_cart(request, beat_id):
     beat = Beat.objects.get(beat_id=beat_id)
     cart = request.session.get('cart', {})
@@ -180,8 +181,7 @@ def add_to_cart(request, beat_id):
         'id': beat.beat_id,
     }
     request.session['cart'] = cart
-
-    return redirect('shop_cart')
+    return JsonResponse({'success': True}, safe=False)
 
 
 def shopping_cart(request):
