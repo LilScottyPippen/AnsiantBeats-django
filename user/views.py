@@ -2,6 +2,7 @@ import json
 import uuid
 import random
 import requests
+import datetime
 import urllib.parse
 from index.models import Beat
 from django.urls import reverse
@@ -11,11 +12,11 @@ from django.contrib import messages
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from .models import CustomUser, GoogleCredentials
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from .models import CustomUser, GoogleCredentials, Order, OrderItems
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 
 
@@ -241,3 +242,18 @@ def delete_item(request, pk):
         return JsonResponse({'success': True}, safe=False)
     else:
         return JsonResponse({'success': False}, safe=False)
+
+
+@csrf_exempt
+def create_order(request):
+    transaction = request.POST.get('transaction_id')
+    cart = request.session.get('cart', {})
+    for item in cart.values():
+        beat = Beat.objects.get(beat_id=item['id'])
+        if request.user.is_anonymous:
+            pass
+        else:
+            order_item = OrderItems.objects.create(beat=beat, transaction_id=transaction, user_id=request.user, amount=beat.price)
+    Order.objects.create(order_item=order_item, status="COMPLETED", created_at=datetime.datetime.now())
+    return JsonResponse({'success': True})
+

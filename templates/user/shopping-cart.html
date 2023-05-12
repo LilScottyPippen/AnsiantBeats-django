@@ -20,6 +20,7 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
     </style>
+    <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD"></script>
   </head>
   <body>
     <div class="page">
@@ -177,10 +178,53 @@
                 <label for="scales">I reviewed and agree to the Track(s) License Agreements</label>
               </div>
               <div class="payment-container">
-                <button> 
-                  <img src="{% static 'images/pay.png' %}" alt="">
-                  <p>Pay via paypal or credit card</p>
-                </button>
+{#                <button> #}
+{#                  <img src="{% static 'images/pay.png' %}" alt="">#}
+{#                  <p>Pay via paypal or credit card</p>#}
+{#                </button>#}
+                    <script>
+                        paypal.Buttons({
+                            createOrder: function(data, actions) {
+                                console.log(data)
+                                console.log(actions)
+
+                            return actions.order.create({
+                                purchase_units: [{
+                                amount: {
+                                    value: '0.01'
+                                }
+                                }]
+                            });
+                            },
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    alert(details.status);
+                                    console.log(details);
+                                    if (details.status === 'COMPLETED') {
+                                        $.ajax({
+                                            url: '/create_order/',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            data:{
+                                                'transaction_id': details.id
+                                            },
+                                            success: function() {
+                                                alert("Order created!")
+                                            }
+                                        });
+                                    }
+                                });
+                            },
+                            onError: function(err) {
+                                console.log(err);
+                                alert('Error!!!');
+                            },
+                            onCancel(){
+                              alert('Transaction canceled.');
+                            }
+                            }).render('#paypal-button-container');
+                    </script>
+                    <div id="paypal-button-container"></div>
               </div>
               <div class="policy-container">
                 <p>Read <span>refund policy</span></p>

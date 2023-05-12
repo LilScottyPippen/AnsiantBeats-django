@@ -5,17 +5,23 @@ import io
 
 
 class Types(models.Model):
-    title = models.CharField(max_length=30, db_index=True, default="title")
+    title = models.CharField(max_length=30, db_index=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['title']
 
 
 class Tonal(models.Model):
-    title = models.CharField(max_length=30, db_index=True, default="title")
+    title = models.CharField(max_length=30, db_index=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['title']
 
 
 class Beat(models.Model):
@@ -33,17 +39,18 @@ class Beat(models.Model):
         return self.title
 
     def get_bpm_and_duration(self):
-        audio_url = self.beat
-        response = requests.get(audio_url)
-        y, sr = librosa.load(io.BytesIO(response.content))
-        tempo, _ = librosa.beat.beat_track(y=y, sr=sr, hop_length=512, trim=False)
-        duration = librosa.get_duration(y=y, sr=sr)
-        minutes, seconds = divmod(duration, 60)
-        self.bpm = tempo
-        print(minutes)
-        if(len(str(minutes)) == 4):
+        if(self.duration == None and self.bpm == None):
+            audio_url = self.beat
+            response = requests.get(audio_url)
+            y, sr = librosa.load(io.BytesIO(response.content))
+            tempo, _ = librosa.beat.beat_track(y=y, sr=sr, hop_length=512, trim=False)
+            duration = librosa.get_duration(y=y, sr=sr)
+            minutes, seconds = divmod(duration, 60)
+            self.bpm = tempo
             print(minutes)
-            self.duration = f'{int(minutes):d}:{int(seconds):02d}'
-        else:
-            self.duration = f'0{int(minutes):d}:{int(seconds):02d}'
-        self.save()
+            if(len(str(minutes)) == 4):
+                print(minutes)
+                self.duration = f'{int(minutes):d}:{int(seconds):02d}'
+            else:
+                self.duration = f'0{int(minutes):d}:{int(seconds):02d}'
+            self.save()
