@@ -20,7 +20,7 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
     </style>
-    <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD&disable-funding=credit,card"></script>
   </head>
   <body>
     <div class="page">
@@ -185,9 +185,6 @@
                     <script>
                         paypal.Buttons({
                             createOrder: function(data, actions) {
-                                console.log(data)
-                                console.log(actions)
-
                             return actions.order.create({
                                 purchase_units: [{
                                 amount: {
@@ -198,29 +195,35 @@
                             },
                             onApprove: function(data, actions) {
                                 return actions.order.capture().then(function(details) {
-                                    alert(details.status);
-                                    console.log(details);
-                                    if (details.status === 'COMPLETED') {
-                                        $.ajax({
-                                            url: '/create_order/',
-                                            type: 'POST',
-                                            dataType: 'json',
-                                            data:{
-                                                'transaction_id': details.id
-                                            },
-                                            success: function() {
-                                                alert("Order created!")
-                                            }
-                                        });
-                                    }
+                                    $.ajax({
+                                        url: '/create_order/',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data:{
+                                            'transaction_id': details.id,
+                                            'status': details.status
+                                        },
+                                        success: function() {
+                                            alert("Order created!")
+                                        },
+                                    });
                                 });
                             },
                             onError: function(err) {
-                                console.log(err);
-                                alert('Error!!!');
-                            },
-                            onCancel(){
-                              alert('Transaction canceled.');
+                                $.ajax({
+                                    url: '/create_order/',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data:{
+                                        'status': err.message
+                                    },
+                                    success: function() {
+                                        alert("Error: " + err.message)
+                                    },
+                                    error: function() {
+                                        alert("Error: " + err.message)
+                                    },
+                                });
                             }
                             }).render('#paypal-button-container');
                     </script>

@@ -166,7 +166,11 @@ def change_password(request, email, token):
 
 @login_required(login_url='login')
 def user_profile(request):
-    return render(request, 'user/cab.html')
+    beat = OrderItems.objects.filter(user_id=request.user)
+    context = {
+        'beat': beat
+    }
+    return render(request, 'user/cab.html', context)
 
 
 def user_logout(request):
@@ -237,7 +241,6 @@ def delete_item(request, pk):
             request.session['cart'] = cart
             item_found = True
             break
-
     if item_found:
         return JsonResponse({'success': True}, safe=False)
     else:
@@ -247,13 +250,19 @@ def delete_item(request, pk):
 @csrf_exempt
 def create_order(request):
     transaction = request.POST.get('transaction_id')
+    status = request.POST.get('status')
     cart = request.session.get('cart', {})
-    for item in cart.values():
-        beat = Beat.objects.get(beat_id=item['id'])
-        if request.user.is_anonymous:
-            pass
-        else:
-            order_item = OrderItems.objects.create(beat=beat, transaction_id=transaction, user_id=request.user, amount=beat.price)
-    Order.objects.create(order_item=order_item, status="COMPLETED", created_at=datetime.datetime.now())
+    if status == "COMPLETED":
+        for item in cart.values():
+            beat = Beat.objects.get(beat_id=item['id'])
+            if request.user.is_anonymous:
+                pass
+            else:
+                order_item = OrderItems.objects.create(beat=beat, user_id=request.user, amount=beat.price)
+        Order.objects.create(transaction_id=transaction, order_item=order_item, status=status,
+                             created_at=datetime.datetime.now())
+    else:
+        Order.objects.create(transaction_id=transaction, order_item=None, status=status,
+                             created_at=datetime.datetime.now())
     return JsonResponse({'success': True})
 

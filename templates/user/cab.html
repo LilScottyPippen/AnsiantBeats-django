@@ -134,34 +134,36 @@
                       </div>
                     </div>
                     <div class="items-playlist">
-                      <div class="item-beat">
-                        <div class="clear-block">
-                          <div class="number-beat">
-                              <p>1</p>
+                        {% for beat in beat %}
+                          <div class="item-beat">
+                            <div class="clear-block">
+                              <div class="number-beat">
+                                  <p>{{ forloop.counter }}</p>
+                              </div>
+                              <div class="img-beat">
+                                  <img src="{{ beat.beat.cover }}" alt="" />
+                              </div>
+                            </div>
+                            <div class="item-info">
+                                <p>{{ beat.beat.title }}</p>
+                            </div>
+                            <div class="item-info">
+                                <p>{{ beat.beat.type }}</p>
+                            </div>
+                            <div class="item-info">
+                                <p>{{ beat.beat.tonal }}</p>
+                            </div>
+                            <div class="item-info">
+                                <p>{{ beat.beat.bpm }}</p>
+                            </div>
+                            <div class="item-info">
+                                <p>{{ beat.beat.duration }}</p>
+                            </div>
+                            <div class="button-buy">
+                                <img src="{% static 'images/download.png' %}" alt="" onclick="window.location='{{ beat.beat.beat }}'"/>
+                            </div>
                           </div>
-                          <div class="img-beat">
-                              <img src="{% static 'images/beat1.jfif' %}" alt="" />
-                          </div>
-                        </div>
-                        <div class="item-info">
-                            <p>Areamin</p>
-                        </div>
-                        <div class="item-info">
-                            <p>Lyric</p>
-                        </div>
-                        <div class="item-info">
-                            <p>Bm</p>
-                        </div>
-                        <div class="item-info">
-                            <p>101</p>
-                        </div>
-                        <div class="item-info">
-                            <p>3:25</p>
-                        </div>
-                        <div class="button-buy">
-                            <img src="{% static 'images/download.png' %}" alt="" />
-                        </div>
-                      </div>
+                        {% endfor %}
                     </div>
                   </div>
             </div>

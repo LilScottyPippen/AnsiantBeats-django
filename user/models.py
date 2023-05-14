@@ -30,28 +30,22 @@ class GoogleCredentials(models.Model):
 
 
 class OrderItems(models.Model):
-    beat = models.OneToOneField(Beat, on_delete=models.CASCADE)
-    transaction_id = models.CharField(max_length=20)
+    beat = models.ForeignKey(Beat, on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     amount = models.IntegerField(blank=False)
 
     def __str__(self):
-        return f'{self.beat} | {self.transaction_id}'
-
-
-STATUS_CHOICES = (
-    ("COMPLETED", "Completed"),
-    ("IN_PROGRESS", "In Progress"),
-)
+        return f'{self.beat}'
 
 
 class Order(models.Model):
-    order_item = models.ForeignKey(OrderItems, on_delete=models.CASCADE)
-    status = models.CharField(max_length=15, choices=STATUS_CHOICES)
+    transaction_id = models.CharField(max_length=20, null=True)
+    order_item = models.ForeignKey(OrderItems, on_delete=models.CASCADE, null=True)
+    status = models.CharField(max_length=15, null=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=False)
 
     def __str__(self):
-        return f"Order: {self.order_item.transaction_id}"
+        return f"Order: {self.transaction_id}"
 
 
 
