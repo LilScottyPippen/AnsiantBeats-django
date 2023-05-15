@@ -100,18 +100,16 @@
                               </div>
                               <div class="license-product">
                                 <select name="" id="cusSelectbox">
-                                  <option value=basic>BASIC(MP3)</option>
-                                  <option value=premium>PREMIUM(MP3, WAV AND TRACK STEMS)</option>
-                                  <option value=track>TRACKOUT(MP3, WAV AND TRACK STEMS)</option>
-                                  <option value=unlim>UNLIMITED(MP3, WAV AND TRACK STEMS)</option>
-                                  <option value=exclusive>EXCLISIVE(Make an offer..)</option>
+                                    {% for license in license %}
+                                        <option value="{{ license.name }}" price="{{ license.price }}">{{ license.name }} - {{ license.price }}$</option>
+                                    {% endfor %}
                                 </select>
                                   <img src="{% static 'images/privacy.png' %}" alt="">
                               </div>
                               <button class="remove-item-btn" data-item-id="{{ cart.id }}">Удалить</button>
                           </div>
                           <script>
-                          $('body').on('click', '.remove-item-btn', function(event) {
+                            $('body').on('click', '.remove-item-btn', function(event) {
                               event.preventDefault();
                               let itemId = $(this).attr('data-item-id');
                               $.ajax({
@@ -145,6 +143,70 @@
                                     }
                                 }
                             })});
+                            let license = 'BASIC'
+                            $(document).ready(function() {
+                                let price = $(this).find('option:selected').attr('price');
+                                let amount = Number(price) + {{ amount }};
+                                let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
+                                $('.amount-info-container').html(html)
+                            },
+
+                            $('body').on('click', '#cusSelectbox', function(event) {
+                                event.preventDefault();
+                                license = $(this).val();
+                                let price = $(this).find('option:selected').attr('price');
+                                let amount = Number(price) + {{ amount }};
+                                let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
+                                $('.amount-info-container').html(html)
+                            }))
+
+
+                            paypal.Buttons({
+                                createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                    amount: {
+                                        value: '0.01',
+                                        license: license
+                                    }
+                                    }]
+                                });
+                                },
+                                onApprove: function(data, actions) {
+                                    return actions.order.capture().then(function(details) {
+                                        $.ajax({
+                                            url: '/create_order/',
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            data:{
+                                                'transaction_id': details.id,
+                                                'status': details.status,
+                                                'license': license
+                                            },
+                                            success: function() {
+                                                alert("Order created!")
+                                            },
+                                        });
+                                    });
+                                },
+                                onError: function(err) {
+                                    $.ajax({
+                                        url: '/create_order/',
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data:{
+                                            'status': err.message,
+                                            'license': license
+                                        },
+                                        success: function() {
+                                            alert("Error: " + err.message)
+                                        },
+                                        error: function() {
+                                            alert("Error: " + err.message)
+                                        },
+                                    });
+                                }
+                            }).render('#paypal-button-container');
                           </script>
                       {% endfor %}
                   </div>
@@ -182,51 +244,6 @@
 {#                  <img src="{% static 'images/pay.png' %}" alt="">#}
 {#                  <p>Pay via paypal or credit card</p>#}
 {#                </button>#}
-                    <script>
-                        paypal.Buttons({
-                            createOrder: function(data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                amount: {
-                                    value: '0.01'
-                                }
-                                }]
-                            });
-                            },
-                            onApprove: function(data, actions) {
-                                return actions.order.capture().then(function(details) {
-                                    $.ajax({
-                                        url: '/create_order/',
-                                        type: 'POST',
-                                        dataType: 'json',
-                                        data:{
-                                            'transaction_id': details.id,
-                                            'status': details.status
-                                        },
-                                        success: function() {
-                                            alert("Order created!")
-                                        },
-                                    });
-                                });
-                            },
-                            onError: function(err) {
-                                $.ajax({
-                                    url: '/create_order/',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data:{
-                                        'status': err.message
-                                    },
-                                    success: function() {
-                                        alert("Error: " + err.message)
-                                    },
-                                    error: function() {
-                                        alert("Error: " + err.message)
-                                    },
-                                });
-                            }
-                            }).render('#paypal-button-container');
-                    </script>
                     <div id="paypal-button-container"></div>
               </div>
               <div class="policy-container">

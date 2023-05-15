@@ -188,34 +188,36 @@
                   </div>
                 </div>
                 <div class="items-playlist">
-                  <div class="item-beat">
-                    <div class="clear-block">
-                      <div class="number-beat">
-                          <p>1</p>
+                    {% for beat in beat %}
+                      <div class="item-beat">
+                        <div class="clear-block">
+                          <div class="number-beat">
+                              <p>{{ forloop.counter }}</p>
+                          </div>
+                          <div class="img-beat">
+                              <img src="{{ beat.beat.cover }}" alt="" />
+                          </div>
+                        </div>
+                        <div class="item-info">
+                            <p>{{ beat.beat.title }}</p>
+                        </div>
+                        <div class="item-info">
+                            <p>{{ beat.beat.type }}</p>
+                        </div>
+                        <div class="item-info">
+                            <p>{{ beat.created_at }}</p>
+                        </div>
+                        <div class="item-info">
+                            <p>50$</p>
+                        </div>
+                        <div class="item-info">
+                            <p>BASIC</p>
+                        </div>
+                        <div class="button-buy">
+                            <img src="{% static 'images/upgrade.png' %}" alt="" />
+                        </div>
                       </div>
-                      <div class="img-beat">
-                          <img src="{% static 'images/beat1.jfif' %}" alt="" />
-                      </div>
-                    </div>
-                    <div class="item-info">
-                        <p>Areamin</p>
-                    </div>
-                    <div class="item-info">
-                        <p>Lyric</p>
-                    </div>
-                    <div class="item-info">
-                        <p>20.10.2022</p>
-                    </div>
-                    <div class="item-info">
-                        <p>50$</p>
-                    </div>
-                    <div class="item-info">
-                        <p>BASIC</p>
-                    </div>
-                    <div class="button-buy">
-                        <img src="{% static 'images/upgrade.png' %}" alt="" />
-                    </div>
-                  </div>
+                    {% endfor %}
                 </div>
                 </div>
             </div>

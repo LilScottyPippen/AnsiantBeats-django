@@ -1,7 +1,7 @@
 from django.db import models
 from .managers import CustomUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from index.models import Beat
+from index.models import Beat, License
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -31,18 +31,23 @@ class GoogleCredentials(models.Model):
 
 class OrderItems(models.Model):
     beat = models.ForeignKey(Beat, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    license = models.ForeignKey(License, on_delete=models.CASCADE)
     amount = models.IntegerField(blank=False)
+    created_at = models.DateTimeField(auto_now_add=True, blank=False)
 
     def __str__(self):
         return f'{self.beat}'
 
+    def sum_amount(self):
+        self.amount += self.license.price
+        self.save()
+
 
 class Order(models.Model):
     transaction_id = models.CharField(max_length=20, null=True)
-    order_item = models.ForeignKey(OrderItems, on_delete=models.CASCADE, null=True)
+    order_item = models.ForeignKey(OrderItems, on_delete=models.CASCADE, null=True, blank=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     status = models.CharField(max_length=15, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, blank=False)
 
     def __str__(self):
         return f"Order: {self.transaction_id}"

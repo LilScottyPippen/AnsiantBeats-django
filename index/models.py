@@ -39,7 +39,7 @@ class Beat(models.Model):
         return self.title
 
     def get_bpm_and_duration(self):
-        if(self.duration == None and self.bpm == None):
+        if self.duration is None and self.bpm is None:
             audio_url = self.beat
             response = requests.get(audio_url)
             y, sr = librosa.load(io.BytesIO(response.content))
@@ -47,10 +47,16 @@ class Beat(models.Model):
             duration = librosa.get_duration(y=y, sr=sr)
             minutes, seconds = divmod(duration, 60)
             self.bpm = tempo
-            print(minutes)
-            if(len(str(minutes)) == 4):
-                print(minutes)
+            if len(str(minutes)) == 4:
                 self.duration = f'{int(minutes):d}:{int(seconds):02d}'
             else:
                 self.duration = f'0{int(minutes):d}:{int(seconds):02d}'
             self.save()
+
+
+class License(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.name

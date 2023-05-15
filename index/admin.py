@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Beat, Types, Tonal
+from .models import Beat, Types, Tonal, License
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -19,3 +19,4 @@ class BeatAdmin(PersonAdmin, SaveData):
 admin.site.register(Beat, BeatAdmin)
 admin.site.register(Types)
 admin.site.register(Tonal)
+admin.site.register(License)

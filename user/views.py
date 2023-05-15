@@ -8,6 +8,7 @@ from index.models import Beat
 from django.urls import reverse
 from django.conf import settings
 from .forms import CreateUserForm
+from django.core import serializers
 from django.contrib import messages
 from django.core.cache import cache
 from django.core.mail import send_mail
@@ -16,8 +17,8 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, GoogleCredentials, Order, OrderItems
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
+from .models import CustomUser, GoogleCredentials, Order, OrderItems, License
 
 
 def user_login(request):
@@ -167,8 +168,10 @@ def change_password(request, email, token):
 @login_required(login_url='login')
 def user_profile(request):
     beat = OrderItems.objects.filter(user_id=request.user)
+    order = Order.objects.get()
     context = {
-        'beat': beat
+        'beat': beat,
+        'order': order
     }
     return render(request, 'user/cab.html', context)
 
@@ -191,6 +194,7 @@ def add_to_cart(request, beat_id):
 
 def shopping_cart(request):
     cart = request.session.get('cart', {})
+    beat_license = License.objects.all()
 
     cart_items = []
     amount = 0
@@ -208,7 +212,8 @@ def shopping_cart(request):
         amount += beat.price
     context = {
         'cart': cart_items,
-        'amount': amount
+        'amount': amount,
+        'license': beat_license
     }
     return render(request, 'user/shopping-cart.html', context)
 
@@ -228,6 +233,12 @@ def get_cart(request):
             'price': str(beat.price)
         })
     data = json.dumps(cart_items)
+    return JsonResponse(data, safe=False)
+
+
+def get_license(request):
+    beat_license = License.objects.all()
+    data = serializers.serialize('json', list(beat_license))
     return JsonResponse(data, safe=False)
 
 
@@ -251,18 +262,22 @@ def delete_item(request, pk):
 def create_order(request):
     transaction = request.POST.get('transaction_id')
     status = request.POST.get('status')
+    get_license = request.POST.get('license')
+    beat_license = License.objects.get(name=get_license)
     cart = request.session.get('cart', {})
     if status == "COMPLETED":
-        for item in cart.values():
-            beat = Beat.objects.get(beat_id=item['id'])
-            if request.user.is_anonymous:
-                pass
-            else:
-                order_item = OrderItems.objects.create(beat=beat, user_id=request.user, amount=beat.price)
-        Order.objects.create(transaction_id=transaction, order_item=order_item, status=status,
-                             created_at=datetime.datetime.now())
+        try:
+            for item in cart.values():
+                beat = Beat.objects.get(beat_id=item['id'])
+                if request.user.is_anonymous:
+                    pass
+                else:
+                    order_item = OrderItems.objects.create(beat=beat, license=beat_license, amount=beat.price,
+                                                           created_at=datetime.datetime.now())
+            Order.objects.create(transaction_id=transaction, order_item=order_item, user_id=request.user, status=status)
+        except Exception as e:
+            print(e)
     else:
-        Order.objects.create(transaction_id=transaction, order_item=None, status=status,
-                             created_at=datetime.datetime.now())
+        Order.objects.create(transaction_id=transaction, order_item=None, user_id=request.user, status=status)
     return JsonResponse({'success': True})
 
