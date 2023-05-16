@@ -119,7 +119,6 @@ def reset_password(request):
             token = str(uuid.uuid4())
             for i in range(6):
                 code += str(random.randint(0, 9))
-            print(code)
             cache.set(email, code, 300)
             cache.set(token, token, 300)
             send_verification_email(email, code)
@@ -167,11 +166,9 @@ def change_password(request, email, token):
 
 @login_required(login_url='login')
 def user_profile(request):
-    beat = OrderItems.objects.filter(user_id=request.user)
-    order = Order.objects.get()
+    beat = Order.objects.filter(user_id=request.user)
     context = {
         'beat': beat,
-        'order': order
     }
     return render(request, 'user/cab.html', context)
 

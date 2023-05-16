@@ -119,7 +119,11 @@
                         </div>
                         <div class="right-playlist-header">
                             <div class="shopping-cart">
-                                <img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'"/>
+                                {% if request.user.is_authenticated %}
+                                    <img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'"/>
+                                {% else %}
+                                    <img src="{% static 'images/korzina.png' %}" alt="" onclick="window.location='{% url 'login' %}'"/>
+                                {% endif %}
                                 <p><span>{{ amount|floatformat }}$</span></p>
                             </div>
                             <div class="playlist-filter">
@@ -222,7 +226,11 @@
                                 <div class="button-buy">
                                     {% if beat.beat_id|stringformat:'s' in cart.keys %}
                                     {% else %}
-                                        <img class="btn-buy" src="{% static 'images/BUY.png' %}" data-item-id="{{ beat.beat_id }}" alt=""/>
+                                        {% if request.user.is_authenticated %}
+                                            <img class="btn-buy" src="{% static 'images/BUY.png' %}" data-item-id="{{ beat.beat_id }}" alt=""/>
+                                        {% else %}
+                                            <img src="{% static 'images/BUY.png' %}" alt="" onclick="window.location='{% url 'login' %}'"/>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
