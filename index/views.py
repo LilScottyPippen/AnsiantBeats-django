@@ -18,4 +18,4 @@ def index_page(request):
         'amount': amount,
         'cart': cart
     }
-    return render(request, 'index/main.html', context)
+    return render(request, 'index/home.html', context)
