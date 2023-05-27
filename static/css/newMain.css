@@ -300,7 +300,7 @@ header {
 }
 
 .first{
-    background-image: url(/images/hmpg.png);
+    background-image: url(/static/images/hmpg.png);
     object-fit: cover;
     background-repeat: round;
     position: relative;

@@ -25,436 +25,383 @@
             }
         </script>
     </head>
-<body>
-    <div class="preloader">
-        <div class="preloader__row">
-            <div class="preloader__item"></div>
-            <div class="preloader__item"></div>
-        </div>
-    </div>
-    <div id="pagepiling">
-        <header>
-            <div class="limit-header">
-                <div class="left-header">
-                    <div class="header-logo" onclick="window.location='home.html'">
-                        <div class="header-logo-img">
-                            <img src="{% static 'images/logo.png' %}" alt="">
-                        </div>
-                        <div class="header-logo-container-text">
-                            <div class="header-logo-text">
-                                <p>ansiant</p>
-                                <p>beats</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="right-header">
-                    <div class="right-header-container">
-                        <div class="menu-item">
-                            <p class="scale" onclick="window.location='playlist.html'">
-                                BEATS
-                            </p>
-                        </div>
-                        <div class="menu-item">
-                            <p class="scale">
-                                licenses
-                            </p>
-                        </div>
-                        <div class="menu-item">
-                            <p class="scale">
-                                socials
-                            </p>
-                        </div>
-
-                        <div class="between-container">
-
-                        </div>
-
-                        <div class="login-container">
-                            <p class="scale" onclick="window.location='autorization.html'">login</p>
-                        </div>
-                        <div class="right-header-cart">
-                            <div class="header-cart-img">
-                                <img src="{% static '/images/purchase2.png' %}" alt="">
-                            </div>
-                            <div class="right-header-cart-text">
-                                <p>$60</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mobile-right-header">
-                    <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
-                </div>
-            </div>
-        </header>
-        <div class="open-menu" id="menu">
-            <div class="open-menu-item" onclick="window.location='playlist.html'">
-                <p>
-                    Beats
-                </p>
-            </div>
-            <div class="open-menu-item">
-                <p>
-                    Contact us
-                </p>
-            </div>
-            <div class="open-menu-item">
-                <p>
-                    Licenses
-                </p>
-            </div>
-            <div class="open-menu-item">
-                <p>
-                    Socials
-                </p>
-            </div>
-            <div class="open-menu-item" onclick="window.location='autorization.html'">
-                <p>
-                    Login
-                </p>
+    <body>
+        <div class="preloader">
+            <div class="preloader__row">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
             </div>
         </div>
-        <div class="section first">
-            <div class="main-caption">
-                <div class="main-logo">
-                    <div class="logo-img element-animation3">
-                        <img src="{% static '/images/bezfona.png' %}" alt="">
+        <div id="pagepiling">
+            <header>
+                <div class="limit-header">
+                    <div class="left-header">
+                        <div class="header-logo" onclick="window.location='home.html'">
+                            <div class="header-logo-img">
+                                <img src="{% static 'images/logo.png' %}" alt="">
+                            </div>
+                            <div class="header-logo-container-text">
+                                <div class="header-logo-text">
+                                    <p>ansiant</p>
+                                    <p>beats</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-header">
+                        <div class="right-header-container">
+                            <div class="menu-item">
+                                <p class="scale" onclick="window.location='playlist.html'">
+                                    BEATS
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    licenses
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    socials
+                                </p>
+                            </div>
+
+                            <div class="between-container">
+
+                            </div>
+
+                            <div class="login-container">
+                                <p class="scale" onclick="window.location='autorization.html'">login</p>
+                            </div>
+                            <div class="right-header-cart">
+                                <div class="header-cart-img">
+                                    <img src="{% static '/images/purchase2.png' %}" alt="">
+                                </div>
+                                <div class="right-header-cart-text">
+                                    <p>{{ amount|floatformat }}$</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="between-logo-container element-animation">
+                    <div class="mobile-right-header">
+                        <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
+                    </div>
+                </div>
+            </header>
+            <div class="open-menu" id="menu">
+                <div class="open-menu-item" onclick="window.location='playlist.html'">
+                    <p>
+                        Beats
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Contact us
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Licenses
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Socials
+                    </p>
+                </div>
+                <div class="open-menu-item" onclick="window.location='autorization.html'">
+                    <p>
+                        Login
+                    </p>
+                </div>
+            </div>
+            <div class="section first">
+                <div class="main-caption">
+                    <div class="main-logo">
+                        <div class="logo-img element-animation3">
+                            <img src="{% static '/images/bezfona.png' %}" alt="">
+                        </div>
 
+                        <div class="between-logo-container element-animation">
+
+                        </div>
+
+                        <div class="logo-text element-animation2">
+                            <div class="text-beatstore">
+                                <p>
+                                    beatstore
+                                </p>
+                            </div>
+                            <div class="text-sound">
+                                <p>
+                                    your sound ♪
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="logo-text element-animation2">
-                        <div class="text-beatstore">
+                    <div class="slide-bottom element-animation">
+                        <p>FIND YOUR PERFECT BEAT</p>
+                        <img src="{% static '/images/gif-bottom.gif' %}" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="section second">
+                <div class="section-release-container">
+                    <div class="main-releases-container item">
+                        <div class="release-title element-animation">
                             <p>
-                                beatstore
+                                New releases
                             </p>
                         </div>
-                        <div class="text-sound">
-                            <p>
-                                your sound ♪
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                        <div class="releases-container">
+                            <div class="quote-release-container">
+                                <p>
+                                    Listen to the latest news <br> and choose what you <br> like!
+                                </p>
+                            </div>
+                            <div class="release-container">
+                                <div class="container-last-beats">
+                                    <div id="wrapper"></div>
+                                    {% for beat in last_beat %}
+                                        <div class="last-beat-item">
+                                            <div class="last-beat-item-img">
+                                                <img src="{{ beat.cover }}" alt="">
+                                            </div>
+                                            <div class="title-last-beat-item">
+                                                <p>
+                                                    {{ beat.title }}
+                                                </p>
+                                            </div>
+                                            <div class="about-last-beat-item">
+                                                <p>
+                                                    {{ beat.type }}
+                                                    <br>
+                                                    BPM: {{ beat.bpm }}
+                                                    <br>
+                                                    Tonal: {{ beat.tonal }}
+                                                    <br>
+                                                    Time: {{ beat.duration }}
+                                                    <br>
+                                                    <br>
+                                                </p>
+                                            </div>
+                                            <div class="price-last-beat-item">
+                                                <p>
+                                                    {{ beat.price|floatformat }}$
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
 
-                <div class="slide-bottom element-animation">
-                    <p>FIND YOUR PERFECT BEAT</p>
-                    <img src="{% static '/images/gif-bottom.gif' %}" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="section second">
-            <div class="section-release-container">
-                <div class="main-releases-container item">
-                    <div class="release-title element-animation">
-                        <p>
-                            New releases
-                        </p>
-                    </div>
-                    <div class="releases-container">
-                        <div class="quote-release-container">
-                            <p>
-                                Listen to the latest news <br> and choose what you <br> like!
-                            </p>
-                        </div>
-                        <div class="release-container">
-                            <div class="container-last-beats">
-                                <div id="wrapper"></div>
-                                <div class="last-beat-item">
-                                    <div class="last-beat-item-img">
-                                        <img src="{% static 'images/beat1.jfif' %}" alt="">
+                                    <div class="button-to-playlist">
+                                        <button click-item scale>
+                                            To Beats
+                                        </button>
                                     </div>
-                                    <div class="title-last-beat-item">
-                                        <p>
-                                            Moonlight
-                                        </p>
-                                    </div>
-                                    <div class="about-last-beat-item">
-                                        <p>
-                                            Liric beat
-                                            <br>
-                                            BPM: 96
-                                            <br>
-                                            Tonal: C#
-                                            <br>
-                                            Time: 2:46
-                                            <br>
-                                            <br>
-                                        </p>
-                                    </div>
-                                    <div class="price-last-beat-item">
-                                        <p>
-                                            50$
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="last-beat-item">
-                                    <div class="last-beat-item-img">
-                                        <img src="{% static 'images/beat2.jfif' %}" alt="">
-                                    </div>
-                                    <div class="title-last-beat-item">
-                                        <p>
-                                            Samurai
-                                        </p>
-                                    </div>
-                                    <div class="about-last-beat-item">
-                                        <p>
-                                            Japan beat
-                                            <br>
-                                            BPM: 115
-                                            <br>
-                                            Tonal: D
-                                            <br>
-                                            Time: 3:15
-                                            <br>
-                                            <br>
-                                        </p>
-                                    </div>
-                                    <div class="price-last-beat-item">
-                                        <p>
-                                            100$
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="last-beat-item">
-                                    <div class="last-beat-item-img">
-                                        <img src="{% static 'images/beat8.jfif' %}" alt="">
-                                    </div>
-                                    <div class="title-last-beat-item">
-                                        <p>
-                                            Bue
-                                        </p>
-                                    </div>
-                                    <div class="about-last-beat-item">
-                                        <p>
-                                            Lil baby
-                                            <br>
-                                            BPM: 101
-                                            <br>
-                                            Tonal: G#
-                                            <br>
-                                            Time: 3:11
-                                            <br>
-                                            <br>
-                                        </p>
-                                    </div>
-                                    <div class="price-last-beat-item">
-                                        <p>
-                                            50$
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="button-to-playlist">
-                                    <button click-item scale>
-                                        To Beats
-                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section">
-            <div class="worth-buying-first-container item">
-                <div class="best-png-container element-animation3">
-                    <img src="{% static '/images/bestpng.png' %}" alt="">
-                </div>
-                <div class="worth-buying-container element-animation">
-                    <div class="worth-buying-filter"></div>
-                    <div class="title-worth">
-                        <p>why it's worth buying here?</p>
+            <div class="section">
+                <div class="worth-buying-first-container item">
+                    <div class="best-png-container element-animation3">
+                        <img src="{% static '/images/bestpng.png' %}" alt="">
                     </div>
+                    <div class="worth-buying-container element-animation">
+                        <div class="worth-buying-filter"></div>
+                        <div class="title-worth">
+                            <p>why it's worth buying here?</p>
+                        </div>
 
-                    <div class="worth-items-container">
-                        <div class="worth-item">
-                            <div class="worth-item-title">
-                                <p>
-                                    HIGH QUALITY
-                                </p>
+                        <div class="worth-items-container">
+                            <div class="worth-item">
+                                <div class="worth-item-title">
+                                    <p>
+                                        HIGH QUALITY
+                                    </p>
+                                </div>
+                                <div class="worth-item-img">
+                                    <img src="{% static '/images/garant.png' %}" alt="">
+                                </div>
+                                <div class="worth-item-desc">
+                                    <p>
+                                        Thanks to a lot of experience,<br> the beats have their own <br>chips and excellent
+                                        sound
+                                    </p>
+                                </div>
                             </div>
-                            <div class="worth-item-img">
-                                <img src="{% static '/images/garant.png' %}" alt="">
+                            <div class="worth-item">
+                                <div class="worth-item-title">
+                                    <p>
+                                        TRUST
+                                    </p>
+                                </div>
+                                <div class="worth-item-img">
+                                    <img src="{% static 'images/trust.png' %}" alt="">
+                                </div>
+                                <div class="worth-item-desc">
+                                    <p>
+                                        You know what you are buying,<br> because you can listen to all <br>the bits before
+                                        buying
+                                    </p>
+                                </div>
                             </div>
-                            <div class="worth-item-desc">
-                                <p>
-                                    Thanks to a lot of experience,<br> the beats have their own <br>chips and excellent
-                                    sound
-                                </p>
+                            <div class="worth-item">
+                                <div class="worth-item-title">
+                                    <p>
+                                        TRY BEFORE
+                                    </p>
+                                </div>
+                                <div class="worth-item-img">
+                                    <img src="{% static 'images/try.png' %}" alt="">
+                                </div>
+                                <div class="worth-item-desc">
+                                    <p>
+                                        The beats are available for <br> download even before purchase, <br>and you can try
+                                        them out!
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="worth-item">
-                            <div class="worth-item-title">
-                                <p>
-                                    TRUST
-                                </p>
-                            </div>
-                            <div class="worth-item-img">
-                                <img src="{% static 'images/trust.png' %}" alt="">
-                            </div>
-                            <div class="worth-item-desc">
-                                <p>
-                                    You know what you are buying,<br> because you can listen to all <br>the bits before
-                                    buying
-                                </p>
-                            </div>
-                        </div>
-                        <div class="worth-item">
-                            <div class="worth-item-title">
-                                <p>
-                                    TRY BEFORE
-                                </p>
-                            </div>
-                            <div class="worth-item-img">
-                                <img src="{% static 'images/try.png' %}" alt="">
-                            </div>
-                            <div class="worth-item-desc">
-                                <p>
-                                    The beats are available for <br> download even before purchase, <br>and you can try
-                                    them out!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="section third">
-            <div class="types-beats-container item">
-                <div class="types-beats-text-container element-animation3">
-                    <div class="title-types-beats">
-                        <p>Different <br> types of <br> beats</p>
-                    </div>
-                    <div class="desc-types-beats">
-                        <p>FIND YOUR OWN</p>
-                    </div>
-                </div>
-                <div class="types-beats-images-container element-animation2">
-                    <div class="types-container">
-                        <div class="trap">
-                            <img src="{% static 'images/trap.png' %}" alt="" class="type-image">
-                            <p>TRAP</p>
-                        </div>
-                        <div class="drill">
-                            <img src="{% static 'images/drill.png' %}" alt="" class="type-image">
-                            <p>DRILL</p>
-                        </div>
-                        <div class="oldschool">
-                            <img src="{% static '/images/oldschool.png' %}" alt="" class="type-image">
-                            <p>OLD SCHOOL</p>
-                        </div>
-                        <div class="liric">
-                            <img src="{% static 'images/liric.png' %}" alt="" class="type-image">
-                            <p>LIRIC</p>
-                        </div>
-                        <div class="rap">
-                            <img src="{% static 'images/rap.png' %}" alt="" class="type-image">
-                            <p>RAP</p>
-                        </div>
-                        <div class="club">
-                            <img src="{% static 'images/club.png' %}" alt="" class="type-image">
-                            <p>CLUB</p>
-                        </div>
-                        <div class="lo-fi">
-                            <img src="{% static 'images/lo-fi.jpg' %}" alt="" class="type-image">
-                            <p>LO-FI</p>
-                        </div>
-                        <div class="rb">
-                            <img src="{% static 'images/r&b.jpg' %}" alt="" class="type-image">
-                            <p>R&B</p>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </div>
-        <div class="section thour">
-            <a name="contact"></a>
-            <div class="contact-container item">
-                <div class="contact-limit-container">
-                    <div class="question-container">
-                        <p>ANY QUESTIONS?</p>
+            <div class="section third">
+                <div class="types-beats-container item">
+                    <div class="types-beats-text-container element-animation3">
+                        <div class="title-types-beats">
+                            <p>Different <br> types of <br> beats</p>
+                        </div>
+                        <div class="desc-types-beats">
+                            <p>FIND YOUR OWN</p>
+                        </div>
                     </div>
-                    <div class="contact-title-container">
-                        <p>CONTACT US <img src="/images/email.png" alt=""> </p>
+                    <div class="types-beats-images-container element-animation2">
+                        <div class="types-container">
+                            <div class="trap">
+                                <img src="{% static 'images/trap.png' %}" alt="" class="type-image">
+                                <p>TRAP</p>
+                            </div>
+                            <div class="drill">
+                                <img src="{% static 'images/drill.png' %}" alt="" class="type-image">
+                                <p>DRILL</p>
+                            </div>
+                            <div class="oldschool">
+                                <img src="{% static '/images/oldschool.png' %}" alt="" class="type-image">
+                                <p>OLD SCHOOL</p>
+                            </div>
+                            <div class="liric">
+                                <img src="{% static 'images/liric.png' %}" alt="" class="type-image">
+                                <p>LIRIC</p>
+                            </div>
+                            <div class="rap">
+                                <img src="{% static 'images/rap.png' %}" alt="" class="type-image">
+                                <p>RAP</p>
+                            </div>
+                            <div class="club">
+                                <img src="{% static 'images/club.png' %}" alt="" class="type-image">
+                                <p>CLUB</p>
+                            </div>
+                            <div class="lo-fi">
+                                <img src="{% static 'images/lo-fi.jpg' %}" alt="" class="type-image">
+                                <p>LO-FI</p>
+                            </div>
+                            <div class="rb">
+                                <img src="{% static 'images/r&b.jpg' %}" alt="" class="type-image">
+                                <p>R&B</p>
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="inputs-container">
-                        <div class="input-item">
-                            <p>NAME</p>
-                            <input type="text">
+                </div>
+            </div>
+            <div class="section thour">
+                <a name="contact"></a>
+                <div class="contact-container item">
+                    <div class="contact-limit-container">
+                        <div class="question-container">
+                            <p>ANY QUESTIONS?</p>
                         </div>
-                        <div class="input-item">
-                            <p>EMAIL</p>
-                            <input type="text">
-                        </div>
-                        <div class="input-item">
-                            <p>SUBJECT</p>
-                            <input type="text">
-                        </div>
-                    </div>
-                    <div class="desc-container">
-                        <p>DESCRIPTION</p>
-                        <textarea name="DESCRIPTION" id="" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="button-submin-container">
-                        <button>SUBMIT</button>
-                    </div>
+                        <div class="contact-title-container">
+                            <p>CONTACT US <img src="/images/email.png" alt=""> </p>
 
+                        </div>
+                        <div class="inputs-container">
+                            <div class="input-item">
+                                <p>NAME</p>
+                                <input type="text">
+                            </div>
+                            <div class="input-item">
+                                <p>EMAIL</p>
+                                <input type="text">
+                            </div>
+                            <div class="input-item">
+                                <p>SUBJECT</p>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="desc-container">
+                            <p>DESCRIPTION</p>
+                            <textarea name="DESCRIPTION" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="button-submin-container">
+                            <button>SUBMIT</button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#pagepiling').pagepiling({
-                menu: null,
-                direction: 'vertical',
-                verticalCentered: true,
-                sectionsColor: [],
-                anchors: [],
-                scrollingSpeed: 200,
-                easing: 'linear',
-                loopBottom: false,
-                loopTop: false,
-                css3: true,
-                navigation: {
-                    'textColor': '#000',
-                    'bulletsColor': '#a18f70',
-                    'position': 'right',
-                    'tooltips': ['Home', 'New releases', 'Why its worth buying here?', 'Types beats', 'Contact us']
-                },
-                normalScrollElements: null,
-                normalScrollElementTouchThreshold: 5,
-                touchSensitivity: 5,
-                keyboardScrolling: true,
-                sectionSelector: '.section',
-                animateAnchor: false,
+        <script>
+            $(document).ready(function() {
+                $('#pagepiling').pagepiling({
+                    menu: null,
+                    direction: 'vertical',
+                    verticalCentered: true,
+                    sectionsColor: [],
+                    anchors: [],
+                    scrollingSpeed: 200,
+                    easing: 'linear',
+                    loopBottom: false,
+                    loopTop: false,
+                    css3: true,
+                    navigation: {
+                        'textColor': '#000',
+                        'bulletsColor': '#a18f70',
+                        'position': 'right',
+                        'tooltips': ['Home', 'New releases', 'Why its worth buying here?', 'Types beats', 'Contact us']
+                    },
+                    normalScrollElements: null,
+                    normalScrollElementTouchThreshold: 5,
+                    touchSensitivity: 5,
+                    keyboardScrolling: true,
+                    sectionSelector: '.section',
+                    animateAnchor: false,
 
-                //events
-                onLeave: function(index, nextIndex, direction){},
-                afterLoad: function(anchorLink, index){},
-                afterRender: function(){},
+                    //events
+                    onLeave: function(index, nextIndex, direction){},
+                    afterLoad: function(anchorLink, index){},
+                    afterRender: function(){},
+                });
             });
-        });
-    </script>
-    <script>
-        function viewMenu() {
-            let menu = document.getElementById("menu");
-            if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
-                menu.style.display = "block";
+        </script>
+        <script>
+            function viewMenu() {
+                let menu = document.getElementById("menu");
+                if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
+                    menu.style.display = "block";
+                }
+                else {
+                    menu.style.display = "none";
+                }
             }
-            else {
-                menu.style.display = "none";
-            }
-        }
-    </script>
-    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
-</body>
+        </script>
+        <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>
