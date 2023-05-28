@@ -331,25 +331,63 @@
                         <div class="inputs-container">
                             <div class="input-item">
                                 <p>NAME</p>
-                                <input type="text">
+                                <input id="ticket_name" type="text">
                             </div>
                             <div class="input-item">
                                 <p>EMAIL</p>
-                                <input type="text">
+                                <input id="ticket_email" type="text">
                             </div>
                             <div class="input-item">
                                 <p>SUBJECT</p>
-                                <input type="text">
+                                <input id="ticket_subject" type="text">
                             </div>
                         </div>
                         <div class="desc-container">
                             <p>DESCRIPTION</p>
-                            <textarea name="DESCRIPTION" id="" cols="30" rows="10"></textarea>
+                            <textarea name="DESCRIPTION" id="ticket_description" cols="30" rows="10"></textarea>
                         </div>
                         <div class="button-submin-container">
-                            <button>SUBMIT</button>
+                            <button class="ticket_submit">SUBMIT</button>
                         </div>
+                        <script>
+                            $('body').on('click', '.ticket_submit', function(event) {
+                                event.preventDefault();
 
+                                const fields = ['Name', 'Email', 'Subject', 'Description'];
+                                let missingFields = [];
+
+                                fields.forEach(function(field) {
+                                    let value = document.getElementById('ticket_' + field.toLowerCase()).value;
+                                    if (!value) {
+                                        missingFields.push(field);
+                                    }
+                                });
+
+                                if (missingFields.length > 0) {
+                                    let fieldsText = missingFields.join(', ');
+                                    alert("Please fill in the following fields: " + fieldsText);
+                                    return;
+                                }
+
+                                $.ajax({
+                                    url: '{% url 'ticket' %}',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        'name': document.getElementById('ticket_name').value,
+                                        'email': document.getElementById('ticket_email').value,
+                                        'subject': document.getElementById('ticket_subject').value,
+                                        'description': document.getElementById('ticket_description').value
+                                    },
+                                    success: function() {
+                                        alert("Ticket created");
+                                    },
+                                    error: function(err) {
+                                        alert(err.message);
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
