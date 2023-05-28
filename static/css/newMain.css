@@ -4,7 +4,7 @@
 @font-face {
     font-family: 'BEYNO';
     src: url(/fonts/BEYNO/AnyConv.com__BEYNO.eot);
-    src: local('☺'), url('../fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('../fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('../fonts/BEYNO/BEYNO.ttf') format('truetype');
+    src: local('☺'), url('/fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('/fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('/fonts/BEYNO/BEYNO.ttf') format('truetype');
 }
 
 /*Убрать полосу прокрутки для всей страницы*/
@@ -167,29 +167,9 @@ header {
     margin-bottom: auto;
 }
 
-.header-logo-container-text {
-    height: auto;
-    margin-left: 15px;
-    display: flex;
-}
-
 .header-logo-text {
     margin-top: auto;
     margin-bottom: auto;
-}
-
-.header-logo-text p {
-    font-family: beyno;
-    font-size: 20px;
-    margin-top: auto;
-    margin-bottom: auto;
-
-    background: linear-gradient(127.83deg, #A0A9AD -30.77%, #41464A 20.51%, #D59A51 120.99%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    font-size: 15px;
 }
 
 .right-header-container {
@@ -299,13 +279,21 @@ header {
     display: flex;
 }
 
-.first{
-    background-image: url(/static/images/hmpg.png);
-    object-fit: cover;
-    background-repeat: round;
-    position: relative;
-    background-attachment: fixed; 
+.first {
+        position: relative;
+        overflow: hidden;
 }
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
 
 .main-logo {
     display: flex;
@@ -1028,9 +1016,13 @@ text-align: center;
 
 input {
     background: #1A1A1A;
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-size: 20px;
     border: 1px solid #868686;
     border-radius: 10px;
     height: 40px;
+    padding: 5px;
 }
 
 .desc-container {
@@ -1048,6 +1040,10 @@ textarea {
     border-radius: 10px;
     height: 300px;
     width: 94%;
+    padding: 5px;
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .contact-limit-container button {
