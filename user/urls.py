@@ -18,10 +18,8 @@ urlpatterns = [
     path('get_license', get_license, name='get_license'),
     path('delete_item/<int:pk>', delete_item, name='delete_item'),
     path('create_order/', create_order, name='create_order'),
-
-    # Temporarily
-    path('code/', registration_code, name='code'),
-    path('reg/', reg, name='registration'),
+    path('confirm_code/', registration_code, name='code'),
+    path('registration_user/', reg, name='registration'),
 
     # Make AJAX
     path('resetPassword/', reset_password, name='resetPassword'),

@@ -755,6 +755,7 @@ input[type='range']:nth-child(1)::-webkit-slider-thumb {
     margin-right: auto;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    padding-bottom: 130px;
 }
 
 .limit-beats-container{

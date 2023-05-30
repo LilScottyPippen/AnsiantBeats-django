@@ -12,13 +12,13 @@ from django.contrib import messages
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 from .models import CustomUser, GoogleCredentials, Order, OrderItems, License
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -195,7 +195,6 @@ def registration_code(request):
             for i in range(6):
                 code += str(random.randint(0, 9))
             cache.set(email, code, 300)
-
             send_verification_email(email, code)
             return JsonResponse({'success': True, 'message': SUCCESS_MESSAGES['code_confirm']}, safe=False)
         except:
@@ -209,7 +208,6 @@ def reg(request):
         code = cache.get(email)
         user_code = request.POST.get('code')
         password = request.POST.get('password')
-        print(password)
 
         if user_code == code:
             user = User.objects.create(email=email)

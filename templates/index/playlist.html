@@ -1,0 +1,637 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Ansiant Beatstore</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/playlist.css' %}" />
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icono.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/player.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        window.onload = function () {
+            document.body.classList.add('loaded_hiding');
+            window.setTimeout(function () {
+                document.body.classList.add('loaded');
+                document.body.classList.remove('loaded_hiding');
+            }, 500);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="card-container">
+        <div class="right-header-cart">
+            <div class="header-cart-img">
+                <img src="{% static 'images/purchase2.png' %}" alt="">
+            </div>
+            <div class="right-header-cart-text">
+                <p>$60</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="open-menu" id="menu">
+        <div class="open-menu-item" onclick="window.location.href='{% url 'index' %}'">
+            <p>
+                Home
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p>
+                Contact me
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p>
+                Licenses
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p>
+                Socials
+            </p>
+        </div>
+        {% if request.user.is_authenticated %}
+            <div class="open-menu-item" onclick="window.location='{% url 'profile' %}'">
+            <p>
+                Profile
+            </p>
+        </div>
+        {% else %}
+            <div class="open-menu-item" onclick="window.location='{% url 'auth' %}'">
+            <p>
+                Login
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="mobile-filter-menu" id="filter-menu">
+        <div class="mobile-filter__item">
+            <div class="mobile-filter__title">
+                <p>
+                    Sort & Filter
+                </p>
+            </div>
+            <div class="mobile-filter__content">
+                <div class="filter-content">
+                    <button id="button-main1" onclick="changeColorFilter(this)">ALL</button>
+                    <button id="button1" onclick="changeColorFilter(this)">NEW</button>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-filter__item">
+            <div class="mobile-filter__title">
+                <p>
+                    Categories
+                </p>
+            </div>
+            <div class="mobile-filter__content">
+                <div class="filter-content">
+                    <div class="dropdown-container">
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">NEWEST 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">price ascending</a>
+                                <a href="#">price descending</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">MOOD 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">Angry</a>
+                                <a href="#">Romantic</a>
+                                <a href="#">Sad</a>
+                                <a href="#">Energetic</a>
+                                <a href="#">Uplifting</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">KEY 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">C</a>
+                                <a href="#">C#</a>
+                                <a href="#">D</a>
+                                <a href="#">D#</a>
+                                <a href="#">E</a>
+                                <a href="#">F</a>
+                                <a href="#">F#</a>
+                                <a href="#">G</a>
+                                <a href="#">G#</a>
+                                <a href="#">A</a>
+                                <a href="#">A#</a>
+                                <a href="#">B</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-filter__item">
+            <div class="mobile-filter__title">
+                <p>
+                    Price
+                </p>
+            </div>
+            <div class="mobile-filter__content">
+                <div class="filter-content">
+                    <div class="bpm-filter">
+                        <div class="title-filter">
+                            <p>Price</p>
+                        </div>
+                        <div class="filter-range-content">
+                            <div class="rangeslider">
+                                <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
+                                <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
+                                <span class="range_min2 light left">50 $</span>
+                                <span class="range_max2 light right">1000 $</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-filter__item">
+            <div class="mobile-filter__title">
+                <p>
+                    Bpm
+                </p>
+            </div>
+            <div class="mobile-filter__content">
+                <div class="filter-content">
+                    <div class="bpm-filter">
+                        <div class="title-filter">
+                            <p>Price</p>
+                        </div>
+                        <div class="filter-range-content">
+                            <div class="rangeslider">
+                                <input class="min" name="range_2" type="range" min="30" max="100" value="0" />
+                                <input class="max" name="range_2" type="range" min="30" max="100" value="200" />
+                                <span class="range_min light left">60 bpm</span>
+                                <span class="range_max light right">200 bpm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-filter__item">
+            <div class="mobile-filter__title">
+                <p>
+                    Genres
+                </p>
+            </div>
+            <div class="mobile-filter__content">
+                <div class="filter-content" style="display: block;">
+                    <div class="buttons-container">
+                        <button id="button-main" onclick="changeColorGenre(this)">ALL</button>
+                        <button id="button" onclick="changeColorGenre(this)">DRILL</button>
+                        <button id="button" onclick="changeColorGenre(this)">TRAP</button>
+                        <button id="button" onclick="changeColorGenre(this)">LIRIC</button>
+                        <button id="button" onclick="changeColorGenre(this)">LO-FI</button>
+                    </div>
+                    <div class="buttons-container">
+                        <button id="button" onclick="changeColorGenre(this)">CLUB</button>
+                        <button id="button" onclick="changeColorGenre(this)">BOOM BAP</button>
+                        <button id="button" onclick="changeColorGenre(this)">HIP-HOP</button>
+                        <button id="button" onclick="changeColorGenre(this)">PHONK</button>
+                        <button id="button" onclick="changeColorGenre(this)">Slap House</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="limit-header">
+            <div class="left-header">
+                <div class="header-logo" onclick="window.location='{% url 'index' %}'">
+                    <div class="header-logo-img">
+                        <img src="{% static '/images/logo.png' %}" alt="">
+                    </div>
+                    <div class="header-logo-container-text">
+                        <div class="header-logo-text">
+                            <p>ansiant</p>
+                            <p>beats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-header">
+                <div class="right-header-container">
+                    <div class="menu-item">
+                        <p class="scale" onclick="window.location='{% url 'index' %}'">
+                            HOME
+                        </p>
+                    </div>
+                    <div class="menu-item">
+                        <p class="scale">
+                            Licenses
+                        </p>
+                    </div>
+                    <div class="menu-item">
+                        <p class="scale">
+                            Socials
+                        </p>
+                    </div>
+
+                    <div class="between-container">
+
+                    </div>
+
+                    <div class="login-container">
+                        {% if request.user.is_authenticated %}
+                            <p class="scale" onclick="window.location='{% url 'profile' %}'">profile</p>
+                        {% else %}
+                            <p class="scale" onclick="window.location='{% url 'login' %}'">login</p>
+                        {% endif %}
+                    </div>
+                    <div class="right-header-cart">
+                        <div class="header-cart-img">
+                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt=""
+                                onclick="window.location='shopping-cart.html'">
+                        </div>
+                        <div class="right-header-cart-text">
+                            <p>${{ amount | floatformat }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-right-header">
+                <img src="{% static 'images/menu.png' %}" alt="" onclick="viewMenu()">
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+{#        <div class="preloader">#}
+{#            <div class="preloader__row">#}
+{#                <div class="preloader__item"></div>#}
+{#                <div class="preloader__item"></div>#}
+{#            </div>#}
+{#        </div>#}
+
+        <div class="filter-container">
+            <div class="top-filter">
+                <div class="news-filter">
+                    <div class="title-filter">
+                        <p>SORT & FILTER</p>
+                    </div>
+                    <div class="filter-content">
+                        <button class="scale" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
+                        <button class="scale" id="button1" onclick="changeColorFilter(this)">NEW</button>
+                    </div>
+                </div>
+
+                <div class="parametrs-filter-container">
+                    <div class="title-filter">
+
+                    </div>
+                    <div class="dropdown-container">
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">NEWEST 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">price ascending</a>
+                                <a href="#">price descending</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">MOOD 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">Angry</a>
+                                <a href="#">Romantic</a>
+                                <a href="#">Sad</a>
+                                <a href="#">Energetic</a>
+                                <a href="#">Uplifting</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <button class="dropbtn">KEY 🢓</button>
+                            <div class="dropdown-content">
+                                <a href="#">C</a>
+                                <a href="#">C#</a>
+                                <a href="#">D</a>
+                                <a href="#">D#</a>
+                                <a href="#">E</a>
+                                <a href="#">F</a>
+                                <a href="#">F#</a>
+                                <a href="#">G</a>
+                                <a href="#">G#</a>
+                                <a href="#">A</a>
+                                <a href="#">A#</a>
+                                <a href="#">B</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ranges-filter">
+                    <div class="bpm-filter">
+                        <div class="title-filter">
+                            <p>Price</p>
+                        </div>
+                        <div class="filter-range-content">
+
+                            <div class="dropdown-menu2">
+                                <button class="dropbtn2"><span class="rng-min2">50 $</span> - <span
+                                        class="rng-max2">1000 $</span>🢓</button>
+                                <div class="dropdown-content2">
+                                    <div class="rangeslider">
+                                        <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
+                                        <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
+                                        <span class="range_min2 light left">50 $</span>
+                                        <span class="range_max2 light right">1000 $</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="bpm-filter">
+                        <div class="title-filter">
+                            <p>Bpm</p>
+                        </div>
+                        <div class="filter-range-content">
+
+                            <div class="dropdown-menu2">
+                                <button class="dropbtn2"><span class="rng-min">60 bpm</span> - <span class="rng-max">200
+                                        bpm</span>🢓</button>
+                                <div class="dropdown-content2">
+                                    <div class="rangeslider">
+                                        <input class="min" name="range_2" type="range" min="30" max="100" value="0" />
+                                        <input class="max" name="range_2" type="range" min="30" max="100" value="200" />
+                                        <span class="range_min light left">60 bpm</span>
+                                        <span class="range_max light right">200 bpm</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-filter">
+                    <div class="title-filter">
+                        <p>search</p>
+                    </div>
+                    <div class="search-filter-content">
+                        <img src="{% static 'images/search.png' %}" alt="">
+                        <input type="text">
+                    </div>
+                </div>
+
+                <div class="mobile-filter">
+                    <img src="{% static 'images/filter.png' %}" alt="" onclick="viewFilter()">
+                </div>
+            </div>
+            <div class="bottom-filter">
+                <div class="title-filter">
+                    <p>GENRES</p>
+                </div>
+                <div class="filter-content">
+                    <button class="scale" id="button-main" onclick="changeColorGenre(this)">ALL</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">DRILL</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">TRAP</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">LIRIC</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">LO-FI</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">CLUB</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">BOOM BAP</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">HIP-HOP</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">PHONK</button>
+                    <button class="scale" id="button" onclick="changeColorGenre(this)">Slap House</button>
+                </div>
+            </div>
+            <div class="playlist-container">
+                <div class="all-right-container">
+                    <p>All rights belong to "AnsiantBeats"</p>
+                </div>
+                <div class="limit-beats-container">
+                    <div class="beat-items-container">
+                        {% for beat in beat %}
+                            <div class="beat-item">
+                                <div class="beat-img">
+                                    <img class="beat-img-cls" src="{{ beat.cover }}" alt="">
+                                    <div id="play-beat-container" class="play-beat-container" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
+                                        <img src="{% static 'images/play.png' %}" alt="">
+                                    </div>
+                                </div>
+                                <div class="title-beat">
+                                    <p id="title-beat">{{ beat.title }}</p>
+                                    <span>{{ beat.type }}</span>
+                                </div>
+                                <div class="parametrs-beat">
+                                    <div class="beat-parametr new">
+                                        <p>NEW</p>
+                                    </div>
+                                    <div class="beat-parametr premium">
+                                        <p>Gold</p>
+                                    </div>
+                                    <div class="beat-parametr">
+                                        <p>{{ beat.tonal }}</p>
+                                    </div>
+                                    <div class="beat-parametr">
+                                        <p>{{ beat.bpm }} bpm</p>
+                                    </div>
+                                </div>
+                                <div class="beat-elements">
+                                    <div class="beat-price">
+                                        <p>
+                                            ${{ beat.price | floatformat }}
+                                        </p>
+                                    </div>
+                                    <div class="button-to-card">
+                                        <button>ADD TO CARD</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mobile-beats-container">
+                        <div class="mobile-beat-item">
+                            <div class="mobile-beat-image-container">
+                                <img src="{% static 'images/beat9.jfif' %}" alt="">
+                                    <div class="play-beat-container" beat_id="{{ beat.beat_id }}">
+                                        <img src="{% static 'images/play.png' %}" alt="">
+                                    </div>
+                            </div>
+
+                            <div class="mobile-beat-text">
+                                <div class="mobile-beat-text__up">
+                                    <p>MAGNATICA <span>| Liric</span></p>
+                                </div>
+                                <div class="mobile-beat-text__bottom">
+                                    <div class="parametrs-beat">
+                                        <div class="beat-parametr new">
+                                            <p>NEW</p>
+                                        </div>
+                                        <div class="beat-parametr premium">
+                                            <p>Gold</p>
+                                        </div>
+                                        <div class="beat-parametr">
+                                            <p>C# min</p>
+                                        </div>
+                                        <div class="beat-parametr">
+                                            <p>146 bpm</p>
+                                        </div>
+                                        <div class="beat-parametr">
+                                            <p>Sad</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mobile-beat__to-card-container">
+                                <div class="to-card-block">
+                                    <p>
+                                        50$
+                                    </p>
+                                    <button>
+                                        Add to card
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="player">
+            <img id="beat-cover" class="beat-cover" src="">
+            <div class="right">
+                <div class="top">
+                    <a class="song" id="song"></a>
+                    <a class="artist">
+                        AnsiantBeats</a>
+                </div>
+                <div class="bottom">
+                    <div class="audio-player">
+                        <input id="range" type="range" style="height: 5px; border-radius: 5px;" >
+{#                        <div class="timeline">#}
+{#                            <input id="range" type="range" style="height: 5px; border-radius: 5px;" >#}
+{#                          <div class="progress"></div>#}
+{#                        </div>#}
+                        <div class="controls">
+                          <div class="play-container">
+                            <div id="toggle-play" class="toggle-play play">
+                          </div>
+                          </div>
+                          <div class="volume-container">
+                            <div class="volume-button">
+                              <div class="volume icono-volumeMedium"></div>
+                            </div>
+
+                            <div class="volume-slider">
+                              <div class="volume-percentage"></div>
+                            </div>
+                          </div>
+
+                          <img src="{% static 'images/download.png' %}" alt="">
+
+                          <div class="time">
+                            <div id="current" class="current">0:00</div>
+                            <div class="divider">/</div>
+                            <div id="length" class="length">0:00</div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+            <div class="button-to-card player-button">
+                <button>ADD TO CARD</button>
+            </div>
+        </div>
+        <audio hidden id="google-player" controls>
+            <source src="" type="audio/mp3">
+        </audio>
+
+    </div>
+    <script type="text/javascript" src="/js/index.js"></script>
+
+    <script>
+        $('body').on('click', '.play-beat-container', function(event) {
+            event.preventDefault();
+            let beat = $(this).attr('beat')
+            {#document.getElementById('song').innerText = song#}
+            document.getElementById('google-player').src = beat
+        })
+    </script>
+    <script>
+        const audioPlayer = document.getElementById('google-player');
+        const playButton = document.getElementById('toggle-play');
+        const rangeInput = document.getElementById('range');
+        const currentTimeSpan = document.getElementById('current');
+
+        $('body').on('click', '#play-beat-container', function(event) {
+            event.preventDefault();
+            document.getElementById('beat-cover').src = $(this).attr('cover')
+            document.getElementById('song').innerText = $(this).attr('title')
+            document.getElementById('length').innerText = $(this).attr('duration')
+            audioPlayer.play()
+            playButton.classList.remove('play');
+            playButton.classList.add('pause');
+        });
+
+
+        playButton.addEventListener('click', function() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playButton.classList.remove('play');
+                playButton.classList.add('pause');
+            } else {
+                audioPlayer.pause();
+                playButton.classList.remove('pause');
+                playButton.classList.add('play');
+            }
+        });
+
+        audioPlayer.addEventListener('timeupdate', function() {
+            const currentTime = audioPlayer.currentTime;
+            const duration = audioPlayer.duration;
+            const progress = (currentTime / duration) * 100;
+            rangeInput.value = progress;
+        });
+
+        const updateAudioTime = function() {
+            const currentTime = (rangeInput.value / 100) * audioPlayer.duration;
+            audioPlayer.currentTime = currentTime;
+        };
+
+        audioPlayer.addEventListener('timeupdate', function() {
+            const currentTime = (rangeInput.value / 100) * audioPlayer.duration;
+            if (currentTime >= audioPlayer.duration) {
+                playButton.classList.remove('pause');
+                playButton.classList.add('play');
+            }
+        });
+
+        rangeInput.addEventListener('input', updateAudioTime);
+
+        audioPlayer.addEventListener('timeupdate', function() {
+            const currentTime = audioPlayer.currentTime;
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = Math.floor(currentTime % 60);
+            currentTimeSpan.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        });
+    </script>
+
+</body>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+          let googlePlayer = document.getElementById('google-player');
+          googlePlayer.play();
+        });
+</script>
+</html>
