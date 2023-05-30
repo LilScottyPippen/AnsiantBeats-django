@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ansiant Beatstore</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/autorization.css' %}" />
+    <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.0.2/dist/simpleParallax.min.js"></script>
+    <link rel="stylesheet prefetch" href="{% static 'css/stars.css' %}" />
+    <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
+    </style>
+  </head>
+  <body>
+
+    <header>
+        <div class="limit-header">
+            <div class="left-header">
+                <div class="header-logo" onclick="window.location='{% url 'index' %}'">
+                    <div class="header-logo-img">
+                        <img src="{% static '/images/logo.png' %}" alt="">
+                    </div>
+                    <div class="header-logo-container-text">
+                        <div class="header-logo-text">
+                            <p>ansiant</p>
+                            <p>beats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-header">
+                <div class="right-header-container">
+                    <div class="menu-item">
+                        <p class="scale" onclick="window.location='playlist.html'">
+                            BEATS
+                        </p>
+                    </div>
+                    <div class="menu-item">
+                        <p class="scale">
+                            licenses
+                        </p>
+                    </div>
+                    <div class="menu-item">
+                        <p class="scale">
+                            socials
+                        </p>
+                    </div>
+
+                    <div class="between-container">
+
+                    </div>
+
+                    <div class="login-container">
+                        <p class="scale" onclick="window.location.href='{% url 'reg' %}'">Registration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-right-header">
+                <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="limit-container-log">
+            <div class="login-title">
+                <p>LOGIN</p>
+            </div>
+
+            <div class="inputs-container">
+                <div class="input">
+                    <input type="text" id="login_email" placeholder="Email" >
+                </div>
+                <div class="input">
+                    <input type="password" id="login_password" placeholder="Password">
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="login-btn">Login</button>
+            </div>
+
+            <script>
+                $('body').on('click', '.login-btn', function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: '{% url 'auth' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'email': document.getElementById('login_email').value,
+                            'password': document.getElementById('login_password').value
+                        },
+                        success: function (response){
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Good job!',
+                                    icon: 'success',
+                                    text: response.message,
+                                    didClose: function() {
+                                        window.location = "{% url 'index' %}";
+                                    }
+                                })
+                            }else{
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'Oops...',
+                                  text: response.message,
+                                })
+                            }
+                        }
+                    })
+                })
+            </script>
+            
+            <div style="text-align: center">
+                <img src="{% static 'images/google.png' %}" width="50" height="50" style="cursor:pointer;" onclick="window.location.href='{% url 'google_auth' %}'">
+            </div>
+
+            <div class="desc-container">
+                <p onclick="window.location='{% url 'reg' %}'">Create an account</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+  </body>
+</html>

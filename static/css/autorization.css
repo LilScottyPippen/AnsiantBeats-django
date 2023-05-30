@@ -4,8 +4,8 @@
 
 @font-face {
     font-family: 'BEYNO';
-    src: url(/fonts/BEYNO/AnyConv.com__BEYNO.eot);
-    src: local('☺'), url('../fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('../fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('../fonts/BEYNO/BEYNO.ttf') format('truetype');
+    src: url(/static/fonts/BEYNO/AnyConv.com__BEYNO.eot);
+    src: local('☺'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('/static/fonts/BEYNO/BEYNO.ttf') format('truetype');
 }
 
 .scale {
@@ -208,7 +208,7 @@ header {
 .container{
   width: 100vw;
   height: 100vh;
-  background-image: url(/images/hmpg.png);
+  background-image: url(/static/images/hmpg.png);
   background-repeat: round;
   object-fit: contain;
   display: flex;
@@ -220,7 +220,7 @@ header {
   padding-left: 50px;
   padding-right: 50px;
   padding-bottom: 20px;
-  height: 50%;
+  height: 40%;
   margin: auto;
   background-color: rgba(51, 51, 51, 0.63);
   backdrop-filter: blur(5px);
@@ -311,10 +311,10 @@ input{
 
 .desc-container p{
   font-family: "Bayon";
-  margin: auto;
   color: #b38f10;
   cursor: pointer;
   font-size: 20px;
+  margin: auto auto 10px;
 }
 
 @media(max-width: 768px){

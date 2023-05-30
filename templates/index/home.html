@@ -15,6 +15,8 @@
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="text/javascript" src="{% static '/js/jquery.pagepiling.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
         <script>
             window.onload = function () {
                 document.body.classList.add('loaded_hiding');
@@ -36,7 +38,7 @@
             <header>
                 <div class="limit-header">
                     <div class="left-header">
-                        <div class="header-logo" onclick="window.location='home.html'">
+                        <div class="header-logo" onclick="window.location='{% url 'index' %}'">
                             <div class="header-logo-img">
                                 <img src="{% static 'images/logo.png' %}" alt="">
                             </div>
@@ -65,7 +67,11 @@
                             </div>
 
                             <div class="login-container">
-                                <p class="scale" onclick="window.location='autorization.html'">login</p>
+                                {% if request.user.is_authenticated %}
+                                    <p class="scale" onclick="window.location='{% url 'profile' %}'">profile</p>
+                                {% else %}
+                                    <p class="scale" onclick="window.location='{% url 'login' %}'">login</p>
+                                {% endif %}
                             </div>
                             <div class="right-header-cart">
                                 <div class="header-cart-img">
@@ -104,14 +110,22 @@
                         Socials
                     </p>
                 </div>
-                <div class="open-menu-item" onclick="window.location='autorization.html'">
-                    <p>
-                        Login
-                    </p>
-                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="open-menu-item" onclick="window.location='{% url 'profile' %}'">
+                        <p>
+                            Profile
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="open-menu-item" onclick="window.location='{% url 'login' %}'">
+                        <p>
+                            Login
+                        </p>
+                    </div>
+                {% endif %}
             </div>
             <div class="section first">
-                <video class="video-background" autoplay loop>
+                <video class="video-background" autoplay loop muted>
                     <source src="/static/animation.mp4" type="video/mp4">
                 </video>
                 <div class="main-caption">
@@ -365,7 +379,11 @@
 
                                 if (missingFields.length > 0) {
                                     let fieldsText = missingFields.join(', ');
-                                    alert("Please fill in the following fields: " + fieldsText);
+                                    Swal.fire({
+                                          icon: 'error',
+                                          title: 'Oops...',
+                                          text: "Please fill in the following fields: " + fieldsText,
+                                        })
                                     return;
                                 }
 
@@ -380,10 +398,18 @@
                                         'description': document.getElementById('ticket_description').value
                                     },
                                     success: function() {
-                                        alert("Ticket created");
+                                        Swal.fire(
+                                          'Good job!',
+                                          'Ticket created!',
+                                          'success'
+                                        )
                                     },
                                     error: function(err) {
-                                        alert(err.message);
+                                        Swal.fire({
+                                          icon: 'error',
+                                          title: 'Oops...',
+                                          text: err,
+                                        })
                                     }
                                 });
                             });

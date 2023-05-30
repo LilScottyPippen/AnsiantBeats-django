@@ -120,7 +120,7 @@
                                     'item_id': itemId
                                 },
                                 success: function(response) {
-                                    if (response.success) {
+                                        if (response.success) {
                                         $.get('/get_cart', function(data) {
                                             let products = JSON.parse(data);
                                             let html = ''

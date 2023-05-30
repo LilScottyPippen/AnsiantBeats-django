@@ -3,8 +3,8 @@
 
 @font-face {
     font-family: 'BEYNO';
-    src: url(/fonts/BEYNO/AnyConv.com__BEYNO.eot);
-    src: local('☺'), url('/fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('/fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('/fonts/BEYNO/BEYNO.ttf') format('truetype');
+    src: url(/static/fonts/BEYNO/AnyConv.com__BEYNO.eot);
+    src: local('☺'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('/static/fonts/BEYNO/BEYNO.ttf') format('truetype');
 }
 
 /*Убрать полосу прокрутки для всей страницы*/
