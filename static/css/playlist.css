@@ -853,7 +853,7 @@ input[type='range']:nth-child(1)::-webkit-slider-thumb {
     margin: auto;
     font-family: 'Bayon';
     font-size: 12px;
-    color: #b1b1b1;
+    color: white;
     line-height: 0px;
 }
 

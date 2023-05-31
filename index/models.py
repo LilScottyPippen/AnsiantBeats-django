@@ -27,8 +27,8 @@ class Tonal(models.Model):
 class Beat(models.Model):
     beat_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=False)
-    cover = models.URLField(blank=False, default='https://drive.google.com/uc?id=')
-    beat = models.URLField(blank=False, default='https://drive.google.com/uc?id=')
+    cover = models.URLField(blank=False)
+    beat = models.URLField(blank=False)
     type = models.ForeignKey(Types, on_delete=models.CASCADE)
     tonal = models.ForeignKey(Tonal, on_delete=models.CASCADE)
     duration = models.CharField(max_length=10, null=True, blank=True)
@@ -53,12 +53,18 @@ class Beat(models.Model):
                 self.duration = f'0{int(minutes):d}:{int(seconds):02d}'
             self.save()
 
-    # def convert_drive_link(self):
-    #     if self.cover.startswith('https://drive.google.com/file/d/'):
-    #         file_id = self.cover.split('/d/')[1].split('/')[0]
-    #         preview_link = f'https://drive.google.com/file/d/{file_id}/preview'
-    #         self.cover = preview_link
-    #         self.save()
+    def convert_drive_link(self):
+        if self.cover.startswith('https://drive.google.com/file/d/'):
+            file_id = self.cover.split('/d/')[1].split('/')[0]
+            preview_link = f'https://drive.google.com/uc?id={file_id}'
+            self.cover = preview_link
+            self.save()
+        if self.beat.startswith('https://drive.google.com/file/d/'):
+            file_id = self.beat.split('/d/')[1].split('/')[0]
+            preview_link = f'https://drive.google.com/uc?id={file_id}'
+            self.beat = preview_link
+            self.save()
+
 
 class License(models.Model):
     name = models.CharField(max_length=100)

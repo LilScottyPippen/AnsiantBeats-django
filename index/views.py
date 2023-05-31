@@ -2,11 +2,11 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from .models import Beat, Ticket
+from .models import Beat, Ticket, Tonal, Types
 from user.models import CustomUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-
+from django.db.models import Min, Max
 
 
 def index_page(request):
@@ -28,6 +28,12 @@ def index_page(request):
 
 def beats_page(request):
     beat = Beat.objects.order_by('beat_id')
+    keys = Tonal.objects.order_by('title')
+    genres = Types.objects.order_by('title')
+    min_price = Beat.objects.aggregate(min_price=Min('price'))['min_price']
+    max_price = Beat.objects.aggregate(max_price=Max('price'))['max_price']
+    min_bpm = Beat.objects.aggregate(min_bpm=Min('bpm'))['min_bpm']
+    max_bpm = Beat.objects.aggregate(max_bpm=Max('bpm'))['max_bpm']
 
     cart = request.session.get('cart', {})
 
@@ -38,11 +44,40 @@ def beats_page(request):
 
     context = {
         'beat': beat,
+        'key': keys,
+        'genre': genres,
+        'min_price': min_price,
+        'max_price': max_price,
+        'min_bpm': min_bpm,
+        'max_bpm': max_bpm,
         'amount': amount,
         'cart': cart
     }
     return render(request, 'index/playlist.html', context)
 
+
+@csrf_exempt
+def filter_beats(request):
+    filter_type = request.POST.get('filterType')
+    filter_value = request.POST.get('filterValue')
+
+    if filter_type == 'key':
+        beats = Beat.objects.filter(tonal=filter_value)
+        beat_data = []
+        for beat in beats:
+            beat_data.append({
+                'beat_id': beat.beat_id,
+                'title': beat.title,
+                'cover': beat.cover,
+                'beat': beat.beat,
+                'type': beat.type.title,
+                'tonal': beat.tonal.title,
+                'duration': beat.duration,
+                'bpm': beat.bpm,
+                'price': beat.price,
+            })
+
+        return JsonResponse({'beats': beat_data}, safe=False)
 
 @csrf_exempt
 def create_ticket(request):

@@ -273,12 +273,12 @@
     </header>
 
     <div class="main-container">
-{#        <div class="preloader">#}
-{#            <div class="preloader__row">#}
-{#                <div class="preloader__item"></div>#}
-{#                <div class="preloader__item"></div>#}
-{#            </div>#}
-{#        </div>#}
+        <div class="preloader">
+            <div class="preloader__row">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+            </div>
+        </div>
 
         <div class="filter-container">
             <div class="top-filter">
@@ -316,25 +316,55 @@
                             </div>
                         </div>
 
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" data-filter-type="key">
                             <button class="dropbtn">KEY 🢓</button>
                             <div class="dropdown-content">
-                                <a href="#">C</a>
-                                <a href="#">C#</a>
-                                <a href="#">D</a>
-                                <a href="#">D#</a>
-                                <a href="#">E</a>
-                                <a href="#">F</a>
-                                <a href="#">F#</a>
-                                <a href="#">G</a>
-                                <a href="#">G#</a>
-                                <a href="#">A</a>
-                                <a href="#">A#</a>
-                                <a href="#">B</a>
+                                {% for key in key %}
+                                    <a href="#" class="filter-option" data-filter-value="{{ key.id }}">{{ key.title }}</a>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+                    let filterOptions = document.getElementsByClassName("filter-option");
+
+                    for (let i = 0; i < filterOptions.length; i++) {
+                      filterOptions[i].addEventListener("click", function(event) {
+                          event.preventDefault();
+                          let parentMenu = this.closest(".dropdown-menu");
+                          let filterType = parentMenu.getAttribute("data-filter-type");
+                          let filterValue = this.getAttribute("data-filter-value");
+
+                          $.ajax({
+                                url: '{% url 'filter' %}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'filterType': filterType,
+                                    'filterValue': filterValue
+                                },
+                                success: function (response){
+                                    html = ''
+                                    response.beats.forEach(function (beat) {
+                                        html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '">'
+                                        html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                        html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div> <div class="beat-parametr premium"> <p>Gold</p> </div>'
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+                                        html += '<div class="button-to-card">{% if beat.beat_id|stringformat:'s' in cart.keys %}<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>'
+                                        html += '{% else %} <button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CARD</button>{% endif %}</div></div></div>'
+                                    })
+                                    $('.beat-items-container').html(html)
+                                }
+                          })
+                      })
+                    }
+
+
+                </script>
 
                 <div class="ranges-filter">
                     <div class="bpm-filter">
@@ -344,14 +374,14 @@
                         <div class="filter-range-content">
 
                             <div class="dropdown-menu2">
-                                <button class="dropbtn2"><span class="rng-min2">50 $</span> - <span
-                                        class="rng-max2">1000 $</span>🢓</button>
+                                <button class="dropbtn2"><span class="rng-min2">{{ min_price | floatformat }} $</span> - <span
+                                        class="rng-max2">{{ max_price | floatformat }} $</span>🢓</button>
                                 <div class="dropdown-content2">
                                     <div class="rangeslider">
                                         <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
                                         <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
-                                        <span class="range_min2 light left">50 $</span>
-                                        <span class="range_max2 light right">1000 $</span>
+                                        <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
+                                        <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
                                     </div>
                                 </div>
                             </div>
@@ -366,14 +396,14 @@
                         <div class="filter-range-content">
 
                             <div class="dropdown-menu2">
-                                <button class="dropbtn2"><span class="rng-min">60 bpm</span> - <span class="rng-max">200
+                                <button class="dropbtn2"><span class="rng-min">{{ min_bpm }} bpm</span> - <span class="rng-max">{{ max_bpm }}
                                         bpm</span>🢓</button>
                                 <div class="dropdown-content2">
                                     <div class="rangeslider">
                                         <input class="min" name="range_2" type="range" min="30" max="100" value="0" />
                                         <input class="max" name="range_2" type="range" min="30" max="100" value="200" />
-                                        <span class="range_min light left">60 bpm</span>
-                                        <span class="range_max light right">200 bpm</span>
+                                        <span class="range_min light left">{{ min_bpm }} bpm</span>
+                                        <span class="range_max light right">{{ max_bpm }} bpm</span>
                                     </div>
                                 </div>
                             </div>
@@ -402,15 +432,9 @@
                 </div>
                 <div class="filter-content">
                     <button class="scale" id="button-main" onclick="changeColorGenre(this)">ALL</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">DRILL</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">TRAP</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">LIRIC</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">LO-FI</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">CLUB</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">BOOM BAP</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">HIP-HOP</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">PHONK</button>
-                    <button class="scale" id="button" onclick="changeColorGenre(this)">Slap House</button>
+                    {% for genre in genre %}
+                        <button class="scale" id="button" onclick="changeColorGenre(this)">{{ genre.title }}</button>
+                    {% endfor %}
                 </div>
             </div>
             <div class="playlist-container">
@@ -453,7 +477,7 @@
                                     </div>
                                     <div class="button-to-card">
                                         {% if beat.beat_id|stringformat:'s' in cart.keys %}
-                                            <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
+                                                <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
                                         {% else %}
                                             <button id="add-to-cart" beat_id="{{ beat.beat_id }}">ADD TO CARD</button>
                                         {% endif %}
