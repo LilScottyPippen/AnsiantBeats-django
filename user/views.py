@@ -112,7 +112,6 @@ def user_login(request):
         if request.user.is_anonymous:
             email = request.POST.get("email")
             password = request.POST.get("password")
-            print(email + " " + password)
 
             user = authenticate(request, email=email, password=password)
 
@@ -233,14 +232,18 @@ def user_logout(request):
 
 
 @csrf_exempt
-def add_to_cart(request, beat_id):
-    beat = Beat.objects.get(beat_id=beat_id)
-    cart = request.session.get('cart', {})
-    cart[beat_id] = {
-        'id': beat.beat_id,
-    }
-    request.session['cart'] = cart
-    return JsonResponse({'success': True}, safe=False)
+def add_to_cart(request):
+    try:
+        beat_id = request.POST.get('beat_id')
+        beat = Beat.objects.get(beat_id=beat_id)
+        cart = request.session.get('cart', {})
+        cart[beat_id] = {
+            'id': beat.beat_id,
+        }
+        request.session['cart'] = cart
+        return JsonResponse({'success': True}, safe=False)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': e}, safe=False)
 
 
 def shopping_cart(request):
@@ -294,11 +297,12 @@ def get_license(request):
 
 
 @csrf_exempt
-def delete_item(request, pk):
+def delete_item(request):
+    beat_id = request.POST.get('beat_id')
     cart = request.session.get('cart', {})
     item_found = False
     for key, item in cart.items():
-        if item['id'] == pk:
+        if item['id'] == int(beat_id):
             del cart[key]
             request.session['cart'] = cart
             item_found = True

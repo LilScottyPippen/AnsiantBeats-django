@@ -423,7 +423,7 @@
                             <div class="beat-item">
                                 <div class="beat-img">
                                     <img class="beat-img-cls" src="{{ beat.cover }}" alt="">
-                                    <div id="play-beat-container" class="play-beat-container" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
+                                    <div id="play-beat-container" class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
                                         <img src="{% static 'images/play.png' %}" alt="">
                                     </div>
                                 </div>
@@ -452,17 +452,104 @@
                                         </p>
                                     </div>
                                     <div class="button-to-card">
-                                        <button>ADD TO CARD</button>
+                                        {% if beat.beat_id|stringformat:'s' in cart.keys %}
+                                            <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
+                                        {% else %}
+                                            <button id="add-to-cart" beat_id="{{ beat.beat_id }}">ADD TO CARD</button>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
+                    <script>
+                        $('body').on('click', '#add-to-cart', function (event){
+                            event.preventDefault()
+                            let beat_id = $(this).attr('beat_id')
+                            $.ajax({
+                                url: '{% url 'add_to_cart' %}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'beat_id': beat_id
+                                },
+                                success: function (response) {
+                                    if(response.success){
+                                        $.get('{% url 'get_cart' %}', function(data) {
+                                            let products = JSON.parse(data);
+                                            let amount = 0
+                                            let html = ''
+                                            let isMatch = false
+                                            for (let i = 0; i < products.length; i++) {
+                                                amount += Number(products[i].price);
+                                                if (String(beat_id) === String(products[i].id)) {
+                                                    isMatch = true;
+                                                }
+                                            }
+                                            html += '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                                            $('.right-header-cart').html(html)
+                                            html = '<button id="delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>'
+                                            $(event.target).closest('.button-to-card').html(html)
+
+                                            if($('#player-add-to-cart').attr('beat_id') === beat_id){
+                                                html = '<button id="player-delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>';
+                                                $('#player-button-cart').html(html);
+                                            }
+                                        })
+                                    }
+                                },
+                                error: function(response){
+                                    alert(response.e)
+                                }
+                            })
+                        })
+
+                        $('body').on('click', '#delete-from-cart', function (event){
+                            event.preventDefault()
+                            let beat_id = $(this).attr('beat_id')
+
+                            $.ajax({
+                                url: '{% url 'delete_item' %}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'beat_id': beat_id
+                                },
+                                success: function (response){
+                                    if(response.success) {
+                                        $.get('{% url 'get_cart' %}', function(data) {
+                                            let products = JSON.parse(data);
+                                            let amount = 0
+                                            let html = ''
+                                            let isMatch = false
+                                            for (let i = 0; i < products.length; i++) {
+                                                amount += Number(products[i].price);
+                                                if (String(beat_id) === String(products[i].id)) {
+                                                    isMatch = true;
+                                                }
+                                            }
+                                            html += '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                                            $('.right-header-cart').html(html)
+                                            html = '<button id="add-to-cart" beat_id="' + beat_id + '">ADD TO CARD</button>'
+                                            $(event.target).closest('.button-to-card').html(html)
+
+                                            if($('#player-delete-from-cart').attr('beat_id') === beat_id){
+                                                html = '<button id="player-add-to-cart" beat_id="' + beat_id + '">ADD TO CART</button>';
+                                                $('#player-button-cart').html(html);
+                                            }
+                                        })
+                                    }
+                                    else{
+                                        alert('Error')
+                                    }
+                                }
+                        })})
+                    </script>
                     <div class="mobile-beats-container">
                         <div class="mobile-beat-item">
                             <div class="mobile-beat-image-container">
                                 <img src="{% static 'images/beat9.jfif' %}" alt="">
-                                    <div class="play-beat-container" beat_id="{{ beat.beat_id }}">
+                                    <div class="play-beat-container">
                                         <img src="{% static 'images/play.png' %}" alt="">
                                     </div>
                             </div>
@@ -549,8 +636,8 @@
                 </div>
             </div>
 
-            <div class="button-to-card player-button">
-                <button>ADD TO CARD</button>
+            <div id="player-button-cart" class="button-to-card player-button">
+{#                <button id="player-add-to-cart" beat_id="">ADD TO CART</button>#}
             </div>
         </div>
         <audio hidden id="google-player" controls>
@@ -563,9 +650,7 @@
     <script>
         $('body').on('click', '.play-beat-container', function(event) {
             event.preventDefault();
-            let beat = $(this).attr('beat')
-            {#document.getElementById('song').innerText = song#}
-            document.getElementById('google-player').src = beat
+            document.getElementById('google-player').src = $(this).attr('beat')
         })
     </script>
     <script>
@@ -579,6 +664,31 @@
             document.getElementById('beat-cover').src = $(this).attr('cover')
             document.getElementById('song').innerText = $(this).attr('title')
             document.getElementById('length').innerText = $(this).attr('duration')
+
+            let html = ''
+
+            if ($(this).closest('.beat-item').find('#add-to-cart').attr('beat_id')) {
+                if($(this).find('player-delete-from-cart')){
+                    $('#player-delete-from-cart').data('beat_id', $(this).attr('beat_id'));
+                    html = '<button id="player-add-to-cart" beat_id="' + $(this).attr('beat_id') + '">ADD TO CART</button>';
+                    $('#player-button-cart').html(html);
+                }
+                else if($(this).find('player-add-to-cart')){
+                    $('#player-add-to-cart').data('beat_id', $(this).attr('beat_id'));
+                }
+            }
+            if ($(this).closest('.beat-item').find('#delete-from-cart').attr('beat_id')) {
+                if($(this).find('player-add-to-cart')){
+                    $('#player-add-to-cart').data('beat_id', $(this).attr('beat_id'));
+                    html = '<button id="player-delete-from-cart" beat_id="' + $(this).attr('beat_id') + '">ADDED✓</button>';
+                    $('#player-button-cart').html(html);
+                }
+                else if($(this).find('player-delete-from-cart')){
+                    $('#player-delete-from-cart').data('beat_id', $(this).attr('beat_id'));
+                }
+            }
+
+
             audioPlayer.play()
             playButton.classList.remove('play');
             playButton.classList.add('pause');
@@ -604,10 +714,9 @@
             rangeInput.value = progress;
         });
 
-        const updateAudioTime = function() {
-            const currentTime = (rangeInput.value / 100) * audioPlayer.duration;
-            audioPlayer.currentTime = currentTime;
-        };
+        function updateAudioTime() {
+          audioPlayer.currentTime = (rangeInput.value / 100) * audioPlayer.duration;
+        }
 
         audioPlayer.addEventListener('timeupdate', function() {
             const currentTime = (rangeInput.value / 100) * audioPlayer.duration;
@@ -625,13 +734,93 @@
             const seconds = Math.floor(currentTime % 60);
             currentTimeSpan.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
         });
-    </script>
 
+        $('body').on('click', '#player-add-to-cart', function (event) {
+            event.preventDefault()
+            let beat_id = $(this).attr('beat_id')
+            let addButton = document.querySelector('button#add-to-cart[beat_id="' + beat_id + '"]');
+            let parentElement = $(addButton).parent();
+
+            $.ajax({
+                url: '{% url 'add_to_cart' %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'beat_id': beat_id
+                },
+                success: function (response) {
+                    if(response.success){
+                        $.get('{% url 'get_cart' %}', function(data) {
+                            let products = JSON.parse(data);
+                            let amount = 0
+                            let html = ''
+                            let isMatch = false
+                            for (let i = 0; i < products.length; i++) {
+                                amount += Number(products[i].price);
+                                if (String(beat_id) === String(products[i].id)) {
+                                    isMatch = true;
+                                }
+                            }
+                            html = '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                            $('.right-header-cart').html(html)
+                            html = '<button id="player-delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>'
+                            $('#player-button-cart').html(html)
+                            html = '<button id="delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>'
+                            parentElement.html(html)
+                        })
+                    }
+                },
+                error: function(response){
+                    alert(response.e)
+                }
+            })
+        })
+
+        $('body').on('click', '#player-delete-from-cart', function (event){
+            event.preventDefault()
+            let beat_id = $(this).attr('beat_id')
+            let addButton = document.querySelector('button#delete-from-cart[beat_id="' + beat_id + '"]');
+            let parentElement = $(addButton).parent();
+
+            $.ajax({
+                url: '{% url 'delete_item' %}',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'beat_id': beat_id
+                },
+                success: function (response){
+                    if(response.success) {
+                        $.get('{% url 'get_cart' %}', function(data) {
+                            let products = JSON.parse(data);
+                            let amount = 0
+                            let html = ''
+                            let isMatch = false
+                            for (let i = 0; i < products.length; i++) {
+                                amount += Number(products[i].price);
+                                if (String(beat_id) === String(products[i].id)) {
+                                    isMatch = true;
+                                }
+                            }
+                            html = '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                            $('.right-header-cart').html(html)
+                            html = '<button id="player-add-to-cart" beat_id="' + beat_id + '">ADD TO CART</button>'
+                            $('#player-button-cart').html(html)
+                            html = '<button id="add-to-cart" beat_id="' + beat_id + '">ADD TO CART</button>'
+                            parentElement.html(html)
+                        })
+                    }
+                    else{
+                        alert('Error')
+                    }
+                }
+        })})
+    </script>
 </body>
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          let googlePlayer = document.getElementById('google-player');
-          googlePlayer.play();
-        });
+    document.addEventListener("DOMContentLoaded", function() {
+      let googlePlayer = document.getElementById('google-player');
+      googlePlayer.play();
+    });
 </script>
 </html>

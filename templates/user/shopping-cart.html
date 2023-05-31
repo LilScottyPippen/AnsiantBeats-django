@@ -113,15 +113,15 @@
                               event.preventDefault();
                               let itemId = $(this).attr('data-item-id');
                               $.ajax({
-                                url: '/delete_item/' + itemId,
+                                url: '{% url 'delete_item' %}',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
-                                    'item_id': itemId
+                                    'beat_id': itemId
                                 },
                                 success: function(response) {
                                         if (response.success) {
-                                        $.get('/get_cart', function(data) {
+                                        $.get('{% url 'get_cart' %}', function(data) {
                                             let products = JSON.parse(data);
                                             let html = ''
                                             let amount = 0

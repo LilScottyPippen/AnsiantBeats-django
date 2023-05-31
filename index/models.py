@@ -53,6 +53,12 @@ class Beat(models.Model):
                 self.duration = f'0{int(minutes):d}:{int(seconds):02d}'
             self.save()
 
+    # def convert_drive_link(self):
+    #     if self.cover.startswith('https://drive.google.com/file/d/'):
+    #         file_id = self.cover.split('/d/')[1].split('/')[0]
+    #         preview_link = f'https://drive.google.com/file/d/{file_id}/preview'
+    #         self.cover = preview_link
+    #         self.save()
 
 class License(models.Model):
     name = models.CharField(max_length=100)
