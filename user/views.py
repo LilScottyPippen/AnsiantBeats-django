@@ -51,7 +51,8 @@ def registration_page(request):
 
 @login_required(login_url='login')
 def user_profile_page(request):
-    beat = Order.objects.filter(user_id=request.user)
+    order = Order.objects.filter(user_id=request.user)
+    beat = OrderItems.objects.filter(order_id__in=order)
     context = {
         'beat': beat,
     }
@@ -322,16 +323,14 @@ def create_order(request):
     cart = request.session.get('cart', {})
     if status == "COMPLETED":
         try:
+            order = Order.objects.create(transaction_id=transaction, user_id=request.user, status=status)
             for item in cart.values():
                 beat = Beat.objects.get(beat_id=item['id'])
-                if request.user.is_anonymous:
-                    pass
-                else:
-                    order_item = OrderItems.objects.create(beat=beat, license=beat_license, amount=beat.price,
-                                                           created_at=datetime.datetime.now())
-            Order.objects.create(transaction_id=transaction, order_item=order_item, user_id=request.user, status=status)
+                OrderItems.objects.create(order_id=order, beat=beat, license=beat_license, amount=beat.price,
+                                          created_at=datetime.datetime.now())
+            del request.session['cart']
         except Exception as e:
-            print(e)
+            Order.objects.create(transaction_id=transaction, user_id=request.user, status=str(e))
     else:
-        Order.objects.create(transaction_id=transaction, order_item=None, user_id=request.user, status=status)
-    return JsonResponse({'success': True})
+        Order.objects.create(transaction_id=transaction, user_id=request.user, status=status)
+    return JsonResponse({'success': True, 'message': 'Order created!'})

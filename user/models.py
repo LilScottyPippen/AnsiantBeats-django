@@ -29,7 +29,17 @@ class GoogleCredentials(models.Model):
         return f'Email: {self.email}'
 
 
+class Order(models.Model):
+    transaction_id = models.CharField(max_length=20, null=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    status = models.CharField(max_length=15, null=True)
+
+    def __str__(self):
+        return f"Order: {self.transaction_id}"
+
+
 class OrderItems(models.Model):
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
     beat = models.ForeignKey(Beat, on_delete=models.CASCADE)
     license = models.ForeignKey(License, on_delete=models.CASCADE)
     amount = models.IntegerField(blank=False)
@@ -41,16 +51,6 @@ class OrderItems(models.Model):
     def sum_amount(self):
         self.amount += self.license.price
         self.save()
-
-
-class Order(models.Model):
-    transaction_id = models.CharField(max_length=20, null=True)
-    order_item = models.ForeignKey(OrderItems, on_delete=models.CASCADE, null=True, blank=True)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    status = models.CharField(max_length=15, null=True)
-
-    def __str__(self):
-        return f"Order: {self.transaction_id}"
 
 
 

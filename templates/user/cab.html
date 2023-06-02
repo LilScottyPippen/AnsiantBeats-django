@@ -2,111 +2,112 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Ansiant Beatstore</title>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/cab.css' %}" />
-      <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
-      <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap" rel="stylesheet"/>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-      <script src="{% static 'js/parallax.min.js' %}"></script>
-      <script src="{% static 'js/parallax.js' %}"></script>
-      <script src="{% static 'js/jquery.event.frame.js' %}"></script>
-      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.0.2/dist/simpleParallax.min.js"></script>
-      <link rel="stylesheet prefetch" href="{% static 'css/stars.css' %}" />
-      <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
-      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-      <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
-      <style>
-        @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cab.css' %}" />
+        <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+        <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap"
+        rel="stylesheet"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <link rel="stylesheet prefetch" href="css/stars.css" />
+        <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
       </style>
   </head>
   <body>
     <div class="page">
+
+
       <div class="background-image-container">
-          <img src="{% static 'images/bezfona-background.png' %}" alt="" class="background-image">
+        <img src="{% static 'images/bezfona-background.png' %}" alt="" class="background-image">
       </div>
+
+
       <div class="container">
         <div class="menu-container">
           <div class="limiter-menu-container">
             <div class="top-account-container">
               <div class="account-avatar-block">
-                  <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+                <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
               </div>
               <div class="account-name-block">
-                  {% if request.user.username %}
-                      <p>{{ request.user.username }}</p>
-                  {% else %}
-                      <p>{{ request.user.email|truncatechars:20 }}</p>
-                  {% endif %}
+                <p>{{ request.user.email }}</p>
               </div>
             </div>
+
             <div class="items-menu-container">
               <div class="items-menu">
+
                 <div class="item-menu beats">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/beat-menu.png' %}" alt="">
+                    <img src="{% static 'images/beat-menu.png' %}" alt="">
                   </div>
-                  <div class="item-text-block">
-                      <p>BEATS</p>
+                  <div class="item-text-block ">
+                    <p > BEATS</p>
                   </div>
                 </div>
+
                 <div class="item-menu history">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/purchase.png' %}" alt="">
+                    <img src="{% static 'images/purchase.png' %}" alt="">
                   </div>
                   <div class="item-text-block">
-                      <p>HISTORY</p>
+                    <p> HISTORY</p>
                   </div>
                 </div>
+
                 <div class="item-menu profile">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/setting-profile.png' %}" alt="">
+                    <img src="{% static 'images/setting-profile.png' %}" alt="">
                   </div>
                   <div class="item-text-block">
-                      <p>PROFILE</p>
+                    <p> PROFILE</p>
                   </div>
                 </div>
+
                 <div class="item-menu password">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/change-password.png' %}" alt="">
+                    <img src="{% static 'images/change-password.png' %}" alt="">
                   </div>
                   <div class="item-text-block">
-                      <p>PASSWORD</p>
+                    <p> PASSWORD</p>
                   </div>
                 </div>
-                <div class="item-menu contact">
-                  <div class="item-icon-block">
-                      <img src="{% static 'images/contact-me.png' %}" alt="">
-                  </div>
-                  <div class="item-text-block">
-                      <p>CONTACT ME</p>
-                  </div>
-                </div>
+
                 <div class="item-menu policy">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/privacy.png' %}" alt="">
+                    <img src="{% static 'images/privacy.png' %}" alt="">
                   </div>
                   <div class="item-text-block">
-                      <p>POLICY</p>
+                    <p> POLICY</p>
                   </div>
                 </div>
-                <div class="item-menu sign">
+
+                <div class="item-menu sign" onclick="window.location='{% url 'logout' %}'">
                   <div class="item-icon-block">
-                      <img src="{% static 'images/sign-out.png' %}" alt="">
+                    <img src="{% static 'images/sign-out.png' %}" alt="">
                   </div>
-                  <div class="item-text-block" onclick="window.location='{% url 'logout' %}'">
-                      <p>SIGN OUT</p>
+                  <div class="item-text-block">
+                    <p> SIGN OUT</p>
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="button-to-playlist-container" onclick="window.location='{% url 'index' %}'">
               <div class="to-playlist-icon-block">
-                  <img src="{% static 'images/back2.png' %}" alt="">
+                <img src="{% static 'images/back2.png' %}" alt="">
               </div>
               <div class="to-playlist-text-block">
-                  <p>TO BEATSTORE</p>
+                <p>TO BEATSTORE</p>
               </div>
             </div>
           </div>
@@ -118,270 +119,452 @@
                     <div class="criteria-playlist">
                       <div class="clear-block"></div>
                       <div class="title-block">
-                          <p>Title</p>
+                        <p>Title</p>
                       </div>
                       <div class="title-block">
-                          <p>Type</p>
+                        <p>Type</p>
                       </div>
                       <div class="title-block">
-                          <p>Tonal</p>
+                        <p>Tonal</p>
                       </div>
                       <div class="title-block">
-                          <p>Bpm</p>
+                        <p>Bpm</p>
                       </div>
                       <div class="title-block">
-                          <p>Time</p>
+                        <p>Time</p>
                       </div>
                     </div>
                     <div class="items-playlist">
                         {% for beat in beat %}
-                            {% if beat.order_item %}
-                              <div class="item-beat">
-                                <div class="clear-block">
-                                  <div class="number-beat">
-                                      <p>{{ forloop.counter }}</p>
-                                  </div>
-                                  <div class="img-beat">
-                                      <img src="{{ beat.order_item.beat.cover }}" alt="" />
-                                  </div>
-                                </div>
-                                <div class="item-info">
-                                    <p>{{ beat.order_item.beat.title }}</p>
-                                </div>
-                                <div class="item-info">
-                                    <p>{{ beat.order_item.beat.type }}</p>
-                                </div>
-                                <div class="item-info">
-                                    <p>{{ beat.order_item.beat.tonal }}</p>
-                                </div>
-                                <div class="item-info">
-                                    <p>{{ beat.order_item.beat.bpm }}</p>
-                                </div>
-                                <div class="item-info">
-                                    <p>{{ beat.order_item.beat.duration }}</p>
-                                </div>
-                                <div class="button-buy">
-                                    <img src="{% static 'images/download.png' %}" alt="" onclick="window.location='{{ beat.order_item.beat.beat }}'"/>
-                                </div>
+                          <div class="item-beat">
+                            <div class="clear-block">
+                              <div class="number-beat">
+                                <p>{{ forloop.counter }}</p>
                               </div>
-                            {% endif %}
+                              <div class="img-beat">
+                                <img src="{{ beat.beat.cover }}" alt="" />
+                              </div>
+                            </div>
+                            <div class="item-info">
+                              <p>{{ beat.beat.title }}</p>
+                            </div>
+                            <div class="item-info">
+                              <p>{{ beat.beat.type }}</p>
+                            </div>
+                            <div class="item-info">
+                              <p>{{ beat.beat.tonal }}</p>
+                            </div>
+                            <div class="item-info">
+                              <p>{{ beat.beat.bpm }}</p>
+                            </div>
+                            <div class="item-info">
+                              <p>{{ beat.beat.duration }}</p>
+                            </div>
+                            <div class="button-buy">
+                              <img src="{% static 'images/download.png' %}" alt="" />
+                            </div>
+                          </div>
                         {% endfor %}
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="history-container">
               <div class="playlist-beatstore">
                 <div class="criteria-playlist">
                   <div class="clear-block"></div>
                   <div class="title-block">
-                      <p>Title</p>
+                    <p>Title</p>
                   </div>
                   <div class="title-block">
-                      <p>Type</p>
+                    <p>Type</p>
                   </div>
                   <div class="title-block">
-                      <p>Date of purchase</p>
+                    <p>Date of purchase</p>
                   </div>
                   <div class="title-block">
-                      <p>Price</p>
+                    <p>Price</p>
                   </div>
                   <div class="title-block">
-                      <p>License</p>
+                    <p>License</p>
                   </div>
                 </div>
                 <div class="items-playlist">
-                    {% for beat in beat %}
-                        {% if beat.order_item %}
-                          <div class="item-beat">
-                            <div class="clear-block">
-                              <div class="number-beat">
-                                  <p>{{ forloop.counter }}</p>
-                              </div>
-                              <div class="img-beat">
-                                  <img src="{{ beat.order_item.beat.cover }}" alt="" />
-                              </div>
-                            </div>
-                            <div class="item-info">
-                                <p>{{ beat.order_item.beat.title }}</p>
-                            </div>
-                            <div class="item-info">
-                                <p>{{ beat.order_item.beat.type }}</p>
-                            </div>
-                            <div class="item-info">
-                                <p>{{ beat.order_item.created_at}}</p>
-                            </div>
-                            <div class="item-info">
-                                <p>{{ beat.order_item.amount }}$</p>
-                            </div>
-                            <div class="item-info">
-                                <p>{{ beat.order_item.license }}</p>
-                            </div>
-                            <div class="button-buy">
-                                <img src="{% static 'images/upgrade.png' %}" alt="" />
-                            </div>
-                          </div>
-                        {% endif %}
-                    {% endfor %}
+                  <div class="item-beat">
+                    <div class="clear-block">
+                      <div class="number-beat">
+                        <p>1</p>
+                      </div>
+                      <div class="img-beat">
+                        <img src="images/beat1.jfif" alt="" />
+                      </div>
+                    </div>
+                    <div class="item-info">
+                      <p>Areamin</p>
+                    </div>
+                    <div class="item-info">
+                      <p>Liric</p>
+                    </div>
+                    <div class="item-info">
+                      <p>20.10.2022</p>
+                    </div>
+                    <div class="item-info">
+                      <p>50$</p>
+                    </div>
+                    <div class="item-info">
+                      <p>BASIC</p>
+                    </div>
+                    <div class="button-buy">
+                      <img src="{% static 'images/upgrade.png' %}" alt="" />
+                    </div>
+                  </div>
                 </div>
                 </div>
             </div>
             <div class="profile-container">
               <div class="avatar-container">
                 <div class="avatar-block">
-                    <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+                  <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
                 </div>
                 <div class="upload-img-block">
-                    <button>Upload</button>
+                  <button>Upload</button>
                 </div>
               </div>
               <div class="item-setting-profile">
                 <div class="icon-setting">
-                    <img src="{% static 'images/nickname.png' %}" alt="">
+                  <img src="{% static 'images/nickname.png' %}" alt="">
                 </div>
+
                 <div class="title-setting-profile">
-                    <p>Nickname</p>
+                  <p>Nickname</p>
                 </div>
+
                 <div class="info-setting-profile">
-                    <p>{{ request.user.username }}</p>
+                  <p></p>
+                </div>
+              </div>
+
+              <div class="item-setting-profile">
+                <div class="icon-setting">
+                  <img src="{% static 'images/email.png' %}" alt="">
+                </div>
+
+                <div class="title-setting-profile">
+                  <p>Email</p>
+                </div>
+
+                <div class="info-setting-profile">
+                  <p>{{ request.user.email }}</p>
                 </div>
               </div>
               <div class="item-setting-profile">
                 <div class="icon-setting">
-                    <img src="{% static 'images/email.png' %}" alt="">
+                  <img src="{% static 'images/profile-instagram.png' %}" alt="">
                 </div>
+
                 <div class="title-setting-profile">
-                    <p>Email</p>
+                  <p>Instagram</p>
                 </div>
+
                 <div class="info-setting-profile">
-                    <p>{{ request.user.email }}</p>
+                  <p></p>
                 </div>
               </div>
               <div class="item-setting-profile">
                 <div class="icon-setting">
-                    <img src="{% static 'images/country.png' %}" alt="">
+                  <img src="{% static 'images/notification.png' %}" alt="">
                 </div>
+
                 <div class="title-setting-profile">
-                    <p>Country</p>
+                  <p>Mailing by mail
+                  </p>
                 </div>
+
                 <div class="info-setting-profile">
-                    <p>USA</p>
-                </div>
-              </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                    <img src="{% static 'images/age.png' %}" alt="">
-                </div>
-                <div class="title-setting-profile">
-                    <p>Age</p>
-                </div>
-                <div class="info-setting-profile">
-                    <p>25</p>
-                </div>
-              </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                    <img src="{% static 'images/profile-instagram.png' %}" alt="">
-                </div>
-                <div class="title-setting-profile">
-                    <p>Instagram</p>
-                </div>
-                <div class="info-setting-profile">
-                    <p>@{{ request.user.username }}</p>
-                </div>
-              </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                    <img src="{% static 'images/notification.png' %}" alt="">
-                </div>
-                <div class="title-setting-profile">
-                    <p>Mailing by mail</p>
-                </div>
-                <div class="info-setting-profile">
-                    <div class="switch-btn switch-on"></div>
+                  <div class="switch-btn switch-on"></div>
                 </div>
               </div>
             </div>
             <div class="password-container">
               <div class="password-logo-block">
-                  <img src="{% static 'images/change-password.png' %}" alt="">
+                <img src="{% static 'images/change-password.png' %}" alt="">
               </div>
               <div class="input-block">
-                  <label>
-                      <input type="password" placeholder="Old password">
-                  </label>
-                  <label>
-                      <input type="password" placeholder="New password">
-                  </label>
-                  <label>
-                      <input type="password" placeholder="New password (repeat)">
-                  </label>
+                <input type="password" placeholder="Old password">
+                <input type="password" placeholder="New password">
+                <input type="password" placeholder="New password (repeat)">
               </div>
+
               <div class="change-button-container">
-                  <button>Change</button>
+                <button>Change</button>
               </div>
             </div>
-            <div class="contact-container">
-              <div class="title-contact-block">
-                  <h1>Contact me</h1>
-                  <h2>Send me a message</h2>
-              </div>
-              <div class="input-block">
-                  <label>
-                      <input type="text" placeholder="Your name">
-                  </label>
-                  <label>
-                      <input type="text" placeholder="Your email">
-                  </label>
-                  <label>
-                      <input type="text" placeholder="Subject">
-                  </label>
-                  <label>
-                      <input type="text" placeholder="Message (optional)">
-                  </label>
-              </div>
-              <div class="change-button-container">
-                  <button>Submit</button>
-              </div>
-            </div>
+
             <div class="policy-container">
-                <h1>1. General provisions</h1>
-                <h2>This Personal data processing Policy is compiled in accordance with the requirements of Federal Law No. 152-FZ of 27.07.2006 "On Personal Data" (hereinafter referred to as the Personal Data Law) and defines the procedure for processing personal data and measures to ensure the security of personal data taken by AnsiantBeats (hereinafter referred to as the Operator).</h2>
-                <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h3>
-                <h3>1.2. This Operator's policy regarding the processing of personal data (hereinafter referred to as the Policy) applies to all information that the Operator can receive about website visitors https://127.0.0.1:5500/cab.html .</h3>
-                <h1>2. Basic concepts used in the Policy</h1>
-                <h3>2.1. Automated processing of personal data – processing of personal data using computer technology.</h3>
+              <h1>1. General provisions</h1>
+              <h2>This Personal data processing Policy is compiled in accordance with the requirements of Federal Law No. 152-FZ of 27.07.2006 "On Personal Data" (hereinafter referred to as the Personal Data Law) and defines the procedure for processing personal data and measures to ensure the security of personal data taken by AnsiantBeats (hereinafter referred to as the Operator).
+              </h2>
+              <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h3>
+              <h3>1.2. This Operator's policy regarding the processing of personal data (hereinafter referred to as the Policy) applies to all information that the Operator can receive about website visitors https://127.0.0.1:5500/cab.html .</h3>
+
+              <h1>2. Basic concepts used in the Policy</h1>
+              <h3>
+                2.1. Automated processing of personal data – processing of personal data using computer technology.</h3>
                 <h3>2.2. Blocking of personal data – temporary termination of processing of personal data (except in cases where processing is necessary to clarify personal data).</h3>
-                <h3>2.3. Website - a set of graphic and informational materials, as well as computer programs and databases that ensure their availability on the Internet at a network address https://127.0.0.1:5500/cab.html .</h3>
+                <h3>2.3. Website - a set of graphic and informational materials, as well as computer programs and databases that ensure their availability on the Internet at a network address https://127.0.0.1:5500/cab.html .
+                </h3>
                 <h3>2.4. Personal data information system — a set of personal data contained in databases, and information technologies and technical means that ensure their processing.</h3>
-                <h1>3. Basic rights and obligations of the Operator</h1>
-                <h3>3.1. The Operator has the right to:
+                <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
                     – receive reliable information and/or documents containing personal data from the subject of personal data;
                     – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
                     – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
-                <h3>3.2. The Operator is obliged to:
-                    – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
-                    – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
-                    – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
-                    – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
-                    – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
-                    – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
-                <h1>4. Basic rights and obligations of personal data subjects</h1>
-                <h3>4.1. Personal data subjects have the right to:
-                    – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
-                    – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
-                    – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
-                <h3>4.2. Personal data subjects are obliged to:
-                    – provide the Operator with reliable data about themselves;
-                    – inform the Operator about the clarification (update, change) of their personal data.</h3>
-                <h1>5. The Operator may process the following personal data of the User</h1>
-                <h3>5.1. Email address.</h3>
-                <h3>5.2. Year, month, date and place of birth.</h3>
-                <h3>5.3. Also on site is the collection and processing of anonymous data about visitors (including cookies) using Internet statistics (Yandex Metric and Google Analytics and others).</h3>
-            </div>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                    <h1>5. The Operator may process the following personal data of the User</h1>
+                        <h3>
+                          5.1. Email address.</h3>
+                          <h3>
+                            5.2. Year, month, date and place of birth.</h3>
+                            <h3>
+                              5.3. Also on site is the collection and processing of anonymous data about visitors (including cookies) using Internet statistics (Yandex Metric and Google Analytics and others).</h3>
+                  </div>
           </div>
         </div>
       </div>
+
+      <div class="mobile-container">
+        <div class="mobile-header">
+          <div class="left-mobile-header">
+            <img src="/images/logo.png" alt="">
+            <p>ANSIANT <br>BEATS</p>
+          </div>
+          <div class="right-mobile-header">
+            <p id="name-menu">beats</p>
+            <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
+          </div>
+        </div>
+
+        <div class="open-menu" id="menu">
+          <div class="open-menu-item ">
+            <p onclick="viewBeats()">
+                Beats
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p onclick="viewProfile()">
+                Profile
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p onclick="viewPassword()">
+                Password
+            </p>
+        </div>
+        <div class="open-menu-item">
+            <p onclick="viewPolicy()">
+                Policy
+            </p>
+        </div>
+        <div class="open-menu-item" onclick="window.location='{% url 'logout' %}'">
+          <p>
+              Sign out
+          </p>
       </div>
+        </div>
+
+        <div class="main-container">
+          <div class="mobile-beats-container" id="beats">
+            <div class="beat-item">
+              <img src="/images/beat9.jfif" alt="">
+              <div class="beat-info-container">
+                <div class="top-container">
+                  <p>NEVARA <span>| Liric</span></p>
+                </div>
+                <div class="bottom-container">
+                  <div class="parametr-item">
+                    <p>146bpm</p>
+                  </div>
+                  <div class="parametr-item">
+                    <p>C min</p>
+                  </div>
+                  <div class="parametr-item">
+                    <p>Basic</p>
+                  </div>
+                </div>
+              </div>
+              <img src="{% static '/images/download.png' %}" alt="" class="prm-img1">
+              <img src="{% static '/images/upgrade.png' %}" alt="" class="prm-img2">
+            </div>
+          </div>
+
+          <div class="mobile-profile-container" id="profile">
+            <div class="mobile-avatar-container">
+              <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+              <p>{{ request.user.email|truncatechars:20 }}</p>
+              <button>Upload</button>
+            </div>
+
+            <div class="mobile-profile-parametrs">
+              <div class="profile-item">
+                <img src="{% static '/images/nickname.png' %}" alt="">
+                <p>Nickname</p>
+
+                <input type="text" value="Rick Morty">
+              </div>
+              <div class="profile-item">
+                <img src="{% static '/images/email.png' %}" alt="" >
+                <p>Email</p>
+
+                <input type="text" value="{{ request.user.email }}">
+              </div>
+              <div class="profile-item">
+                <img src="{% static '/images/inst.png' %}" alt="" >
+                <p>Instagram</p>
+
+                <input type="text" value="">
+              </div>
+              <div class="profile-item">
+                <img src="{% static '/images/notification.png' %}" alt="">
+                <p>Mailing by mail</p>
+
+                <div class="switch-btn switch-on"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-password-container" id="password">
+              <div class="password-img-container">
+                <img src="{% static '/images/change-password.png' %}" alt="">
+              </div>
+
+              <div class="inputs-password-container">
+                <div class="mobile-password-item">
+                  <p>Old password</p>
+                  <input type="password" name="" id="">
+                </div>
+                <div class="mobile-password-item">
+                  <p>New password</p>
+                  <input type="password" name="" id="">
+                </div>
+                <div class="mobile-password-item">
+                  <p>New password</p>
+                  <input type="password" name="" id="">
+                </div>
+              </div>
+
+              <button>Change</button>
+          </div>
+
+          <div class="mobile-policy-container" id="policy">
+            <div class="policy-container">
+              <h1>1. General provisions</h1>
+              <h2>This Personal data processing Policy is compiled in accordance with the requirements of Federal Law No. 152-FZ of 27.07.2006 "On Personal Data" (hereinafter referred to as the Personal Data Law) and defines the procedure for processing personal data and measures to ensure the security of personal data taken by AnsiantBeats (hereinafter referred to as the Operator).
+              </h2>
+              <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h2>
+              <h3>1.2. This Operator's policy regarding the processing of personal data (hereinafter referred to as the Policy) applies to all information that the Operator can receive about website visitors https://127.0.0.1:5500/cab.html .</h3>
+
+              <h1>2. Basic concepts used in the Policy</h1>
+              <h3>
+                2.1. Automated processing of personal data – processing of personal data using computer technology.</h3>
+                <h3>2.2. Blocking of personal data – temporary termination of processing of personal data (except in cases where processing is necessary to clarify personal data).</h3>
+                <h3>2.3. Website - a set of graphic and informational materials, as well as computer programs and databases that ensure their availability on the Internet at a network address https://127.0.0.1:5500/cab.html .
+                </h3>
+                <h3>2.4. Personal data information system — a set of personal data contained in databases, and information technologies and technical means that ensure their processing.</h3>
+                <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
+                    – receive reliable information and/or documents containing personal data from the subject of personal data;
+                    – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
+                    – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                    <h1>5. The Operator may process the following personal data of the User</h1>
+                        <h3>
+                          5.1. Email address.</h3>
+                          <h3>
+                            5.2. Year, month, date and place of birth.</h3>
+                            <h3>
+                              5.3. Also on site is the collection and processing of anonymous data about visitors (including cookies) using Internet statistics (Yandex Metric and Google Analytics and others).</h3>
+                  </div>
+          </div>
+        </div>
+      </div>
+      </iv>
+    </div>
     <script type="text/javascript" src="{% static 'js/cab.js' %}"></script>
+    <script>
+      function viewMenu() {
+        let menu = document.getElementById("menu");
+        if (getComputedStyle(menu).getPropertyValue("display") == 'none') {
+            menu.style.display = "block";
+        }
+        else {
+            menu.style.display = "none";
+        }
+    };
+
+      function viewBeats() {
+        document.getElementById('beats').style.display = 'block';
+        document.getElementById('profile').style.display = 'none';
+        document.getElementById('password').style.display = 'none';
+        document.getElementById("menu").style.display = 'none';
+        document.getElementById("policy").style.display = 'none';
+        document.getElementById('name-menu').innerText = 'Beats';
+      }
+
+      function viewProfile() {
+        document.getElementById('beats').style.display = 'none';
+        document.getElementById('profile').style.display = 'block';
+        document.getElementById('password').style.display = 'none';
+        document.getElementById("menu").style.display = 'none';
+        document.getElementById("policy").style.display = 'none';
+        document.getElementById('name-menu').innerText = 'Profile';
+      }
+
+      function viewPassword() {
+        document.getElementById('beats').style.display = 'none';
+        document.getElementById('profile').style.display = 'none';
+        document.getElementById('password').style.display = 'block';
+        document.getElementById("menu").style.display = 'none';
+        document.getElementById("policy").style.display = 'none';
+        document.getElementById('name-menu').innerText = 'Password';
+      }
+
+      function viewPolicy() {
+        document.getElementById('beats').style.display = 'none';
+        document.getElementById('profile').style.display = 'none';
+        document.getElementById('password').style.display = 'none';
+        document.getElementById("menu").style.display = 'none';
+        document.getElementById("policy").style.display = 'block';
+        document.getElementById('name-menu').innerText = 'Policy';
+      }
+</script>
   </body>
 </html>

@@ -74,7 +74,7 @@
                             </div>
                             <div class="right-header-cart">
                                 <div class="header-cart-img">
-                                    <img src="{% static '/images/purchase2.png' %}" alt="">
+                                    <img src="{% static '/images/purchase2.png' %}" alt="" onclick="window.location = '{% url 'shop_cart' %}'" style="cursor: pointer">
                                 </div>
                                 <div class="right-header-cart-text">
                                     <p>{{ amount|floatformat }}$</p>

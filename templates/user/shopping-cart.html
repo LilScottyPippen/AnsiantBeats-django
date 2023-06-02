@@ -16,11 +16,15 @@
     <link rel="stylesheet prefetch" href="{% static 'css/stars.css' %}" />
     <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
     </style>
-    <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD&disable-funding=credit,card"></script>
+    {% if request.user.is_authenticated %}
+        <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD&disable-funding=credit,card"></script>
+    {% endif %}
   </head>
   <body>
     <div class="page">
@@ -183,8 +187,31 @@
                                                 'status': details.status,
                                                 'license': license
                                             },
-                                            success: function() {
-                                                alert("Order created!")
+                                            success: function(response) {
+                                                Swal.fire({
+                                                    title: 'Good job!',
+                                                    icon: 'success',
+                                                    text: response.message,
+                                                })
+                                                $.get('{% url 'get_cart' %}', function(data) {
+                                                    let products = JSON.parse(data);
+                                                    let html = ''
+                                                    let amount = 0
+                                                    for (let i = 0; i < products.length; i++) {
+                                                        html +=  '<div class="product-item">'
+                                                        html += '<div class="number-product-block"> <p>' + (i+1) +'</p></div>'
+                                                        html += '<div class="product-img"><img src="' + products[i].cover + '" alt=""></div>';
+                                                        html += '<div class="product-title"> <p><span>' + products[i].title +'&ensp;|&ensp;</span> ' + products[i].type + ' | ' + products[i].tonal + ' | ' + products[i].bpm + ' bpm</p> </div>'
+                                                        html += '<div class="amount-product"> <p>' + products[i].price + '$</p> </div>'
+                                                        html += '<div class="license-product"><select name="" id="cusSelectbox"><option value=basic>BASIC(MP3)</option><option value=premium>PREMIUM(MP3, WAV AND TRACK STEMS)</option><option value=track>TRACKOUT(MP3, WAV AND TRACK STEMS)</option><option value=unlim>UNLIMITED(MP3, WAV AND TRACK STEMS)</option><option value=exclusive>EXCLISIVE(Make an offer..)</option></select><img src="{% static 'images/privacy.png' %}" alt=""></div>'
+                                                        html += '<button class="remove-item-btn" data-item-id="' + products[i].id + '">Удалить</button></div>'
+                                                        amount += Number(products[i].price)
+                                                    }
+
+                                                    $('.cart-products-container').html(html);
+                                                    html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
+                                                    $('.amount-info-container').html(html)
+                                                });
                                             },
                                         });
                                     });
@@ -240,11 +267,14 @@
                 <label for="scales">I reviewed and agree to the Track(s) License Agreements</label>
               </div>
               <div class="payment-container">
-{#                <button> #}
-{#                  <img src="{% static 'images/pay.png' %}" alt="">#}
-{#                  <p>Pay via paypal or credit card</p>#}
-{#                </button>#}
+                {% if request.user.is_anonymous %}
+                    <button onclick="window.location = '{% url 'login' %}'">
+                      <img src="{% static 'images/pay.png' %}" alt="">
+                      <p>Pay via paypal or credit card</p>
+                    </button>
+                {% else %}
                     <div id="paypal-button-container"></div>
+                {% endif %}
               </div>
               <div class="policy-container">
                 <p>Read <span>refund policy</span></p>
