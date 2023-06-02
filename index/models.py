@@ -24,6 +24,13 @@ class Tonal(models.Model):
         ordering = ['title']
 
 
+class Mood(models.Model):
+    title = models.CharField(max_length=30, db_index=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Beat(models.Model):
     beat_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=False)
@@ -31,6 +38,8 @@ class Beat(models.Model):
     beat = models.URLField(blank=False)
     type = models.ForeignKey(Types, on_delete=models.CASCADE)
     tonal = models.ForeignKey(Tonal, on_delete=models.CASCADE)
+    mood = models.ForeignKey(Mood, on_delete=models.CASCADE, null=True)
+    isGold = models.BooleanField(default=False)
     duration = models.CharField(max_length=10, null=True, blank=True)
     bpm = models.IntegerField(null=True, blank=True)
     price = models.FloatField(blank=False)

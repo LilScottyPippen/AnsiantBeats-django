@@ -2,20 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Ansiant Beatstore</title>
         <link rel="stylesheet" type="text/css" href="{% static 'css/newMain.css' %}" />
         <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
-        <script src="{% static 'js/jquery.event.frame.js' %}"></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.pagepiling.css' %}" />
-
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type="text/javascript" src="{% static '/js/jquery.pagepiling.js' %}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.pagepiling.css' %}" />
         <link rel="stylesheet" href="sweetalert2.min.css">
         <script>
             window.onload = function () {
@@ -28,6 +21,12 @@
         </script>
     </head>
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.pagepiling.js' %}"></script>
         <div class="preloader">
             <div class="preloader__row">
                 <div class="preloader__item"></div>
@@ -207,7 +206,7 @@
                                     {% endfor %}
 
                                     <div class="button-to-playlist">
-                                        <button click-item scale>
+                                        <button click-item scale onclick="window.location = '{% url 'beats_page' %}'">
                                             To Beats
                                         </button>
                                     </div>

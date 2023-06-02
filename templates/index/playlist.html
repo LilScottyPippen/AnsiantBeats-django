@@ -2,18 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ansiant Beatstore</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/playlist.css' %}" />
     <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
-    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
     <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/icono.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/player.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script>
         window.onload = function () {
             document.body.classList.add('loaded_hiding');
@@ -26,13 +22,17 @@
 </head>
 
 <body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <div class="card-container">
         <div class="right-header-cart">
             <div class="header-cart-img">
                 <img src="{% static 'images/purchase2.png' %}" alt="">
             </div>
             <div class="right-header-cart-text">
-                <p>$60</p>
+                <p>${{ amount | floatformat }}</p>
             </div>
         </div>
     </div>
@@ -104,14 +104,12 @@
                             </div>
                         </div>
 
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" data-filter-type="mood">
                             <button class="dropbtn">MOOD 🢓</button>
                             <div class="dropdown-content">
-                                <a href="#">Angry</a>
-                                <a href="#">Romantic</a>
-                                <a href="#">Sad</a>
-                                <a href="#">Energetic</a>
-                                <a href="#">Uplifting</a>
+                                {% for mood in mood %}
+                                    <a href="#" class="filter-option" data-filter-value="{{ mood.id }}">{{ mood.title }}</a>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -256,8 +254,7 @@
                     </div>
                     <div class="right-header-cart">
                         <div class="header-cart-img">
-                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt=""
-                                onclick="window.location='shopping-cart.html'">
+                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'">
                         </div>
                         <div class="right-header-cart-text">
                             <p>${{ amount | floatformat }}</p>
@@ -287,7 +284,7 @@
                         <p>SORT & FILTER</p>
                     </div>
                     <div class="filter-content">
-                        <button class="scale" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
+                        <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
                         <button class="scale" id="button1" onclick="changeColorFilter(this)">NEW</button>
                     </div>
                 </div>
@@ -297,22 +294,20 @@
 
                     </div>
                     <div class="dropdown-container">
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" data-filter-type="newest">
                             <button class="dropbtn">NEWEST 🢓</button>
                             <div class="dropdown-content">
-                                <a href="#">price ascending</a>
-                                <a href="#">price descending</a>
+                                <a href="#" class="filter-option" data-filter-value="ascending">price ascending</a>
+                                <a href="#" class="filter-option" data-filter-value="descending">price descending</a>
                             </div>
                         </div>
 
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" data-filter-type="mood">
                             <button class="dropbtn">MOOD 🢓</button>
                             <div class="dropdown-content">
-                                <a href="#">Angry</a>
-                                <a href="#">Romantic</a>
-                                <a href="#">Sad</a>
-                                <a href="#">Energetic</a>
-                                <a href="#">Uplifting</a>
+                                {% for mood in mood %}
+                                    <a href="#" class="filter-option" data-filter-value="{{ mood.id }}">{{ mood.title }}</a>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -348,14 +343,25 @@
                                     html = ''
                                     response.beats.forEach(function (beat) {
                                         html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
-                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '">'
+                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
                                         html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
                                         html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
-                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div> <div class="beat-parametr premium"> <p>Gold</p> </div>'
+                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div>'
+
+                                        let isGold = beat.isGold
+                                        if(isGold){
+                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                        }
                                         html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
                                         html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
-                                        html += '<div class="button-to-card">{% if beat.beat_id|stringformat:'s' in cart.keys %}<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>'
-                                        html += '{% else %} <button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CARD</button>{% endif %}</div></div></div>'
+
+                                        html += '<div class="button-to-card">';
+                                        if (beat.isAddedToCart) {
+                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                        } else {
+                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                        }
+                                        html += '</div></div></div>';
                                     })
                                     $('.beat-items-container').html(html)
                                 }
@@ -430,10 +436,10 @@
                 <div class="title-filter">
                     <p>GENRES</p>
                 </div>
-                <div class="filter-content">
-                    <button class="scale" id="button-main" onclick="changeColorGenre(this)">ALL</button>
+                <div class="filter-content" data-filter-type="genres">
+                    <button class="scale button-active" id="button-main" onclick="changeColorGenre(this)">ALL</button>
                     {% for genre in genre %}
-                        <button class="scale" id="button" onclick="changeColorGenre(this)">{{ genre.title }}</button>
+                        <button class="scale" id="button" onclick="changeColorGenre(this)" >{{ genre.title }}</button>
                     {% endfor %}
                 </div>
             </div>
@@ -459,9 +465,11 @@
                                     <div class="beat-parametr new">
                                         <p>NEW</p>
                                     </div>
-                                    <div class="beat-parametr premium">
-                                        <p>Gold</p>
-                                    </div>
+                                    {% if beat.isGold == True %}
+                                        <div class="beat-parametr premium">
+                                                <p>Gold</p>
+                                        </div>
+                                    {% endif %}
                                     <div class="beat-parametr">
                                         <p>{{ beat.tonal }}</p>
                                     </div>
@@ -510,10 +518,16 @@
                                                     isMatch = true;
                                                 }
                                             }
-                                            html += '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+
+                                            let cartImageUrl = '{% static '/images/purchase2.png' %}';
+                                            let shopCartUrl = '{% url 'shop_cart' %}';
+
+                                            html += '<div class="header-cart-img"><img class="scale" src="' + cartImageUrl + '" alt="" onclick="window.location=\'' + shopCartUrl + '\'"></div>';
+                                            html += '<div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
                                             $('.right-header-cart').html(html)
                                             html = '<button id="delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>'
                                             $(event.target).closest('.button-to-card').html(html)
+                                            $(event.target).closest('.mobile-add-to-cart-btn').html(html)
 
                                             if($('#player-add-to-cart').attr('beat_id') === beat_id){
                                                 html = '<button id="player-delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>';
@@ -556,6 +570,7 @@
                                             $('.right-header-cart').html(html)
                                             html = '<button id="add-to-cart" beat_id="' + beat_id + '">ADD TO CARD</button>'
                                             $(event.target).closest('.button-to-card').html(html)
+                                            $(event.target).closest('.mobile-add-to-cart-btn').html(html)
 
                                             if($('#player-delete-from-cart').attr('beat_id') === beat_id){
                                                 html = '<button id="player-add-to-cart" beat_id="' + beat_id + '">ADD TO CART</button>';
@@ -570,49 +585,57 @@
                         })})
                     </script>
                     <div class="mobile-beats-container">
-                        <div class="mobile-beat-item">
-                            <div class="mobile-beat-image-container">
-                                <img src="{% static 'images/beat9.jfif' %}" alt="">
-                                    <div class="play-beat-container">
-                                        <img src="{% static 'images/play.png' %}" alt="">
-                                    </div>
-                            </div>
+                        {% for beat in beat %}
+                            <div class="mobile-beat-item">
+                                <div class="mobile-beat-image-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
+                                    <img src="{{ beat.cover }}" alt="">
+                                        <div class="play-beat-container">
+                                            <img src="{% static 'images/play.png' %}" alt="">
+                                        </div>
+                                </div>
 
-                            <div class="mobile-beat-text">
-                                <div class="mobile-beat-text__up">
-                                    <p>MAGNATICA <span>| Liric</span></p>
+                                <div class="mobile-beat-text">
+                                    <div class="mobile-beat-text__up">
+                                        <p>{{ beat.title }} <span>| {{ beat.type }}</span></p>
+                                    </div>
+                                    <div class="mobile-beat-text__bottom">
+                                        <div class="parametrs-beat">
+                                            <div class="beat-parametr new">
+                                                <p>NEW</p>
+                                            </div>
+                                            {% if beat.isGold == True %}
+                                                <div class="beat-parametr premium">
+                                                        <p>Gold</p>
+                                                </div>
+                                            {% endif %}
+                                            <div class="beat-parametr">
+                                                <p>{{ beat.tonal }}</p>
+                                            </div>
+                                            <div class="beat-parametr">
+                                                <p>{{ beat.bpm }} bpm</p>
+                                            </div>
+                                            <div class="beat-parametr">
+                                                <p>{{ beat.mood }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mobile-beat-text__bottom">
-                                    <div class="parametrs-beat">
-                                        <div class="beat-parametr new">
-                                            <p>NEW</p>
-                                        </div>
-                                        <div class="beat-parametr premium">
-                                            <p>Gold</p>
-                                        </div>
-                                        <div class="beat-parametr">
-                                            <p>C# min</p>
-                                        </div>
-                                        <div class="beat-parametr">
-                                            <p>146 bpm</p>
-                                        </div>
-                                        <div class="beat-parametr">
-                                            <p>Sad</p>
+                                <div class="mobile-beat__to-card-container">
+                                    <div class="to-card-block">
+                                        <p>
+                                            {{ beat.price | floatformat }}$
+                                        </p>
+                                        <div class="mobile-add-to-cart-btn">
+                                            {% if beat.beat_id|stringformat:'s' in cart.keys %}
+                                                    <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
+                                            {% else %}
+                                                <button id="add-to-cart" beat_id="{{ beat.beat_id }}">ADD TO CARD</button>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mobile-beat__to-card-container">
-                                <div class="to-card-block">
-                                    <p>
-                                        50$
-                                    </p>
-                                    <button>
-                                        Add to card
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -672,7 +695,7 @@
     <script type="text/javascript" src="/js/index.js"></script>
 
     <script>
-        $('body').on('click', '.play-beat-container', function(event) {
+        $('body').on('click', '.play-beat-container, .mobile-beat-image-container', function(event) {
             event.preventDefault();
             document.getElementById('google-player').src = $(this).attr('beat')
         })
@@ -683,7 +706,7 @@
         const rangeInput = document.getElementById('range');
         const currentTimeSpan = document.getElementById('current');
 
-        $('body').on('click', '#play-beat-container', function(event) {
+        $('body').on('click', '#play-beat-container, .mobile-beat-image-container', function(event) {
             event.preventDefault();
             document.getElementById('beat-cover').src = $(this).attr('cover')
             document.getElementById('song').innerText = $(this).attr('title')
@@ -846,5 +869,38 @@
       let googlePlayer = document.getElementById('google-player');
       googlePlayer.play();
     });
+</script>
+<script>
+        function changeColorFilter(filterObj){
+            filterObj.classList.toggle("button-active");
+            if(filterObj.textContent == "ALL"){
+                var elms = document.querySelectorAll("[id='button1']");
+
+                for(var i = 0; i < elms.length; i++)
+                    elms[i].classList.remove("button-active");
+            }
+            else{
+                var elms = document.querySelectorAll("[id='button-main1']");
+
+                for(var i = 0; i < elms.length; i++)
+                    elms[i].classList.remove("button-active");
+            }
+        }
+
+        function changeColorGenre(filterObj){
+            filterObj.classList.toggle("button-active");
+            if(filterObj.textContent == "ALL"){
+                var elms = document.querySelectorAll("[id='button']");
+
+                for(var i = 0; i < elms.length; i++)
+                    elms[i].classList.remove("button-active");
+            }
+            else{
+                var elms = document.querySelectorAll("[id='button-main']");
+
+                for(var i = 0; i < elms.length; i++)
+                    elms[i].classList.remove("button-active");
+            }
+        }
 </script>
 </html>

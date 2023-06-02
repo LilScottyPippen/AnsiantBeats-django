@@ -172,6 +172,7 @@ header {
 
 .mobile-beats-container{
     display: none;
+    margin-bottom: 100px;
 }
 
 .header-logo-img img {

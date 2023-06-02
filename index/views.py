@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from .models import Beat, Ticket, Tonal, Types
+from .models import Beat, Ticket, Tonal, Types, Mood
 from user.models import CustomUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -28,8 +28,9 @@ def index_page(request):
 
 def beats_page(request):
     beat = Beat.objects.order_by('beat_id')
-    keys = Tonal.objects.order_by('title')
-    genres = Types.objects.order_by('title')
+    keys = Tonal.objects.all()
+    mood = Mood.objects.all()
+    genres = Types.objects.all()
     min_price = Beat.objects.aggregate(min_price=Min('price'))['min_price']
     max_price = Beat.objects.aggregate(max_price=Max('price'))['max_price']
     min_bpm = Beat.objects.aggregate(min_bpm=Min('bpm'))['min_bpm']
@@ -45,6 +46,7 @@ def beats_page(request):
     context = {
         'beat': beat,
         'key': keys,
+        'mood': mood,
         'genre': genres,
         'min_price': min_price,
         'max_price': max_price,
@@ -63,21 +65,33 @@ def filter_beats(request):
 
     if filter_type == 'key':
         beats = Beat.objects.filter(tonal=filter_value)
-        beat_data = []
-        for beat in beats:
-            beat_data.append({
-                'beat_id': beat.beat_id,
-                'title': beat.title,
-                'cover': beat.cover,
-                'beat': beat.beat,
-                'type': beat.type.title,
-                'tonal': beat.tonal.title,
-                'duration': beat.duration,
-                'bpm': beat.bpm,
-                'price': beat.price,
-            })
+    elif filter_type == 'mood':
+        beats = Beat.objects.filter(mood=filter_value)
+    elif filter_type == 'newest':
+        if filter_value == 'ascending':
+            beats = Beat.objects.order_by('price')
+        elif filter_value == 'descending':
+            beats = Beat.objects.order_by('-price')
+    else:
+        return JsonResponse({'error': 'Invalid filter type'}, status=400)
 
-        return JsonResponse({'beats': beat_data}, safe=False)
+    cart_keys = list(request.session.get('cart', {}).keys())
+    beat_data = list(map(lambda beat: {
+        'beat_id': beat.beat_id,
+        'title': beat.title,
+        'cover': beat.cover,
+        'beat': beat.beat,
+        'type': beat.type.title,
+        'tonal': beat.tonal.title,
+        'isGold': beat.isGold,
+        'isAddedToCart': str(beat.beat_id) in cart_keys,
+        'duration': beat.duration,
+        'bpm': beat.bpm,
+        'price': beat.price,
+    }, beats))
+    return JsonResponse({'beats': beat_data}, safe=False)
+
+
 
 @csrf_exempt
 def create_ticket(request):
