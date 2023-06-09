@@ -72,6 +72,8 @@ def filter_beats(request):
             beats = Beat.objects.order_by('price')
         elif filter_value == 'descending':
             beats = Beat.objects.order_by('-price')
+    elif filter_type == 'search':
+        beats = Beat.objects.filter(title__icontains=filter_value)
     else:
         return JsonResponse({'error': 'Invalid filter type'}, status=400)
 
@@ -90,7 +92,6 @@ def filter_beats(request):
         'price': beat.price,
     }, beats))
     return JsonResponse({'beats': beat_data}, safe=False)
-
 
 
 @csrf_exempt

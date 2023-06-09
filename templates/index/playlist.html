@@ -28,7 +28,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <div class="card-container">
         <div class="right-header-cart">
-            <div class="header-cart-img">
+            <div class="header-cart-img" onclick="window.location='{% url 'shop_cart' %}'">
                 <img src="{% static 'images/purchase2.png' %}" alt="">
             </div>
             <div class="right-header-cart-text">
@@ -253,8 +253,8 @@
                         {% endif %}
                     </div>
                     <div class="right-header-cart">
-                        <div class="header-cart-img">
-                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt="" onclick="window.location='{% url 'shop_cart' %}'">
+                        <div class="header-cart-img" onclick="window.location='{% url 'shop_cart' %}'">
+                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt="">
                         </div>
                         <div class="right-header-cart-text">
                             <p>${{ amount | floatformat }}</p>
@@ -368,8 +368,6 @@
                           })
                       })
                     }
-
-
                 </script>
 
                 <div class="ranges-filter">
@@ -418,15 +416,58 @@
                     </div>
                 </div>
 
-                <div class="search-filter">
+                <div class="search-filter" data-filter-type="search">
                     <div class="title-filter">
                         <p>search</p>
                     </div>
                     <div class="search-filter-content">
                         <img src="{% static 'images/search.png' %}" alt="">
-                        <input type="text">
+                        <input type="text" id="search-input">
                     </div>
                 </div>
+                <script>
+                    $('#search-input').on('input', function() {
+                        let parentMenu = this.closest(".search-filter");
+                        let filterType = parentMenu.getAttribute("data-filter-type");
+                        let searchQuery = document.getElementById("search-input").value;
+
+                        $.ajax({
+                                url: '{% url 'filter' %}',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'filterType': filterType,
+                                    'filterValue': searchQuery
+                                },
+                                success: function (response) {
+                                    html = ''
+                                    response.beats.forEach(function (beat) {
+                                        html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                        html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                        html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div>'
+
+                                        let isGold = beat.isGold
+                                        if(isGold){
+                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                        }
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+
+                                        html += '<div class="button-to-card">';
+                                        if (beat.isAddedToCart) {
+                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                        } else {
+                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                        }
+                                        html += '</div></div></div>';
+                                    })
+                                    $('.beat-items-container').html(html)
+                                }
+                        })
+                    })
+                </script>
 
                 <div class="mobile-filter">
                     <img src="{% static 'images/filter.png' %}" alt="" onclick="viewFilter()">

@@ -17,6 +17,8 @@
         <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
         <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
@@ -189,37 +191,75 @@
                   </div>
                 </div>
                 <div class="items-playlist">
-                  <div class="item-beat">
-                    <div class="clear-block">
-                      <div class="number-beat">
-                        <p>1</p>
+                    {% for beat in beat %}
+                      <div class="item-beat">
+                        <div class="clear-block">
+                          <div class="number-beat">
+                            <p>{{ forloop.counter }}</p>
+                          </div>
+                          <div class="img-beat">
+                            <img src="{{ beat.beat.cover }}" alt="" />
+                          </div>
+                        </div>
+                        <div class="item-info">
+                          <p>{{ beat.beat.title }}</p>
+                        </div>
+                        <div class="item-info">
+                          <p>{{ beat.beat.type }}</p>
+                        </div>
+                        <div class="item-info">
+                          <p>{{ beat.order_id.created_at }}</p>
+                        </div>
+                        <div class="item-info">
+                          <p>{{ beat.beat.price | floatformat }}$</p>
+                        </div>
+                        <div class="item-info" id="beat-license">
+                          <p>{{ beat.license }}</p>
+                        </div>
+                        <div class="button-buy" id="button-buy" beat_id="{{ beat.beat_id }}">
+                          <img src="{% static 'images/upgrade.png' %}" alt="" />
+                        </div>
                       </div>
-                      <div class="img-beat">
-                        <img src="images/beat1.jfif" alt="" />
-                      </div>
-                    </div>
-                    <div class="item-info">
-                      <p>Areamin</p>
-                    </div>
-                    <div class="item-info">
-                      <p>Liric</p>
-                    </div>
-                    <div class="item-info">
-                      <p>20.10.2022</p>
-                    </div>
-                    <div class="item-info">
-                      <p>50$</p>
-                    </div>
-                    <div class="item-info">
-                      <p>BASIC</p>
-                    </div>
-                    <div class="button-buy">
-                      <img src="{% static 'images/upgrade.png' %}" alt="" />
-                    </div>
-                  </div>
+                    {% endfor %}
                 </div>
                 </div>
             </div>
+          <script>
+            $('body').on('click', '#button-buy', function (event){
+                event.preventDefault();
+
+                let beat_id = $(this).attr('beat_id');
+                let buttonElement = $(this);
+
+                $.ajax({
+                    url: '{% url 'license_improvement' %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'beat_id': beat_id
+                    },
+                    success: function (response){
+                        if (response.success){
+                            let beat = response.beats;
+                            buttonElement.closest('.item-beat').find('#beat-license p').text(beat.license);
+
+                            Swal.fire({
+                                title: 'Good job!',
+                                icon: 'success',
+                                text: response.message,
+                            });
+                        }
+                        else{
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: response.message,
+                            })
+                        }
+                    }
+                });
+            });
+            </script>
             <div class="profile-container">
               <div class="avatar-container">
                 <div class="avatar-block">

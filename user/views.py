@@ -7,6 +7,7 @@ import urllib.parse
 from index.models import Beat
 from django.urls import reverse
 from django.conf import settings
+from django.db.models import Max
 from django.core import serializers
 from django.contrib import messages
 from django.core.cache import cache
@@ -16,6 +17,7 @@ from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 from .models import CustomUser, GoogleCredentials, Order, OrderItems, License
@@ -27,13 +29,17 @@ ERROR_MESSAGES = {
     'invalid_credentials': 'Invalid email or password!',
     'email_registered': 'This email is already registered!',
     'email_send_error': 'Error sending email!',
-    'invalid_code': 'Invalid code!'
+    'invalid_code': 'Invalid code!',
+    'max_level': "It's maximum license level",
+    'order_not_exist': 'Order item does not exist',
+    'license_not_exist': 'License does not exist'
 }
 
 SUCCESS_MESSAGES = {
     'auth': 'You have successfully logged in',
     'reg': 'You have successfully registered',
-    'code_confirm': 'Code send to email'
+    'code_confirm': 'Code send to email',
+    'improve_license': 'License improve!'
 }
 
 
@@ -298,6 +304,42 @@ def get_license(request):
 
 
 @csrf_exempt
+def license_improvement(request):
+    try:
+        beat_id = request.POST.get('beat_id')
+        beat_item = OrderItems.objects.get(beat_id=beat_id)
+        max_license_level = License.objects.aggregate(Max('license_level'))['license_level__max']
+
+        if beat_item.license.license_level != max_license_level:
+            higher_license = License.objects.filter(license_level__gt=beat_item.license.license_level).first()
+            beat_item.license = higher_license
+            beat_item.save()
+
+            beat_data = {
+                'beat_id': beat_item.beat.beat_id,
+                'title': beat_item.beat.title,
+                'cover': beat_item.beat.cover,
+                'created_at': beat_item.order_id.created_at.isoformat(),
+                'type': beat_item.beat.type.title,
+                'tonal': beat_item.beat.tonal.title,
+                'bpm': beat_item.beat.bpm,
+                'license': beat_item.license.name,
+                'price': beat_item.beat.price,
+            }
+
+            print(beat_data)
+            return JsonResponse({'success': True, 'beats': beat_data, 'message': SUCCESS_MESSAGES['improve_license']})
+        else:
+            return JsonResponse({'success': False, 'message': ERROR_MESSAGES['max_level']})
+    except OrderItems.DoesNotExist:
+        return JsonResponse({'success': False, 'message': ERROR_MESSAGES['order_not_exist']})
+    except License.DoesNotExist:
+        return JsonResponse({'success': False, 'message': ERROR_MESSAGES['license_not_exist']})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
+
+
+@csrf_exempt
 def delete_item(request):
     beat_id = request.POST.get('beat_id')
     cart = request.session.get('cart', {})
@@ -326,8 +368,7 @@ def create_order(request):
             order = Order.objects.create(transaction_id=transaction, user_id=request.user, status=status)
             for item in cart.values():
                 beat = Beat.objects.get(beat_id=item['id'])
-                OrderItems.objects.create(order_id=order, beat=beat, license=beat_license, amount=beat.price,
-                                          created_at=datetime.datetime.now())
+                OrderItems.objects.create(order_id=order, beat=beat, license=beat_license, amount=beat.price)
             del request.session['cart']
         except Exception as e:
             Order.objects.create(transaction_id=transaction, user_id=request.user, status=str(e))

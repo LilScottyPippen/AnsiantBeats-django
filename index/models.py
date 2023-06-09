@@ -77,6 +77,7 @@ class Beat(models.Model):
 
 class License(models.Model):
     name = models.CharField(max_length=100)
+    license_level = models.IntegerField()
     price = models.IntegerField()
 
     def __str__(self):

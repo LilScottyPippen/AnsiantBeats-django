@@ -16,6 +16,7 @@ urlpatterns = [
     path('add_to_cart/', add_to_cart, name='add_to_cart'),
     path('get_cart', get_cart, name='get_cart'),
     path('get_license', get_license, name='get_license'),
+    path('license_improvement/', license_improvement, name='license_improvement'),
     path('delete_item/', delete_item, name='delete_item'),
     path('create_order/', create_order, name='create_order'),
     path('confirm_code/', registration_code, name='code'),
