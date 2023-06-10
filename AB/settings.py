@@ -1,6 +1,10 @@
 import os
 import psycopg2
 from pathlib import Path
+from datetime import timedelta
+
+
+import redis
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -123,3 +127,15 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
+CELERY_BROKER_URL = "redis://0.0.0.0:32770"
+CELERY_RESULT_BACKEND = "redis://0.0.0.0:32770"
+CELERY_TIMEZONE = 'Europe/Moscow'
+
+CELERY_BEAT_SCHEDULE = {
+    'update_beat_new_status': {
+        'task': 'index.tasks.update_beat_new_status',
+        'schedule': timedelta(minutes=30),
+    },
+}
+

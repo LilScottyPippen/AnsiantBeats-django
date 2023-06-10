@@ -84,6 +84,7 @@
                 <div class="filter-content">
                     <button id="button-main1" onclick="changeColorFilter(this)">ALL</button>
                     <button id="button1" onclick="changeColorFilter(this)">NEW</button>
+                    <button id="button2" onclick="changeColorFilter(this)">GOLD</button>
                 </div>
             </div>
         </div>
@@ -286,6 +287,7 @@
                     <div class="filter-content">
                         <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
                         <button class="scale" id="button1" onclick="changeColorFilter(this)">NEW</button>
+                        <button class="scale" id="button1" onclick="changeColorFilter(this)">GOLD</button>
                     </div>
                 </div>
 
@@ -346,7 +348,11 @@
                                         html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
                                         html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
                                         html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
-                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        html += '<div class="parametrs-beat">'
+                                        let isNew = beat.isNew
+                                        if(isNew) {
+                                            html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        }
 
                                         let isGold = beat.isGold
                                         if(isGold){
@@ -446,7 +452,12 @@
                                         html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
                                         html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
                                         html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
-                                        html += '<div class="parametrs-beat"> <div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        html += '<div class="parametrs-beat">'
+
+                                        let isNew = beat.isNew
+                                        if(isNew) {
+                                            html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        }
 
                                         let isGold = beat.isGold
                                         if(isGold){
@@ -503,9 +514,11 @@
                                     <span>{{ beat.type }}</span>
                                 </div>
                                 <div class="parametrs-beat">
-                                    <div class="beat-parametr new">
-                                        <p>NEW</p>
-                                    </div>
+                                    {% if beat.isNew == True %}
+                                        <div class="beat-parametr new">
+                                            <p>NEW</p>
+                                        </div>
+                                    {% endif %}
                                     {% if beat.isGold == True %}
                                         <div class="beat-parametr premium">
                                                 <p>Gold</p>
@@ -607,7 +620,10 @@
                                                     isMatch = true;
                                                 }
                                             }
-                                            html += '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+
+                                            let shopCartUrl = '{% url 'shop_cart' %}';
+
+                                            html += '<div class="header-cart-img"><img class="scale" src="{% static 'images/purchase2.png' %}" alt="" onclick="window.location=\'' + shopCartUrl + '\'"></div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
                                             $('.right-header-cart').html(html)
                                             html = '<button id="add-to-cart" beat_id="' + beat_id + '">ADD TO CARD</button>'
                                             $(event.target).closest('.button-to-card').html(html)

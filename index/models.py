@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 import librosa
 import requests
@@ -40,9 +42,11 @@ class Beat(models.Model):
     tonal = models.ForeignKey(Tonal, on_delete=models.CASCADE)
     mood = models.ForeignKey(Mood, on_delete=models.CASCADE, null=True)
     isGold = models.BooleanField(default=False)
+    isNew = models.BooleanField(default=True)
     duration = models.CharField(max_length=10, null=True, blank=True)
     bpm = models.IntegerField(null=True, blank=True)
     price = models.FloatField(blank=False)
+    created_at = models.DateTimeField(default=datetime.datetime.now, blank=False)
 
     def __str__(self):
         return self.title

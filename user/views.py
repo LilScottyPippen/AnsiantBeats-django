@@ -2,7 +2,6 @@ import json
 import uuid
 import random
 import requests
-import datetime
 import urllib.parse
 from index.models import Beat
 from django.urls import reverse
@@ -17,7 +16,6 @@ from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponse, JsonResponse
 from .models import CustomUser, GoogleCredentials, Order, OrderItems, License

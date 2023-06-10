@@ -1,5 +1,7 @@
-Django==4.1.7
+Django==4.2.2
 python-dotenv==1.0.0
-requests==2.28.2
+requests==2.31.0
 psycopg2-binary==2.9.6
-librosa
+librosa==0.10.0.post2
+celery==5.3.0
+redis==4.5.5
