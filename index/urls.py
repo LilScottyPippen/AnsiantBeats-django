@@ -9,6 +9,6 @@ urlpatterns = [
     path('beat/', beats_page, name='beats_page'),
 
     # Functions
-    path('create_ticket', create_ticket, name='ticket'),
+    path('create_ticket', create_ticket_views, name='ticket'),
     path('filter', filter_beats, name='filter')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,6 +11,7 @@ from django.core import serializers
 from django.contrib import messages
 from django.core.cache import cache
 from django.core.mail import send_mail
+from .tasks import send_verification_email
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
@@ -199,7 +200,7 @@ def registration_code(request):
             for i in range(6):
                 code += str(random.randint(0, 9))
             cache.set(email, code, 300)
-            send_verification_email(email, code)
+            send_verification_email.delay(email, code)
             return JsonResponse({'success': True, 'message': SUCCESS_MESSAGES['code_confirm']}, safe=False)
         except:
             return JsonResponse({'success': False, 'message': ERROR_MESSAGES['email_send_error']}, safe=False)
@@ -224,11 +225,11 @@ def reg(request):
         return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_request']}, safe=False)
 
 
-def send_verification_email(email, code):
-    subject = 'Email verification code'
-    message = render_to_string('user/verification_email.html', {'code': code})
-    recipient_list = [email]
-    send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
+# def send_verification_email(email, code):
+#     subject = 'Email verification code'
+#     message = render_to_string('user/verification_email.html', {'code': code})
+#     recipient_list = [email]
+#     send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
 
 
 def user_logout(request):

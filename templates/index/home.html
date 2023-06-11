@@ -402,6 +402,10 @@
                                           'Ticket created!',
                                           'success'
                                         )
+                                        document.getElementById('ticket_name').value = ''
+                                        document.getElementById('ticket_email').value = ''
+                                        document.getElementById('ticket_subject').value = ''
+                                        document.getElementById('ticket_description').value = ''
                                     },
                                     error: function(err) {
                                         Swal.fire({

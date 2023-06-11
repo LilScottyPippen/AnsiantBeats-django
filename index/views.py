@@ -1,12 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
-from .models import Beat, Ticket, Tonal, Types, Mood
-from user.models import CustomUser
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
+from .models import Beat, Tonal, Types, Mood
 from django.db.models import Min, Max
+from .tasks import create_ticket
 
 
 def index_page(request):
@@ -96,23 +93,12 @@ def filter_beats(request):
 
 
 @csrf_exempt
-def create_ticket(request):
+def create_ticket_views(request):
     name = request.POST.get("name")
     email = request.POST.get("email")
     subject = request.POST.get("subject")
     description = request.POST.get("description")
-    ticket = Ticket.objects.create(name=name, email=email, subject=subject, description=description)
 
-    # User
-    message = render_to_string('index/notification.html', {'name': name, 'subject': subject,
-                                                           'description': description, 'ticket_id': ticket.id})
-    recipient_list = [email]
-    send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
-
-    # Admin
-    message = render_to_string('index/admin_notification.html', {'name': name, 'email': email, 'subject': subject,
-                                                                 'description': description, 'ticket_id': ticket.id})
-    recipient_list = [admin.email for admin in CustomUser.objects.filter(is_superuser=True)]
-    send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
+    create_ticket.delay(name, email, subject, description)
 
     return JsonResponse({'success': True}, safe=False)
