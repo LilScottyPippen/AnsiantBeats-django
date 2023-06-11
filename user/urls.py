@@ -21,9 +21,6 @@ urlpatterns = [
     path('create_order/', create_order, name='create_order'),
     path('confirm_code/', registration_code, name='code'),
     path('registration_user/', reg, name='registration'),
-
-    # Make AJAX
     path('resetPassword/', reset_password, name='resetPassword'),
-    path('resetPassword/<str:email>/<str:token>', confirm_email, name='confirmEmail'),
-    path('changePassword/<str:email>/<str:token>', change_password, name='changePassword'),
+    path('reset_confirm_email/', change_password, name='confirmEmail'),
 ]
