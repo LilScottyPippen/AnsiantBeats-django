@@ -41,10 +41,10 @@
                 <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
               </div>
               <div class="account-name-block">
-                  {% if request.user.username == Null %}
-                    <p>{{ request.user.email }}</p>
-                  {% else %}
+                  {% if request.user.username %}
                       <p>{{ request.user.username }}</p>
+                  {% else %}
+                      <p>{{ request.user.email }}</p>
                   {% endif %}
               </div>
             </div>
@@ -334,18 +334,150 @@
                 <img src="{% static 'images/change-password.png' %}" alt="">
               </div>
               <div class="input-block">
-                <input type="password" placeholder="Old password">
-                <input type="password" placeholder="New password">
-                <input type="password" placeholder="New password (repeat)">
+                <input type="password" placeholder="Old password" id="old-pass">
+                <input type="password" placeholder="New password" id="new-pass">
+                <input type="password" placeholder="New password (repeat)" id="repeat-pass">
               </div>
 
               <div class="change-button-container">
-                <button>Change</button>
+                <button id="reset-submit">Change</button>
               </div>
             </div>
 
               <script>
+                  $('body').on('click', '#reset-submit', function (event) {
+                      event.preventDefault();
 
+                      let old_password = document.getElementById('old-pass').value
+                      let new_password = document.getElementById('new-pass').value
+                      let repeat_password = document.getElementById('repeat-pass').value
+
+                      const fields = ['old-pass', 'new-pass', 'repeat-pass'];
+                      let missingFields = [];
+
+                      fields.forEach(function(field) {
+                          let value = document.getElementById(field).value;
+                          if (!value) {
+                              missingFields.push(field);
+                          }
+                      });
+
+                      if (missingFields.length > 0) {
+                        let fieldsText = missingFields.join(', ');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: "Please fill in the following fields: " + fieldsText,
+                        });
+                        return;
+                      }
+
+                      if(new_password.length >= 7){
+                          if(old_password !== new_password){
+                              if(new_password === repeat_password){
+                                  $.ajax({
+                                      url: '{% url 'resetPassword' %}',
+                                      type: 'POST',
+                                      dataType: 'json',
+                                      data: {
+                                          'old_pass': old_password,
+                                      },
+                                      success: function (response) {
+                                          if(response.success){
+                                              Swal.fire({
+                                                title: 'Good job!',
+                                                icon: 'success',
+                                                text: response.message,
+                                                didClose: function() {
+                                                    document.getElementById('repeat-pass').value = '';
+                                                    document.getElementById('repeat-pass').placeholder = 'Code';
+                                                    document.getElementById('repeat-pass').type = 'text'
+                                                    document.getElementById('repeat-pass').id = 'code_confirm';
+
+                                                    document.getElementById('old-pass').style.display = 'none';
+                                                    document.getElementById('new-pass').style.display = 'none';
+
+                                                    document.getElementById('reset-submit').innerHTML = 'Confirm';
+                                                    document.getElementById('reset-submit').id = 'confirm-btn';
+                                                }
+                                              });
+                                          }
+                                          else{
+                                              Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: response.message,
+                                              });
+                                          }
+                                      }
+                                  })
+                              }else{
+                                  Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: "Passwords don't match!",
+                                  });
+                              }
+                          }else{
+                              Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: "The new password must not match the current one!",
+                              });
+                          }
+                      }else{
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: "The password length must not be less than 7 characters!",
+                          });
+                      }
+                  })
+
+                   $('body').on('click', '#confirm-btn', function(event) {
+                       event.preventDefault();
+                       let code = document.getElementById('code_confirm').value
+
+                       $.ajax({
+                           url: {% url 'confirmEmail' %},
+                           type: 'POST',
+                           dataType: 'json',
+                           data: {
+                               'code': code,
+                               'password': document.getElementById('new-pass').value
+                           },
+                           success: function (response){
+                               if(response.success){
+                                   Swal.fire({
+                                       title: 'Good job!',
+                                       icon: 'success',
+                                       text: response.message,
+                                       didClose: function () {
+                                            document.getElementById('code_confirm').value = '';
+                                            document.getElementById('code_confirm').placeholder = 'Old password';
+                                            document.getElementById('code_confirm').type = 'password'
+                                            document.getElementById('code_confirm').id = 'repeat-pass';
+
+                                            document.getElementById('old-pass').style.display = '';
+                                            document.getElementById('old-pass').value = '';
+                                            document.getElementById('new-pass').style.display = '';
+                                            document.getElementById('new-pass').value = '';
+
+                                            document.getElementById('confirm-btn').innerHTML = 'Change';
+                                            document.getElementById('confirm-btn').id = 'reset-submit';
+                                       }
+                                   })
+                               }
+                               else{
+                                   Swal.fire({
+                                       icon: 'error',
+                                       title: 'Oops...',
+                                       text: response.message,
+                                  });
+                               }
+                           }
+                       })
+                   })
               </script>
 
             <div class="policy-container">

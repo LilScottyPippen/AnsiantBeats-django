@@ -23,13 +23,13 @@ def create_ticket(name, email, subject, description):
     ticket = Ticket.objects.create(name=name, email=email, subject=subject, description=description)
 
     # User
-    message = render_to_string('index/notification.html', {'name': name, 'subject': subject,
+    message = render_to_string('index/mailing/notification.html', {'name': name, 'subject': subject,
                                                            'description': description, 'ticket_id': ticket.id})
     recipient_list = [email]
     send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
 
     # Admin
-    message = render_to_string('index/admin_notification.html', {'name': name, 'email': email, 'subject': subject,
+    message = render_to_string('index/mailing/admin_notification.html', {'name': name, 'email': email, 'subject': subject,
                                                                  'description': description, 'ticket_id': ticket.id})
     recipient_list = [admin.email for admin in CustomUser.objects.filter(is_superuser=True)]
     send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
