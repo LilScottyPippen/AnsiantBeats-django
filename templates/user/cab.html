@@ -41,7 +41,11 @@
                 <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
               </div>
               <div class="account-name-block">
-                <p>{{ request.user.email }}</p>
+                  {% if request.user.username == Null %}
+                    <p>{{ request.user.email }}</p>
+                  {% else %}
+                      <p>{{ request.user.username }}</p>
+                  {% endif %}
               </div>
             </div>
 
@@ -74,15 +78,16 @@
                     <p> PROFILE</p>
                   </div>
                 </div>
-
-                <div class="item-menu password">
-                  <div class="item-icon-block">
-                    <img src="{% static 'images/change-password.png' %}" alt="">
-                  </div>
-                  <div class="item-text-block">
-                    <p> PASSWORD</p>
-                  </div>
-                </div>
+                {% if request.user.is_registered_via_google == False %}
+                    <div class="item-menu password">
+                      <div class="item-icon-block">
+                        <img src="{% static 'images/change-password.png' %}" alt="">
+                      </div>
+                          <div class="item-text-block">
+                            <p> PASSWORD</p>
+                          </div>
+                    </div>
+                {% endif %}
 
                 <div class="item-menu policy">
                   <div class="item-icon-block">
@@ -279,7 +284,7 @@
                 </div>
 
                 <div class="info-setting-profile">
-                  <p></p>
+                  <p>{{ request.user.username }}</p>
                 </div>
               </div>
 
@@ -338,6 +343,10 @@
                 <button>Change</button>
               </div>
             </div>
+
+              <script>
+
+              </script>
 
             <div class="policy-container">
               <h1>1. General provisions</h1>

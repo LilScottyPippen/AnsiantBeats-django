@@ -177,7 +177,10 @@ def google_callback(request):
                     else:
                         return HttpResponse('Authentication failed')
                 else:
-                    user, created = CustomUser.objects.get_or_create(email=user_info['email'])
+                    try:
+                        user = CustomUser.objects.get(email=user_info['email'])
+                    except CustomUser.DoesNotExist:
+                        user = CustomUser.objects.create(email=user_info['email'], is_registered_via_google=True)
                     credentials = GoogleCredentials.objects.create(user=user, access_token=access_token,
                                                                    id_token=id_token, email=user_info['email'])
                     credentials.save()
@@ -209,13 +212,14 @@ def registration_code(request):
 @csrf_exempt
 def reg(request):
     if request.method == 'POST':
+        username = request.POST.get('username')
         email = request.POST.get('email')
         code = cache.get(email)
         user_code = request.POST.get('code')
         password = request.POST.get('password')
 
         if user_code == code:
-            user = User.objects.create(email=email)
+            user = User.objects.create(email=email, username=username)
             user.set_password(password)
             user.save()
             return JsonResponse({'success': True, 'message': SUCCESS_MESSAGES['reg']}, safe=False)
@@ -223,13 +227,6 @@ def reg(request):
             return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_code']}, safe=False)
     else:
         return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_request']}, safe=False)
-
-
-# def send_verification_email(email, code):
-#     subject = 'Email verification code'
-#     message = render_to_string('user/verification_email.html', {'code': code})
-#     recipient_list = [email]
-#     send_mail(subject, message, settings.EMAIL_HOST, recipient_list, fail_silently=False)
 
 
 def user_logout(request):
