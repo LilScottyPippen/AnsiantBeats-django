@@ -32,6 +32,13 @@
         <img src="{% static 'images/bezfona-background.png' %}" alt="" class="background-image">
       </div>
 
+      <div class="payment-container" id="payment-container">
+        <div class="payment-pay-block">
+          <div class="payment-title">
+            <p>Payment option</p>
+          </div>
+        </div>
+      </div>
 
       <div class="container">
         <div class="menu-container">
@@ -222,7 +229,7 @@
                           <p>{{ beat.license }}</p>
                         </div>
                         <div class="button-buy" id="button-buy" beat_id="{{ beat.beat_id }}">
-                          <img src="{% static 'images/upgrade.png' %}" alt="" />
+                          <img src="{% static 'images/upgrade.png'%}" alt=""/>
                         </div>
                       </div>
                     {% endfor %}
@@ -569,6 +576,18 @@
     </div>
     <script type="text/javascript" src="{% static 'js/cab.js' %}"></script>
     <script>
+
+      $('body').on('click', '#button-buy', function(event) {
+        document.getElementById("payment-container").style.display == "block";
+      })
+
+      document.addEventListener('keydown', function(e) {
+          let keyCode = e.keyCode;
+          if (keyCode === 27) {//keycode is an Integer, not a String
+            document.getElementById("payment-container").style.display = "none";
+          }
+      });
+      
       function viewMenu() {
         let menu = document.getElementById("menu");
         if (getComputedStyle(menu).getPropertyValue("display") == 'none') {

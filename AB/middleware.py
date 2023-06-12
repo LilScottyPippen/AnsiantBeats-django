@@ -12,8 +12,8 @@ class RedirectToHomeMiddleware:
         if response.status_code == 404:
             return redirect(reverse('index'))
 
-        if request.path.startswith(reverse('admin:index')):
-            if not request.user.is_staff:
-                return redirect(reverse('index'))
+        # if request.path.startswith(reverse('admin:index')):
+        #     if not request.user.is_staff:
+        #         return redirect(reverse('index'))
 
         return response
