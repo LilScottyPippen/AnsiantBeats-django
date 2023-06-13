@@ -77,9 +77,9 @@
     </header>
 
     <div class="container">
-        <div class="limit-container-log">
+        <div class="limit-container-log" id="limit-container-log" style="height: 40%;">
             <div class="login-title">
-                <p>LOGIN</p>
+                <p id="login-title">LOGIN</p>
             </div>
 
             <div class="inputs-container">
@@ -91,11 +91,11 @@
                 </div>
             </div>
             <div class="button-container">
-                <button class="login-btn">Login</button>
+                <button class="login-btn" id="login-btn">Login</button>
             </div>
 
             <script>
-                $('body').on('click', '.login-btn', function(event) {
+                $('body').on('click', '#login-btn', function(event) {
                     event.preventDefault();
                     $.ajax({
                         url: '{% url 'auth' %}',
@@ -127,16 +127,116 @@
                 })
             </script>
             
-            <div style="text-align: center">
+            <div id="google-container" style="text-align: center">
                 <img src="{% static 'images/google.png' %}" width="50" height="50" style="cursor:pointer;" onclick="window.location.href='{% url 'google_auth' %}'">
             </div>
 
-            <div class="desc-container">
+            <div class="desc-container" id="desc-container">
                 <p onclick="window.location='{% url 'reg' %}'" style="margin: auto;">Create an account</p>
-                <p onclick="window.location='{% url 'login' %}'" style="color: rgb(153, 153, 153); font-size: 15px; margin: auto;">Reset password</p>
+                <p id="btn-reset" style="color: rgb(153, 153, 153); font-size: 15px; margin: auto;">Reset password</p>
             </div>
         </div>
     </div>
+
+    <script>
+        let email
+
+        $('body').on('click', '#btn-reset', function (event){
+            event.preventDefault()
+            document.getElementById('login-title').innerText = 'Reset password'
+            document.getElementById('login_password').placeholder = 'New password'
+            document.getElementById('login_password').value = ''
+            document.getElementById('login-btn').innerText = 'Submit'
+            document.getElementById('login-btn').id = 'btn-confirm'
+            document.getElementById('google-container').style.display = 'None'
+            document.getElementById('desc-container').style.display = 'None'
+            document.getElementById('limit-container-log').style.height = '25%'
+        })
+
+        $('body').on('click', '#btn-confirm', function (event){
+            event.preventDefault()
+
+            email = document.getElementById('login_email').value;
+            let new_password = document.getElementById('login_password').value;
+
+            $.ajax({
+                url: {% url 'resetPassword' %},
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'email': email,
+                    'old_pass': new_password
+                },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Good job!',
+                            icon: 'success',
+                            text: response.message,
+                            didClose: function () {
+                                document.getElementById('login_email').value= ''
+                                document.getElementById('login_email').placeholder = 'code'
+                                document.getElementById('login_email').id = 'confirm-code';
+                                document.getElementById('btn-confirm').id = 'code-btn-confirm'
+                                document.getElementById('login_password').style.display = 'None';
+                                document.getElementById('limit-container-log').style.height = '15%'
+                            }
+                        })
+                    }
+                    else{
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: response.message,
+                        })
+                    }
+                }
+            })
+        })
+
+        $('body').on('click', '#code-btn-confirm', function (event){
+            event.preventDefault()
+
+            let code = document.getElementById('confirm-code').value
+            $.ajax({
+               url: {% url 'confirmEmail' %},
+               type: 'POST',
+               dataType: 'json',
+               data: {
+                   'email': email,
+                   'code': code,
+                   'password': document.getElementById('login_password').value
+               },
+                success: function (response){
+                   if(response.success) {
+                       Swal.fire({
+                           title: 'Good job!',
+                           icon: 'success',
+                           text: response.message,
+                           didClose: function () {
+                               {#document.getElementById('login-title').innerText = 'Login'#}
+                               {#document.getElementById('login_password').placeholder = 'password'#}
+                               {#document.getElementById('login-btn').innerText = 'Login'#}
+                               {#document.getElementById('btn-confirm').id = 'login-btn'#}
+                               {#document.getElementById('google-container').style.display = ''#}
+                               {#document.getElementById('desc-container').style.display = ''#}
+                               {#document.getElementById('limit-container-log').style.height = '40%'#}
+
+                               window.location.reload();
+                           }
+                       })
+                   }
+                   else{
+                       Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: response.message,
+                        })
+                   }
+                }
+            })
+        })
+    </script>
 
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
   </body>

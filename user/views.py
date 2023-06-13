@@ -87,6 +87,20 @@ def reset_password(request):
                 return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_pass']})
         else:
             return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_request']})
+    except NotImplementedError:
+        current_password = request.POST.get('old_pass')
+        user = User.objects.get(email=request.POST.get('email'))
+        print(user.check_password(current_password))
+        if not user.check_password(current_password):
+            email = request.POST.get('email')
+            code = ''
+            for i in range(6):
+                code += str(random.randint(0, 9))
+            cache.set(email, code, 300)
+            send_verification_email.delay(email, code, 'reset')
+            return JsonResponse({'success': True, 'message': SUCCESS_MESSAGES['code_confirm']})
+        else:
+            return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_pass']})
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
 
@@ -106,6 +120,18 @@ def change_password(request):
                 return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_code']})
         else:
             return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_request']})
+    except AttributeError:
+        email = request.POST.get('email')
+        code = cache.get(email)
+        if code == request.POST.get('code'):
+            new_password = request.POST.get('password')
+            user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            login(request, user)
+            return JsonResponse({'success': True, 'message': SUCCESS_MESSAGES['changed_pass']})
+        else:
+            return JsonResponse({'success': False, 'message': ERROR_MESSAGES['invalid_code']})
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
 

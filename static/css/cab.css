@@ -748,6 +748,12 @@ background-color: #58585850;
   text-align: center;
 }
 
+.payment-footer{
+    font-size: 20px;
+    font-family: "Bayon";
+    text-align: center;
+}
+
 @media(max-width: 768px){
   /* .number-beat{
     display: none;

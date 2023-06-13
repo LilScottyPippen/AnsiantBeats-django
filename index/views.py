@@ -71,8 +71,10 @@ def filter_beats(request):
             beats = Beat.objects.order_by('-price')
     elif filter_type == 'search':
         beats = Beat.objects.filter(title__icontains=filter_value)
+    elif filter_type == 'reset':
+        beats = Beat.objects.all()
     else:
-        return JsonResponse({'error': 'Invalid filter type'}, status=400)
+        return JsonResponse({'message': 'Invalid filter type'}, status=400)
 
     cart_keys = list(request.session.get('cart', {}).keys())
     beat_data = list(map(lambda beat: {

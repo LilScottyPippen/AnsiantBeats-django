@@ -226,10 +226,18 @@
                                             'license': license
                                         },
                                         success: function() {
-                                            alert("Error: " + err.message)
+                                            Swal.fire({
+                                              icon: 'error',
+                                              title: 'Oops...',
+                                              text: err.message,
+                                            })
                                         },
                                         error: function() {
-                                            alert("Error: " + err.message)
+                                            Swal.fire({
+                                              icon: 'error',
+                                              title: 'Oops...',
+                                              text: err.message,
+                                            })
                                         },
                                     });
                                 }

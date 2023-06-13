@@ -22,7 +22,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
-      </style>
+        </style>
+        <script src="https://www.paypal.com/sdk/js?client-id=AQnQM_dTOjW3V9V7FIfqLqY93mkSR_KizOFkeEMwNInLXYocOxwOQ8qAO7961BL0p6uHM8tQllgvjgIM&currency=USD&disable-funding=credit,card"></script>
   </head>
   <body>
     <div class="page">
@@ -37,15 +38,80 @@
           <div class="payment-title">
             <p>Payment option</p>
           </div>
+            <div class="payment-main">
+                <div id="paypal-button-container"></div>
+            </div>
+            <div class="payment-footer">Press ESC to close</div>
         </div>
       </div>
+        <script>
+            let beat_id
+            let buttonElement
+
+            $('body').on('click', '#button-buy', function (event) {
+                event.preventDefault();
+                beat_id = $(this).attr('beat_id');
+                buttonElement = $(this);
+            })
+
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '0.01',
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function() {
+                        $.ajax({
+                            url: '{% url 'license_improvement' %}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'beat_id': beat_id
+                            },
+                            success: function (response){
+                                if (response.success){
+                                    let beat = response.beats;
+                                    buttonElement.closest('.item-beat').find('#beat-license p').text(beat.license);
+                                    document.getElementById("payment-container").style.display = "none";
+
+                                    Swal.fire({
+                                        title: 'Good job!',
+                                        icon: 'success',
+                                        text: response.message,
+                                    });
+                                }
+                                else{
+                                    Swal.fire({
+                                      icon: 'error',
+                                      title: 'Oops...',
+                                      text: response.message,
+                                    })
+                                }
+                            }
+                        });
+                    })
+                },
+                onError: function(err) {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: err,
+                    })
+                }
+            }).render('#paypal-button-container');
+        </script>
 
       <div class="container">
         <div class="menu-container">
           <div class="limiter-menu-container">
             <div class="top-account-container">
               <div class="account-avatar-block">
-                <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+                <img src="{{ request.user.avatar }}" alt="">
               </div>
               <div class="account-name-block">
                   {% if request.user.username %}
@@ -175,7 +241,7 @@
                               <p>{{ beat.beat.duration }}</p>
                             </div>
                             <div class="button-buy">
-                              <img src="{% static 'images/download.png' %}" alt="" />
+                              <img src="{% static 'images/download.png' %}" alt="" onclick="window.location = '{{ beat.beat.beat }}'"/>
                             </div>
                           </div>
                         {% endfor %}
@@ -236,46 +302,10 @@
                 </div>
                 </div>
             </div>
-          <script>
-            $('body').on('click', '#button-buy', function (event){
-                event.preventDefault();
-
-                let beat_id = $(this).attr('beat_id');
-                let buttonElement = $(this);
-
-                $.ajax({
-                    url: '{% url 'license_improvement' %}',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        'beat_id': beat_id
-                    },
-                    success: function (response){
-                        if (response.success){
-                            let beat = response.beats;
-                            buttonElement.closest('.item-beat').find('#beat-license p').text(beat.license);
-
-                            Swal.fire({
-                                title: 'Good job!',
-                                icon: 'success',
-                                text: response.message,
-                            });
-                        }
-                        else{
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Oops...',
-                              text: response.message,
-                            })
-                        }
-                    }
-                });
-            });
-            </script>
             <div class="profile-container">
               <div class="avatar-container">
                 <div class="avatar-block">
-                  <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+                  <img src="{{ request.user.avatar }}" alt="">
                 </div>
                 <div class="upload-img-block">
                   <button>Upload</button>
@@ -601,7 +631,7 @@
 
           <div class="mobile-profile-container" id="profile">
             <div class="mobile-avatar-container">
-              <img src="{% static 'images/rapper-442183_1280.jpg' %}" alt="">
+              <img src="{{ request.user.avatar }}" alt="">
               <p>{{ request.user.email|truncatechars:20 }}</p>
               <button>Upload</button>
             </div>
@@ -662,7 +692,7 @@
               <h1>1. General provisions</h1>
               <h2>This Personal data processing Policy is compiled in accordance with the requirements of Federal Law No. 152-FZ of 27.07.2006 "On Personal Data" (hereinafter referred to as the Personal Data Law) and defines the procedure for processing personal data and measures to ensure the security of personal data taken by AnsiantBeats (hereinafter referred to as the Operator).
               </h2>
-              <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h2>
+              <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h3>
               <h3>1.2. This Operator's policy regarding the processing of personal data (hereinafter referred to as the Policy) applies to all information that the Operator can receive about website visitors https://127.0.0.1:5500/cab.html .</h3>
 
               <h1>2. Basic concepts used in the Policy</h1>
@@ -704,13 +734,14 @@
           </div>
         </div>
       </div>
-      </iv>
+      </div>
     </div>
     <script type="text/javascript" src="{% static 'js/cab.js' %}"></script>
     <script>
 
       $('body').on('click', '#button-buy', function(event) {
-        document.getElementById("payment-container").style.display == "block";
+          event.preventDefault();
+          document.getElementById("payment-container").style.display = "block";
       })
 
       document.addEventListener('keydown', function(e) {

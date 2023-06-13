@@ -8,6 +8,7 @@ import datetime
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
     email = models.EmailField(unique=True, null=True)
+    avatar = models.URLField(default='https://drive.google.com/uc?id=1-1z39lgGE3Cz2oZyyE9a1t7shD1NTgVe')
     is_registered_via_google = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)

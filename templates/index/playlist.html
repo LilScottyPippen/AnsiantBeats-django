@@ -82,7 +82,7 @@
             </div>
             <div class="mobile-filter__content">
                 <div class="filter-content">
-                    <button id="button-main1" onclick="changeColorFilter(this)">ALL</button>
+                    <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
                     <button id="button1" onclick="changeColorFilter(this)">NEW</button>
                     <button id="button2" onclick="changeColorFilter(this)">GOLD</button>
                 </div>
@@ -117,18 +117,9 @@
                         <div class="dropdown-menu">
                             <button class="dropbtn">KEY 🢓</button>
                             <div class="dropdown-content">
-                                <a href="#">C</a>
-                                <a href="#">C#</a>
-                                <a href="#">D</a>
-                                <a href="#">D#</a>
-                                <a href="#">E</a>
-                                <a href="#">F</a>
-                                <a href="#">F#</a>
-                                <a href="#">G</a>
-                                <a href="#">G#</a>
-                                <a href="#">A</a>
-                                <a href="#">A#</a>
-                                <a href="#">B</a>
+                                {% for key in key %}
+                                    <a href="#" class="filter-option" data-filter-value="{{ key.id }}">{{ key.title }}</a>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -493,9 +484,57 @@
                     {% for genre in genre %}
                         <button class="scale" id="button" onclick="changeColorGenre(this)" >{{ genre.title }}</button>
                     {% endfor %}
-                    <p class="reset-button">Reset</p>
+                    <p class="reset-button" data-filter-type="reset">Reset</p>
                 </div>
             </div>
+            <script>
+                $('body').on('click', '.reset-button', function (event){
+                    event.preventDefault()
+                    let filterType = this.getAttribute("data-filter-type");
+
+                    document.getElementById("search-input").value = ''
+
+                    $.ajax({
+                        url: '{% url 'filter' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'filterType': filterType,
+                        },
+                        success: function (response) {
+                            html = ''
+                            response.beats.forEach(function (beat) {
+                                html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                html += '<div class="parametrs-beat">'
+
+                                let isNew = beat.isNew
+                                if(isNew) {
+                                    html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                }
+
+                                let isGold = beat.isGold
+                                if(isGold){
+                                    html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                }
+                                html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+
+                                html += '<div class="button-to-card">';
+                                if (beat.isAddedToCart) {
+                                    html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                } else {
+                                    html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                }
+                                html += '</div></div></div>';
+                            })
+                            $('.beat-items-container').html(html)
+                        }
+                    })
+                })
+            </script>
             <div class="playlist-container">
                 <div class="all-right-container">
                     <p>All rights belong to "AnsiantBeats"</p>
