@@ -8,6 +8,10 @@
   src: local('☺'), url('../fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('../fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('../fonts/BEYNO/BEYNO.ttf') format('truetype');
 }
 
+body { -ms-overflow-style: none; }
+body { overflow: -moz-scrollbars-none; }
+body ::-webkit-scrollbar { width: 0 !important }  
+
 body a {
   color: inherit;
 }

@@ -20,6 +20,17 @@ p, button{
     display: none;
 }
 
+.reset-button{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: 10px;
+    font-family: "Bayon";
+    font-size: 15px !important;
+    color: #9c9c9cce !important;
+    cursor: pointer;
+}
+
 .scale {
     transition: transform 1s;
     transition: color 0.5s ease;
