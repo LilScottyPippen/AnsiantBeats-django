@@ -97,3 +97,12 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f'{self.id} | {self.subject} | {self.email}'
+
+
+class Coupone(models.Model):
+    title = models.CharField(max_length=255)
+    code = models.CharField(max_length=255)
+    discount = models.IntegerField()
+
+    def __str__(self):
+        return self.title

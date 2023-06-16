@@ -10,5 +10,6 @@ urlpatterns = [
 
     # Functions
     path('create_ticket', create_ticket_views, name='ticket'),
-    path('filter', filter_beats, name='filter')
+    path('filter', filter_beats, name='filter'),
+    path('coupone', apply_coupone, name='coupone')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

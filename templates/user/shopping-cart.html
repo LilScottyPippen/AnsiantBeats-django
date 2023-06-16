@@ -251,11 +251,30 @@
                 <div class="content-coupon-container">
                   <p>Coupon code</p>
                     <label>
-                        <input name="coupon-input-element"/>
+                        <input id="coupon-input" name="coupon-input-element"/>
                     </label>
-                    <button>Apply</button>
+                    <button id='coupone-btn'>Apply</button>
                 </div>
               </div>
+              <script>
+                $('body').on('click', '#coupone-btn', function(event) {
+                  event.preventDefault();
+                  let couponCode = $('#coupon-input').val();
+                  $.ajax({
+                    url: '{% url 'coupone' %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                      'code': couponCode,
+                      'sum': {{ amount }}
+                    },
+                    success: function(response) {
+                        html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
+                        $('.amount-info-container').html(html)
+                    }
+                  });
+              })
+              </script>
               <div class="amount-info-container">
                   <div class="amount-content">
                     <div class="title-amount">

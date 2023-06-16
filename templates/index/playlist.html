@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/icono.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/player.css' %}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
         window.onload = function () {
             document.body.classList.add('loaded_hiding');
@@ -22,9 +23,6 @@
 </head>
 
 <body>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{% static 'js/jquery.event.frame.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <div class="card-container">
         <div class="right-header-cart">
@@ -82,12 +80,13 @@
             </div>
             <div class="mobile-filter__content">
                 <div class="filter-content">
-                    <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
-                    <button id="button1" onclick="changeColorFilter(this)">NEW</button>
-                    <button id="button2" onclick="changeColorFilter(this)">GOLD</button>
+                    <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)" data-filter-value="all">ALL</button>
+                    <button class='teg-btn' id="button1" onclick="changeColorFilter(this)" data-filter-value="new">NEW</button>
+                    <button class='teg-btn'  onclick="changeColorFilter(this)" data-filter-value="gold">GOLD</button>
                 </div>
             </div>
         </div>
+        
         <div class="mobile-filter__item">
             <div class="mobile-filter__title">
                 <p>
@@ -142,8 +141,8 @@
                             <div class="rangeslider">
                                 <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
                                 <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
-                                <span class="range_min2 light left">50 $</span>
-                                <span class="range_max2 light right">1000 $</span>
+                                <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
+                                <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
                             </div>
                         </div>
                     </div>
@@ -276,11 +275,59 @@
                         <p>SORT & FILTER</p>
                     </div>
                     <div class="filter-content">
-                        <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)">ALL</button>
-                        <button class="scale" id="button1" onclick="changeColorFilter(this)">NEW</button>
-                        <button class="scale" id="button1" onclick="changeColorFilter(this)">GOLD</button>
+                        <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)" data-filter-value='all'>ALL</button>
+                        <button class="scale" id="button1" onclick="changeColorFilter(this)" data-filter-value='new'>NEW</button>
+                        <button class="scale" id="button1" onclick="changeColorFilter(this)" data-filter-value='gold'>GOLD</button>
                     </div>
                 </div>
+                
+                <script>
+                    $('body').on('click', '#button1, #button-main1', function(event) {
+                            let filterType = 'teg';
+                            let filterValue = this.getAttribute("data-filter-value");
+        
+                            $.ajax({
+                                    url: '{% url 'filter' %}',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        'filterType': filterType,
+                                        'filterValue': filterValue
+                                    },
+                                    success: function (response) {
+                                        html = ''
+                                        response.beats.forEach(function (beat) {
+                                            html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                            html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                            html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                            html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                            html += '<div class="parametrs-beat">'
+        
+                                            let isNew = beat.isNew
+                                            if(isNew) {
+                                                html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                            }
+        
+                                            let isGold = beat.isGold
+                                            if(isGold){
+                                                html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                            }
+                                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                            html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+        
+                                            html += '<div class="button-to-card">';
+                                            if (beat.isAddedToCart) {
+                                                html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                            } else {
+                                                html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                            }
+                                            html += '</div></div></div>';
+                                        })
+                                        $('.beat-items-container').html(html)
+                                    }
+                                })
+                            })
+                </script>
 
                 <div class="parametrs-filter-container">
                     <div class="title-filter">
@@ -413,6 +460,109 @@
                     </div>
                 </div>
 
+                <script>
+                    $('.ranges-filter input[name="range_1"]').on('input', function() {
+                        let minPrice = $('.ranges-filter .min2').val();
+                        let maxPrice = $('.ranges-filter .max2').val();
+
+                        
+                        
+                        $.ajax({
+                            url: '{% url 'filter' %}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'filterType': 'price',
+                                'filterValue': {
+                                    'min': minPrice,
+                                    'max': maxPrice
+                                }
+                            },
+                            success: function(response) {
+                                html = ''
+                                    response.beats.forEach(function (beat) {
+                                        html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                        html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                        html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                        html += '<div class="parametrs-beat">'
+
+                                        let isNew = beat.isNew
+                                        if(isNew) {
+                                            html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        }
+
+                                        let isGold = beat.isGold
+                                        if(isGold){
+                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                        }
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+
+                                        html += '<div class="button-to-card">';
+                                        if (beat.isAddedToCart) {
+                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                        } else {
+                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                        }
+                                        html += '</div></div></div>';
+                                    })
+                                    $('.beat-items-container').html(html)
+                            }
+                        });
+                    });
+                    
+                    // Обработчик события изменения значения фильтра Bpm
+                    $('.ranges-filter input[name="range_2"]').on('input', function() {
+                        let minBpm = $('.ranges-filter .min').val();
+                        let maxBpm = $('.ranges-filter .max').val();
+                        
+                        $.ajax({
+                            url: '{% url 'filter' %}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'filterType': 'bpm',
+                                'filterValue': {
+                                    'min': minBpm,
+                                    'max': maxBpm
+                                }
+                            },
+                            success: function(response) {
+                                html = ''
+                                    response.beats.forEach(function (beat) {
+                                        html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                        html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                        html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                        html += '<div class="parametrs-beat">'
+
+                                        let isNew = beat.isNew
+                                        if(isNew) {
+                                            html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                        }
+
+                                        let isGold = beat.isGold
+                                        if(isGold){
+                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                        }
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+
+                                        html += '<div class="button-to-card">';
+                                        if (beat.isAddedToCart) {
+                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                        } else {
+                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                        }
+                                        html += '</div></div></div>';
+                                    })
+                                    $('.beat-items-container').html(html)
+                            }
+                        });
+                    });
+                </script>
+
                 <div class="search-filter" data-filter-type="search">
                     <div class="title-filter">
                         <p>search</p>
@@ -480,14 +630,60 @@
                     <p>GENRES</p>
                 </div>
                 <div class="filter-content" data-filter-type="genres">
-                    <button class="scale button-active" id="button-main" onclick="changeColorGenre(this)">ALL</button>
+                    <button class="scale button-active" id="button-main" onclick="changeColorGenre(this)" data-filter-value="all">ALL</button>
                     {% for genre in genre %}
-                        <button class="scale" id="button" onclick="changeColorGenre(this)" >{{ genre.title }}</button>
+                        <button class="scale" id="button" onclick="changeColorGenre(this)" data-filter-value="{{ genre.id }}">{{ genre.title }}</button>
                     {% endfor %}
                     <p class="reset-button" data-filter-type="reset">Reset</p>
                 </div>
             </div>
             <script>
+                $('body').on('click', '#button, #button-main', function(event) {
+                    let filterType = 'genres';
+                    let filterValue = this.getAttribute("data-filter-value");
+
+                    $.ajax({
+                            url: '{% url 'filter' %}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'filterType': filterType,
+                                'filterValue': filterValue
+                            },
+                            success: function (response) {
+                                html = ''
+                                response.beats.forEach(function (beat) {
+                                    html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
+                                    html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
+                                    html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
+                                    html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
+                                    html += '<div class="parametrs-beat">'
+
+                                    let isNew = beat.isNew
+                                    if(isNew) {
+                                        html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
+                                    }
+
+                                    let isGold = beat.isGold
+                                    if(isGold){
+                                        html += '<div class="beat-parametr premium"><p>Gold</p></div>'
+                                    }
+                                    html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                    html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
+
+                                    html += '<div class="button-to-card">';
+                                    if (beat.isAddedToCart) {
+                                        html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                    } else {
+                                        html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                                    }
+                                    html += '</div></div></div>';
+                                })
+                                $('.beat-items-container').html(html)
+                            }
+                        })
+                    })
+
                 $('body').on('click', '.reset-button', function (event){
                     event.preventDefault()
                     let filterType = this.getAttribute("data-filter-type");
@@ -1000,4 +1196,58 @@
             }
         }
 </script>
+(function () {
+    function addSeparator(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        }
+        return x1 + x2;
+    }
+
+    function rangeInputChangeEventHandler(e) {
+        var rangeGroup = $(this).attr('name'),
+            minBtn = $(this).parent().children('.min2'),
+            maxBtn = $(this).parent().children('.max2'),
+            range_min = $(this).parent().children('.range_min2'),
+            range_max = $(this).parent().children('.range_max2'),
+            minVal = parseInt($(minBtn).val()),
+            maxVal = parseInt($(maxBtn).val()),
+            origin = $(this).context.className;
+
+        if (origin === 'min2' && minVal > maxVal - 5) {
+            $(minBtn).val(maxVal - 5);
+        }
+        var minVal = parseInt($(minBtn).val());
+        $(range_min).html(addSeparator(minVal) + ' $');
+
+        if (origin === 'max2' && maxVal - 5 < minVal) {
+            $(maxBtn).val(5 + minVal);
+        }
+        var maxVal = parseInt($(maxBtn).val());
+        $(range_max).html(addSeparator(maxVal) + ' $');
+
+        if (minVal && maxVal) {
+            var newText = document.getElementsByClassName('rng-min2')[0];
+            newText.innerHTML = addSeparator(minVal) + ' $';
+
+            var newText = document.getElementsByClassName('rng-max2')[0];
+            newText.innerHTML = addSeparator(maxVal) + ' $';
+        } else if (minVal && !maxVal) {
+            var newText = document.getElementsByClassName('rng-min2')[0];
+            newText.innerHTML = addSeparator(minVal) + ' $';
+
+            var newText = document.getElementsByClassName('rng-max2')[0];
+            newText.innerHTML = '∞';
+        }
+    }
+
+    $('input[type="range"]').on('input', rangeInputChangeEventHandler);
+})();
+
+
 </html>
