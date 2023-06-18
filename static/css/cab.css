@@ -733,6 +733,7 @@ background-color: #58585850;
   display: none;
   background-color: #0000008c;
   z-index: 100;
+    border-radius: 10px;
 }
 
 .payment-pay-block{
@@ -740,6 +741,9 @@ background-color: #58585850;
   height: 400px;
   margin: auto;
   background-color: #383838;
+    position: relative;
+    left: auto;
+    right: auto;
 }
 
 .payment-title{
@@ -748,10 +752,19 @@ background-color: #58585850;
   text-align: center;
 }
 
+.payment-main{
+    width: 60%;
+    margin: auto;
+}
+
 .payment-footer{
     font-size: 20px;
     font-family: "Bayon";
     text-align: center;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    left: 0;
 }
 
 @media(max-width: 768px){

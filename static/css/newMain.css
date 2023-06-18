@@ -279,7 +279,8 @@ header {
     display: flex;
 }
 
-.first {
+.first{
+        background-image: url(/static/images/hmpg.png);
         position: relative;
         overflow: hidden;
 }

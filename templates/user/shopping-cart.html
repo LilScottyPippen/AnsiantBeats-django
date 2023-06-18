@@ -13,7 +13,6 @@
     <script src="{% static 'js/jquery.event.frame.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.0.2/dist/simpleParallax.min.js"></script>
-    <link rel="stylesheet prefetch" href="{% static 'css/stars.css' %}" />
     <link href=”https://unpkg.com/aos@2.3.1/dist/aos.css" rel=”stylesheet”>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -110,7 +109,7 @@
                                 </select>
                                   <img src="{% static 'images/privacy.png' %}" alt="">
                               </div>
-                              <button class="remove-item-btn" data-item-id="{{ cart.id }}">Удалить</button>
+                              <button class="remove-item-btn" data-item-id="{{ cart.id }}">Delete</button>
                           </div>
                           <script>
                             $('body').on('click', '.remove-item-btn', function(event) {

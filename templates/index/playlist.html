@@ -53,7 +53,7 @@
         </div>
         <div class="open-menu-item">
             <p>
-                Socials
+                <a href="https://taplink.cc/ansiantbeats">Socials</a>
             </p>
         </div>
         {% if request.user.is_authenticated %}
@@ -139,8 +139,8 @@
                         </div>
                         <div class="filter-range-content">
                             <div class="rangeslider">
-                                <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
-                                <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
+                                <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
+                                <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
                                 <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
                                 <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
                             </div>
@@ -163,10 +163,10 @@
                         </div>
                         <div class="filter-range-content">
                             <div class="rangeslider">
-                                <input class="min" name="range_2" type="range" min="30" max="100" value="0" />
-                                <input class="max" name="range_2" type="range" min="30" max="100" value="200" />
-                                <span class="range_min light left">60 bpm</span>
-                                <span class="range_max light right">200 bpm</span>
+                                <input class="min" name="range_2" type="range" min="{{ min_bpm }}" max="{{ min_bmp }}" value="0" />
+                                <input class="max" name="range_2" type="range" min="{{ min_bpm }} " max="{{ max_bpm }} " value="200" />
+                                <span class="range_min light left">{{ min_bpm }} bpm</span>
+                                <span class="range_max light right">{{ max_bpm }} bpm</span>
                             </div>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                         </p>
                     </div>
                     <div class="menu-item">
-                        <p class="scale">
+                        <p class="scale" onclick="window.location='https://taplink.cc/ansiantbeats'">
                             Socials
                         </p>
                     </div>
@@ -426,8 +426,8 @@
                                         class="rng-max2">{{ max_price | floatformat }} $</span>🢓</button>
                                 <div class="dropdown-content2">
                                     <div class="rangeslider">
-                                        <input class="min2" name="range_1" type="range" min="5" max="100" value="0" />
-                                        <input class="max2" name="range_1" type="range" min="5" max="100" value="200" />
+                                        <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
+                                        <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
                                         <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
                                         <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
                                     </div>
@@ -1196,58 +1196,116 @@
             }
         }
 </script>
-(function () {
-    function addSeparator(nStr) {
-        nStr += '';
-        var x = nStr.split('.');
-        var x1 = x[0];
-        var x2 = x.length > 1 ? '.' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + '.' + '$2');
-        }
-        return x1 + x2;
-    }
 
-    function rangeInputChangeEventHandler(e) {
+<script>
+    <script>
+        (function () {
+        function addSeparator(nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        function rangeInputChangeEventHandler(e) {
         var rangeGroup = $(this).attr('name'),
-            minBtn = $(this).parent().children('.min2'),
-            maxBtn = $(this).parent().children('.max2'),
-            range_min = $(this).parent().children('.range_min2'),
-            range_max = $(this).parent().children('.range_max2'),
-            minVal = parseInt($(minBtn).val()),
-            maxVal = parseInt($(maxBtn).val()),
-            origin = $(this).context.className;
+        minBtn = $(this).parent().children('.min2'),
+        maxBtn = $(this).parent().children('.max2'),
+        range_min = $(this).parent().children('.range_min2'),
+        range_max = $(this).parent().children('.range_max2'),
+        minVal = parseInt($(minBtn).val()),
+        maxVal = parseInt($(maxBtn).val()),
+        origin = $(this).context.className;
 
         if (origin === 'min2' && minVal > maxVal - 5) {
-            $(minBtn).val(maxVal - 5);
-        }
+        $(minBtn).val(maxVal - 5);
+    }
         var minVal = parseInt($(minBtn).val());
         $(range_min).html(addSeparator(minVal) + ' $');
 
         if (origin === 'max2' && maxVal - 5 < minVal) {
-            $(maxBtn).val(5 + minVal);
-        }
+        $(maxBtn).val(5 + minVal);
+    }
         var maxVal = parseInt($(maxBtn).val());
         $(range_max).html(addSeparator(maxVal) + ' $');
 
         if (minVal && maxVal) {
-            var newText = document.getElementsByClassName('rng-min2')[0];
-            newText.innerHTML = addSeparator(minVal) + ' $';
+        var newText = document.getElementsByClassName('rng-min2')[0];
+        newText.innerHTML = addSeparator(minVal) + ' $';
 
-            var newText = document.getElementsByClassName('rng-max2')[0];
-            newText.innerHTML = addSeparator(maxVal) + ' $';
-        } else if (minVal && !maxVal) {
-            var newText = document.getElementsByClassName('rng-min2')[0];
-            newText.innerHTML = addSeparator(minVal) + ' $';
+        var newText = document.getElementsByClassName('rng-max2')[0];
+        newText.innerHTML = addSeparator(maxVal) + ' $';
+    } else if (minVal && !maxVal) {
+        var newText = document.getElementsByClassName('rng-min2')[0];
+        newText.innerHTML = addSeparator(minVal) + ' $';
 
-            var newText = document.getElementsByClassName('rng-max2')[0];
-            newText.innerHTML = '∞';
-        }
+        var newText = document.getElementsByClassName('rng-max2')[0];
+        newText.innerHTML = '∞';
+    }
     }
 
-    $('input[type="range"]').on('input', rangeInputChangeEventHandler);
-})();
+        $('input[type="range"]').on('input', rangeInputChangeEventHandler);
+    })();
+</script><script>
+    (function () {
+        function addSeparator(nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        function rangeInputChangeEventHandler(e) {
+            var rangeGroup = $(this).attr('name'),
+                minBtn = $(this).parent().children('.min2'),
+                maxBtn = $(this).parent().children('.max2'),
+                range_min = $(this).parent().children('.range_min2'),
+                range_max = $(this).parent().children('.range_max2'),
+                minVal = parseInt($(minBtn).val()),
+                maxVal = parseInt($(maxBtn).val()),
+                origin = $(this).context.className;
+
+            if (origin === 'min2' && minVal > maxVal - 5) {
+                $(minBtn).val(maxVal - 5);
+            }
+            var minVal = parseInt($(minBtn).val());
+            $(range_min).html(addSeparator(minVal) + ' $');
+
+            if (origin === 'max2' && maxVal - 5 < minVal) {
+                $(maxBtn).val(5 + minVal);
+            }
+            var maxVal = parseInt($(maxBtn).val());
+            $(range_max).html(addSeparator(maxVal) + ' $');
+
+            if (minVal && maxVal) {
+                var newText = document.getElementsByClassName('rng-min2')[0];
+                newText.innerHTML = addSeparator(minVal) + ' $';
+
+                var newText = document.getElementsByClassName('rng-max2')[0];
+                newText.innerHTML = addSeparator(maxVal) + ' $';
+            } else if (minVal && !maxVal) {
+                var newText = document.getElementsByClassName('rng-min2')[0];
+                newText.innerHTML = addSeparator(minVal) + ' $';
+
+                var newText = document.getElementsByClassName('rng-max2')[0];
+                newText.innerHTML = '∞';
+            }
+        }
+
+        $('input[type="range"]').on('input', rangeInputChangeEventHandler);
+    })();
+</script>
+</script>
 
 
 </html>

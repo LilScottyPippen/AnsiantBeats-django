@@ -64,7 +64,7 @@ WSGI_APPLICATION = 'AB.wsgi.application'
 #         'NAME': os.getenv('DB_NAME'),
 #         'USER': os.getenv('DB_USER'),
 #         'PASSWORD': os.getenv('DB_PASSWORD'),
-#         'HOST': 'localhost',
+#         'HOST': 'snuffleupagus.db.elephantsql.com',
 #         'PORT': '5432',
 #     }
 # }
