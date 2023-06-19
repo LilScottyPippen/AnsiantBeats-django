@@ -44,14 +44,14 @@ body{
     opacity: 12%;
     object-fit: contain;
     width: 400px;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 .background-image-container{
     position: absolute;
     right: 0;
     bottom: 0;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 /* ----------------------------------- */

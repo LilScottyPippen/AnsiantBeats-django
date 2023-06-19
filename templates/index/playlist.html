@@ -415,108 +415,55 @@
                 </script>
 
                 <div class="ranges-filter">
-                    <div class="bpm-filter">
-                        <div class="title-filter">
-                            <p>Price</p>
-                        </div>
-                        <div class="filter-range-content">
-
-                            <div class="dropdown-menu2">
-                                <button class="dropbtn2"><span class="rng-min2">{{ min_price | floatformat }} $</span> - <span
-                                        class="rng-max2">{{ max_price | floatformat }} $</span>🢓</button>
-                                <div class="dropdown-content2">
-                                    <div class="rangeslider">
-                                        <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
-                                        <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
-                                        <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
-                                        <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                <div class="bpm-filter">
+                    <div class="title-filter">
+                        <p>Price</p>
                     </div>
-
-                    <div class="bpm-filter">
-                        <div class="title-filter">
-                            <p>Bpm</p>
-                        </div>
-                        <div class="filter-range-content">
-
-                            <div class="dropdown-menu2">
-                                <button class="dropbtn2"><span class="rng-min">{{ min_bpm }} bpm</span> - <span class="rng-max">{{ max_bpm }}
-                                        bpm</span>🢓</button>
-                                <div class="dropdown-content2">
-                                    <div class="rangeslider">
-                                        <input class="min" name="range_2" type="range" min="30" max="100" value="0" />
-                                        <input class="max" name="range_2" type="range" min="30" max="100" value="200" />
-                                        <span class="range_min light left">{{ min_bpm }} bpm</span>
-                                        <span class="range_max light right">{{ max_bpm }} bpm</span>
-                                    </div>
+                    <div class="filter-range-content">
+                        <div class="dropdown-menu2">
+                            <button class="dropbtn2"><span class="rng-min2" id="rng-min2">{{ min_price | floatformat }} $</span> - <span
+                                    class="rng-max2">{{ max_price | floatformat }} $</span>🢓</button>
+                            <div class="dropdown-content2">
+                                <div class="rangeslider">
+                                    <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
+                                    <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
+                                    <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
+                                    <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
-                <script>
-                    $('.ranges-filter input[name="range_1"]').on('input', function() {
-                        let minPrice = $('.ranges-filter .min2').val();
-                        let maxPrice = $('.ranges-filter .max2').val();
+                <div class="bpm-filter">
+                    <div class="title-filter">
+                        <p>Bpm</p>
+                    </div>
+                    <div class="filter-range-content">
+                        <div class="dropdown-menu2">
+                            <button class="dropbtn2"><span class="rng-min">{{ min_bpm }} bpm</span> - <span class="rng-max">{{ max_bpm }} bpm</span>🢓</button>
+                            <div class="dropdown-content2">
+                                <div class="rangeslider">
+                                    <input class="min" name="range_2" type="range" min="{{ min_bpm }}" max="{{ max_bpm }}" value="0" />
+                                    <input class="max" name="range_2" type="range" min="{{ min_bpm }}" max="{{ max_bpm }}" value="200" />
+                                    <span class="range_min light left">{{ min_bpm }} bpm</span>
+                                    <span class="range_max light right">{{ max_bpm }} bpm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        
-                        
-                        $.ajax({
-                            url: '{% url 'filter' %}',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {
-                                'filterType': 'price',
-                                'filterValue': {
-                                    'min': minPrice,
-                                    'max': maxPrice
-                                }
-                            },
-                            success: function(response) {
-                                html = ''
-                                    response.beats.forEach(function (beat) {
-                                        html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
-                                        html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
-                                        html += '<img src="{% static 'images/play.png' %}" alt=""> </div> </div>'
-                                        html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>'
-                                        html += '<div class="parametrs-beat">'
 
-                                        let isNew = beat.isNew
-                                        if(isNew) {
-                                            html += '<div class="beat-parametr new"> <p>NEW</p> </div>'
-                                        }
+                <!-- <script>
 
-                                        let isGold = beat.isGold
-                                        if(isGold){
-                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>'
-                                        }
-                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
-                                        html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
-                                        html += '<div class="button-to-card">';
-                                        if (beat.isAddedToCart) {
-                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
-                                        } else {
-                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
-                                        }
-                                        html += '</div></div></div>';
-                                    })
-                                    $('.beat-items-container').html(html)
-                            }
-                        });
-                    });
-                    
                     // Обработчик события изменения значения фильтра Bpm
                     $('.ranges-filter input[name="range_2"]').on('input', function() {
                         let minBpm = $('.ranges-filter .min').val();
                         let maxBpm = $('.ranges-filter .max').val();
-                        
+
                         $.ajax({
                             url: '{% url 'filter' %}',
                             type: 'POST',
@@ -561,7 +508,7 @@
                             }
                         });
                     });
-                </script>
+                </script> -->
 
                 <div class="search-filter" data-filter-type="search">
                     <div class="title-filter">
@@ -1198,60 +1145,6 @@
 </script>
 
 <script>
-    <script>
-        (function () {
-        function addSeparator(nStr) {
-            nStr += '';
-            var x = nStr.split('.');
-            var x1 = x[0];
-            var x2 = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-            while (rgx.test(x1)) {
-                x1 = x1.replace(rgx, '$1' + '.' + '$2');
-            }
-            return x1 + x2;
-        }
-
-        function rangeInputChangeEventHandler(e) {
-        var rangeGroup = $(this).attr('name'),
-        minBtn = $(this).parent().children('.min2'),
-        maxBtn = $(this).parent().children('.max2'),
-        range_min = $(this).parent().children('.range_min2'),
-        range_max = $(this).parent().children('.range_max2'),
-        minVal = parseInt($(minBtn).val()),
-        maxVal = parseInt($(maxBtn).val()),
-        origin = $(this).context.className;
-
-        if (origin === 'min2' && minVal > maxVal - 5) {
-        $(minBtn).val(maxVal - 5);
-    }
-        var minVal = parseInt($(minBtn).val());
-        $(range_min).html(addSeparator(minVal) + ' $');
-
-        if (origin === 'max2' && maxVal - 5 < minVal) {
-        $(maxBtn).val(5 + minVal);
-    }
-        var maxVal = parseInt($(maxBtn).val());
-        $(range_max).html(addSeparator(maxVal) + ' $');
-
-        if (minVal && maxVal) {
-        var newText = document.getElementsByClassName('rng-min2')[0];
-        newText.innerHTML = addSeparator(minVal) + ' $';
-
-        var newText = document.getElementsByClassName('rng-max2')[0];
-        newText.innerHTML = addSeparator(maxVal) + ' $';
-    } else if (minVal && !maxVal) {
-        var newText = document.getElementsByClassName('rng-min2')[0];
-        newText.innerHTML = addSeparator(minVal) + ' $';
-
-        var newText = document.getElementsByClassName('rng-max2')[0];
-        newText.innerHTML = '∞';
-    }
-    }
-
-        $('input[type="range"]').on('input', rangeInputChangeEventHandler);
-    })();
-</script><script>
     (function () {
         function addSeparator(nStr) {
             nStr += '';
@@ -1266,46 +1159,197 @@
         }
 
         function rangeInputChangeEventHandler(e) {
-            var rangeGroup = $(this).attr('name'),
-                minBtn = $(this).parent().children('.min2'),
-                maxBtn = $(this).parent().children('.max2'),
-                range_min = $(this).parent().children('.range_min2'),
-                range_max = $(this).parent().children('.range_max2'),
-                minVal = parseInt($(minBtn).val()),
-                maxVal = parseInt($(maxBtn).val()),
-                origin = $(this).context.className;
+            var rangeGroup = $(this).attr('name');
+            var minBtn = $(this).parent().find('.min');
+            var maxBtn = $(this).parent().find('.max');
+            var range_min = $(this).parent().find('.range_min');
+            var range_max = $(this).parent().find('.range_max');
+            let minVal = parseInt($(minBtn).val())
+            let maxVal = parseInt($(maxBtn).val())
+            var origin = $(this).context.className;
+
+            $(range_min).html(minVal + ' bpm');
+            $(range_max).html(maxVal + ' bpm');
+
+            $('.ranges-filter input[name="range_2"]').on('change', function () {
+                var minVal = parseInt($(this).parent().find('.min').val());
+                var maxVal = parseInt($(this).parent().find('.max').val());
+
+                $.ajax({
+                    url: '{% url "filter" %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'filterType': 'bpm',
+                        'min': minVal,
+                        'max': maxVal
+                    },
+                    success: function (response) {
+                        var html = '';
+                        response.beats.forEach(function (beat) {
+                            html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">';
+                            html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">';
+                            html += '<img src="{% static "images/play.png" %}" alt=""> </div> </div>';
+                            html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>';
+                            html += '<div class="parametrs-beat">';
+
+                            var isNew = beat.isNew;
+                            if (isNew) {
+                                html += '<div class="beat-parametr new"> <p>NEW</p> </div>';
+                            }
+
+                            var isGold = beat.isGold;
+                            if (isGold) {
+                                html += '<div class="beat-parametr premium"><p>Gold</p></div>';
+                            }
+                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>';
+                            html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>';
+
+                            html += '<div class="button-to-card">';
+                            if (beat.isAddedToCart) {
+                                html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                            } else {
+                                html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                            }
+                            html += '</div></div></div>';
+                        })
+                        $('.beat-items-container').html(html);
+                    }
+                })
+            });
+
+            if (origin === 'min' && minVal > maxVal - 5) {
+                $(minBtn).val(maxVal - 5);
+            }
+            minVal = parseInt($(minBtn).val());
+            $(range_min).html(minVal + ' bpm');
+
+            if (origin === 'max' && maxVal - 5 < minVal) {
+                $(maxBtn).val(5 + minVal);
+            }
+            maxVal = parseInt($(maxBtn).val());
+            $(range_max).html(maxVal + ' bpm');
+
+            if (minVal && maxVal) {
+                var newText = $(range_min)[0];
+                newText.innerHTML = minVal + ' bpm';
+
+                newText = $(range_max)[0];
+                newText.innerHTML = maxVal + ' bpm';
+            } else if (minVal && !maxVal) {
+                newText = $(range_min)[0];
+                newText.innerHTML = minVal + ' bpm';
+
+                newText = $(range_max)[0];
+                newText.innerHTML = '∞';
+            }
+        }
+        $('input[name="range_2"]').on('input', rangeInputChangeEventHandler);
+    })();
+</script>
+
+
+<script>
+    (function () {
+        function addSeparator(nStr) {
+            nStr += '';
+            var x = nStr.split('.');
+            var x1 = x[0];
+            var x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
+        }
+
+        function rangeInputChangeEventHandler(e) {
+            var rangeGroup = $(this).attr('name');
+            var minBtn = $(this).parent().find('.min2');
+            var maxBtn = $(this).parent().find('.max2');
+            var range_min = $(this).parent().find('.range_min2');
+            var range_max = $(this).parent().find('.range_max2');
+            let minVal = parseInt($(minBtn).val())
+            let maxVal = parseInt($(maxBtn).val())
+            var origin = $(this).context.className;
+
+            $(range_min).html(addSeparator(minVal) + ' $');
+            $(range_max).html(addSeparator(maxVal) + ' $');
+
+            $('.ranges-filter input[name="range_1"]').on('change', function () {
+                var minVal = parseInt($(this).parent().find('.min2').val());
+                var maxVal = parseInt($(this).parent().find('.max2').val());
+
+                $.ajax({
+                    url: '{% url "filter" %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'filterType': 'price',
+                        'min': minVal,
+                        'max': maxVal
+                    },
+                    success: function (response) {
+                        var html = '';
+                        response.beats.forEach(function (beat) {
+                            html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">';
+                            html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">';
+                            html += '<img src="{% static "images/play.png" %}" alt=""> </div> </div>';
+                            html += '<div class="title-beat"> <p id="title-beat">' + beat.title + '</p> <span>' + beat.type + '</span> </div>';
+                            html += '<div class="parametrs-beat">';
+
+                            var isNew = beat.isNew;
+                            if (isNew) {
+                                html += '<div class="beat-parametr new"> <p>NEW</p> </div>';
+                            }
+
+                            var isGold = beat.isGold;
+                            if (isGold) {
+                                html += '<div class="beat-parametr premium"><p>Gold</p></div>';
+                            }
+                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>';
+                            html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>';
+
+                            html += '<div class="button-to-card">';
+                            if (beat.isAddedToCart) {
+                                html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                            } else {
+                                html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CART</button>';
+                            }
+                            html += '</div></div></div>';
+                        })
+                        $('.beat-items-container').html(html);
+                    }
+                })
+            });
 
             if (origin === 'min2' && minVal > maxVal - 5) {
                 $(minBtn).val(maxVal - 5);
             }
-            var minVal = parseInt($(minBtn).val());
+            minVal = parseInt($(minBtn).val());
             $(range_min).html(addSeparator(minVal) + ' $');
 
             if (origin === 'max2' && maxVal - 5 < minVal) {
                 $(maxBtn).val(5 + minVal);
             }
-            var maxVal = parseInt($(maxBtn).val());
+            maxVal = parseInt($(maxBtn).val());
             $(range_max).html(addSeparator(maxVal) + ' $');
 
             if (minVal && maxVal) {
-                var newText = document.getElementsByClassName('rng-min2')[0];
+                var newText = $(range_min)[0];
                 newText.innerHTML = addSeparator(minVal) + ' $';
 
-                var newText = document.getElementsByClassName('rng-max2')[0];
+                newText = $(range_max)[0];
                 newText.innerHTML = addSeparator(maxVal) + ' $';
             } else if (minVal && !maxVal) {
-                var newText = document.getElementsByClassName('rng-min2')[0];
+                newText = $(range_min)[0];
                 newText.innerHTML = addSeparator(minVal) + ' $';
 
-                var newText = document.getElementsByClassName('rng-max2')[0];
+                newText = $(range_max)[0];
                 newText.innerHTML = '∞';
             }
         }
-
         $('input[type="range"]').on('input', rangeInputChangeEventHandler);
     })();
 </script>
-</script>
-
-
 </html>

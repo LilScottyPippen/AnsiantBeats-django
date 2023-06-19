@@ -96,17 +96,11 @@ def filter_beats(request):
         elif filter_value == 'descending':
             filter_values['newest'] = 'descending'
     elif filter_type == 'price':
-        if isinstance(filter_value, dict):
-            min_price = filter_value.get('min')
-            max_price = filter_value.get('max')
-            if min_price is not None and max_price is not None:
-                beats = beats.filter(price__gte=min_price, price__lte=max_price)
-
+        filter_values['min_price'] = request.POST.get('min')
+        filter_values['max_price'] = request.POST.get('max')
     elif filter_type == 'bpm':
-        min_bpm = filter_value.get('min')
-        max_bpm = filter_value.get('max')
-        filter_values['min_bpm'] = min_bpm
-        filter_values['max_bpm'] = max_bpm
+        filter_values['min_bpm'] = request.POST.get('min')
+        filter_values['max_bpm'] = request.POST.get('max')
     elif filter_type == 'search':
         filter_values['search'] = filter_value
     elif filter_type == 'reset':
@@ -148,11 +142,11 @@ def filter_beats(request):
     elif filter_type == 'price' and 'min_price' in filter_values and 'max_price' in filter_values:
         min_price = filter_values['min_price']
         max_price = filter_values['max_price']
-        beats = beats.filter(price__gte=min_price, price__lte=max_price)
+        beats = Beat.objects.filter(price__gte=min_price, price__lte=max_price)
     elif 'min_bpm' in filter_values and 'max_bpm' in filter_values:
         min_bpm = filter_values['min_bpm']
         max_bpm = filter_values['max_bpm']
-        beats = beats.filter(bpm__gte=min_bpm, bpm__lte=max_bpm)
+        beats = Beat.objects.filter(bpm__gte=min_bpm, bpm__lte=max_bpm)
     elif filter_type == 'reset':
         beats = Beat.objects.all()
     else:

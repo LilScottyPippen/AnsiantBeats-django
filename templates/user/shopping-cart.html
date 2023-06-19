@@ -135,7 +135,7 @@
                                                 html += '<div class="product-title"> <p><span>' + products[i].title +'&ensp;|&ensp;</span> ' + products[i].type + ' | ' + products[i].tonal + ' | ' + products[i].bpm + ' bpm</p> </div>'
                                                 html += '<div class="amount-product"> <p>' + products[i].price + '$</p> </div>'
                                                 html += '<div class="license-product"><select name="" id="cusSelectbox"><option value=basic>BASIC(MP3)</option><option value=premium>PREMIUM(MP3, WAV AND TRACK STEMS)</option><option value=track>TRACKOUT(MP3, WAV AND TRACK STEMS)</option><option value=unlim>UNLIMITED(MP3, WAV AND TRACK STEMS)</option><option value=exclusive>EXCLISIVE(Make an offer..)</option></select><img src="{% static 'images/privacy.png' %}" alt=""></div>'
-                                                html += '<button class="remove-item-btn" data-item-id="' + products[i].id + '">Удалить</button></div>'
+                                                html += '<button class="remove-item-btn" data-item-id="' + products[i].id + '">Delete</button></div>'
                                                 amount += Number(products[i].price)
                                             }
 
