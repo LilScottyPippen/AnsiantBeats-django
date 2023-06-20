@@ -45,7 +45,7 @@ class Beat(models.Model):
     isNew = models.BooleanField(default=True)
     duration = models.CharField(max_length=10, null=True, blank=True)
     bpm = models.IntegerField(null=True, blank=True)
-    price = models.FloatField(blank=False)
+    price = models.IntegerField(blank=False)
     created_at = models.DateTimeField(default=datetime.datetime.now, blank=False)
 
     def __str__(self):

@@ -30,7 +30,7 @@
                 <img src="{% static 'images/purchase2.png' %}" alt="">
             </div>
             <div class="right-header-cart-text">
-                <p>${{ amount | floatformat }}</p>
+                <p>${{ amount }}</p>
             </div>
         </div>
     </div>
@@ -139,10 +139,10 @@
                         </div>
                         <div class="filter-range-content">
                             <div class="rangeslider">
-                                <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
-                                <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
-                                <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
-                                <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
+                                <input class="min2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="0" />
+                                <input class="max2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="200" />
+                                <span class="range_min2 light left">{{ min_price }} $</span>
+                                <span class="range_max2 light right">{{ max_price }} $</span>
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@
                             <img class="scale" src="{% static '/images/purchase2.png' %}" alt="">
                         </div>
                         <div class="right-header-cart-text">
-                            <p>${{ amount | floatformat }}</p>
+                            <p>${{ amount }}</p>
                         </div>
                     </div>
                 </div>
@@ -421,14 +421,14 @@
                     </div>
                     <div class="filter-range-content">
                         <div class="dropdown-menu2">
-                            <button class="dropbtn2"><span class="rng-min2" id="rng-min2">{{ min_price | floatformat }} $</span> - <span
-                                    class="rng-max2">{{ max_price | floatformat }} $</span>🢓</button>
+                            <button class="dropbtn2"><span class="rng-min2" id="rng-min2">{{ min_price }} $</span> - <span
+                                    class="rng-max2">{{ max_price }} $</span>🢓</button>
                             <div class="dropdown-content2">
                                 <div class="rangeslider">
-                                    <input class="min2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="0" />
-                                    <input class="max2" name="range_1" type="range" min="{{ min_price | floatformat }}" max="{{ max_price | floatformat }}" value="200" />
-                                    <span class="range_min2 light left">{{ min_price | floatformat }} $</span>
-                                    <span class="range_max2 light right">{{ max_price | floatformat }} $</span>
+                                    <input class="min2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="0" />
+                                    <input class="max2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="200" />
+                                    <span class="range_min2 light left">{{ min_price }} $</span>
+                                    <span class="range_max2 light right">{{ max_price }} $</span>
                                 </div>
                             </div>
                         </div>
@@ -717,7 +717,7 @@
                                 <div class="beat-elements">
                                     <div class="beat-price">
                                         <p>
-                                            ${{ beat.price | floatformat }}
+                                            ${{ beat.price }}
                                         </p>
                                     </div>
                                     <div class="button-to-card">
@@ -863,7 +863,7 @@
                                 <div class="mobile-beat__to-card-container">
                                     <div class="to-card-block">
                                         <p>
-                                            {{ beat.price | floatformat }}$
+                                            {{ beat.price }}$
                                         </p>
                                         <div class="mobile-add-to-cart-btn">
                                             {% if beat.beat_id|stringformat:'s' in cart.keys %}
