@@ -3,13 +3,13 @@ from .views import *
 
 urlpatterns = [
     # Page
-    path('authorization/', user_login, name='auth'),
     path('login/', authorization_page, name='login'),
     path('registration/', registration_page, name='reg'),
     path('shopping-cart/', shopping_cart, name='shop_cart'),
     path('profile/', user_profile_page, name='profile'),
 
     # Functions
+    path('authorization/', user_login, name='auth'),
     path('logout/', user_logout, name='logout'),
     path('google/auth/', google_auth, name='google_auth'),
     path('google/callback/', google_callback, name='google_callback'),

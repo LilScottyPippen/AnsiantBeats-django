@@ -7,9 +7,10 @@ urlpatterns = [
     # Page
     path('', index_page, name='index'),
     path('beat/', beats_page, name='beats_page'),
+    path('policy', policy_page, name='policy'),
 
     # Functions
     path('create_ticket', create_ticket_views, name='ticket'),
     path('filter', filter_beats, name='filter'),
-    path('coupone', apply_coupone, name='coupone')
+    path('coupon', apply_coupon, name='coupon')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

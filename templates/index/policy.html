@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ansiant Beatstore</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/policy.css' %}" />
+        <link rel="shortcut icon" href="{% static 'images/logo.png' %}" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.pagepiling.css' %}" />
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script>
+            window.onload = function () {
+                document.body.classList.add('loaded_hiding');
+                window.setTimeout(function () {
+                    document.body.classList.add('loaded');
+                    document.body.classList.remove('loaded_hiding');
+                }, 500);
+            }
+        </script>
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.pagepiling.js' %}"></script>
+        <div class="preloader">
+            <div class="preloader__row">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+            </div>
+        </div>
+        <div id="pagepiling">
+            <header>
+                <div class="limit-header">
+                    <div class="left-header">
+                        <div class="header-logo" onclick="window.location='{% url 'index' %}'">
+                            <div class="header-logo-img">
+                                <img src="{% static 'images/logo.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-header">
+                        <div class="right-header-container">
+                            <div class="menu-item">
+                                <p class="scale" onclick="window.location='{% url 'beats_page' %}'">
+                                    BEATS
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    licenses
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    Policy
+                                </p>
+                           </div>
+                            <div class="menu-item">
+                                <p class="scale" onclick="window.location='https://taplink.cc/ansiantbeats'">
+                                    socials
+                                </p>
+                            </div>
+
+                            <div class="between-container">
+
+                            </div>
+
+                            <div class="login-container">
+                                {% if request.user.is_authenticated %}
+                                    <p class="scale" onclick="window.location='{% url 'profile' %}'">profile</p>
+                                {% else %}
+                                    <p class="scale" onclick="window.location='{% url 'login' %}'">login</p>
+                                {% endif %}
+                            </div>
+                            <div class="right-header-cart">
+                                <div class="header-cart-img">
+                                    <img src="{% static '/images/purchase2.png' %}" alt="" onclick="window.location = '{% url 'shop_cart' %}'" style="cursor: pointer">
+                                </div>
+                                <div class="right-header-cart-text">
+                                    <p>{{ amount }}$</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-right-header">
+                        <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
+                    </div>
+                </div>
+            </header>
+            <div class="open-menu" id="menu">
+                <div class="open-menu-item" onclick="window.location='{% url 'beats_page' %}'">
+                    <p>
+                        Beats
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Contact us
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Licenses
+                    </p>
+                </div>
+                <div class="menu-item">
+                        <p class="scale">
+                            Policy
+                        </p>
+                </div>
+                <div class="open-menu-item">
+                    <p onclick="window.location='https://taplink.cc/ansiantbeats'">
+                        Socials
+                    </p>
+                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="open-menu-item" onclick="window.location='{% url 'profile' %}'">
+                        <p>
+                            Profile
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="open-menu-item" onclick="window.location='{% url 'login' %}'">
+                        <p>
+                            Login
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="section first">
+                <div class="main-caption">
+                    <div class="policy-container">
+                        <div class="policy-text">
+              <h1>1. General provisions</h1>
+              <h2>This Personal data processing Policy is compiled in accordance with the requirements of Federal Law No. 152-FZ of 27.07.2006 "On Personal Data" (hereinafter referred to as the Personal Data Law) and defines the procedure for processing personal data and measures to ensure the security of personal data taken by AnsiantBeats (hereinafter referred to as the Operator).
+              </h2>
+              <h3>1.1. The Operator sets as its most important goal and condition for the implementation of its activities the observance of the rights and freedoms of man and citizen in the processing of his personal data, including the protection of the rights to privacy, personal and family secrets.</h3>
+              <h3>1.2. This Operator's policy regarding the processing of personal data (hereinafter referred to as the Policy) applies to all information that the Operator can receive about website visitors https://127.0.0.1:5500/cab.html .</h3>
+
+              <h1>2. Basic concepts used in the Policy</h1>
+              <h3>
+                2.1. Automated processing of personal data – processing of personal data using computer technology.</h3>
+                <h3>2.2. Blocking of personal data – temporary termination of processing of personal data (except in cases where processing is necessary to clarify personal data).</h3>
+                <h3>2.3. Website - a set of graphic and informational materials, as well as computer programs and databases that ensure their availability on the Internet at a network address https://127.0.0.1:5500/cab.html .
+                </h3>
+                <h3>2.4. Personal data information system — a set of personal data contained in databases, and information technologies and technical means that ensure their processing.</h3>
+                <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
+                    – receive reliable information and/or documents containing personal data from the subject of personal data;
+                    – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
+                    – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                                            <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
+                    – receive reliable information and/or documents containing personal data from the subject of personal data;
+                    – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
+                    – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                                            <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
+                    – receive reliable information and/or documents containing personal data from the subject of personal data;
+                    – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
+                    – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                                            <h1>
+                  3. Basic rights and obligations of the Operator</h1>
+                  <h3>3.1. The Operator has the right to:
+                    – receive reliable information and/or documents containing personal data from the subject of personal data;
+                    – if the subject of personal data withdraws consent to the processing of personal data, the Operator has the right to continue processing personal data without the consent of the subject of personal data if there are grounds specified in the Law on Personal Data;
+                    – independently determine the composition and list of measures necessary and sufficient to ensure the fulfillment of obligations provided for by the Law on Personal Data and regulatory legal acts adopted in accordance with it, unless otherwise provided by the Law on Personal Data or other federal laws.</h3>
+                    <h3>3.2. The Operator is obliged to:
+                      – to provide the subject of personal data, at his request, with information concerning the processing of his personal data;
+                      – organize the processing of personal data in accordance with the procedure established by the current legislation of the Russian Federation;
+                      – respond to requests and requests from personal data subjects and their legal representatives in accordance with the requirements of the Personal Data Law;
+                      – to inform the authorized body for the protection of the rights of personal data subjects at the request of this body of the necessary information within 30 days from the date of receipt of such a request;
+                      – publish or otherwise provide unrestricted access to this Policy regarding the processing of personal data;
+                      – take legal, organizational and technical measures to protect personal data from unauthorized or accidental access to them, destruction, modification, blocking, copying, provision, dissemination of personal data, as well as from other illegal actions in relation to</h3>
+                      <h1>4. Basic rights and obligations of personal data subjects</h1>
+                      <h3>4.1. Personal data subjects have the right to:
+                        – receive information concerning the processing of his personal data, except in cases provided for by federal laws. The information is provided to the personal data subject by the Operator in an accessible form, and it should not contain personal data related to other personal data subjects, except in cases where there are legitimate grounds for disclosure of such personal data. The list of information and the procedure for obtaining it is established by the Law on Personal Data;
+                        – require the operator to clarify his personal data, block or destroy them if the personal data are incomplete, outdated, inaccurate, illegally obtained or are not necessary for the stated purpose of processing, as well as take measures provided by law to protect their rights;
+                        – to put forward the condition of prior consent when processing personal data in order to promote goods, works and services on the market</h3>
+                        <h3>4.2. Personal data subjects are obliged to:
+                          – provide the Operator with reliable data about themselves;
+                          – inform the Operator about the clarification (update, change) of their personal data.</h3>
+                    <h1>5. The Operator may process the following personal data of the User</h1>
+                        <h3>
+                          5.1. Email address.</h3>
+                          <h3>
+                            5.2. Year, month, date and place of birth.</h3>
+                            <h3>
+                              5.3. Also on site is the collection and processing of anonymous data about visitors (including cookies) using Internet statistics (Yandex Metric and Google Analytics and others).</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#pagepiling').pagepiling({
+                    menu: null,
+                    direction: 'vertical',
+                    verticalCentered: true,
+                    sectionsColor: [],
+                    anchors: [],
+                    scrollingSpeed: 200,
+                    easing: 'linear',
+                    loopBottom: false,
+                    loopTop: false,
+                    css3: true,
+                    navigation: {
+                        'textColor': '#000',
+                        'bulletsColor': '#a18f70',
+                        'position': 'right',
+                        'tooltips': ['Home', 'New releases', 'Why its worth buying here?', 'Types beats', 'Contact us']
+                    },
+                    normalScrollElements: null,
+                    normalScrollElementTouchThreshold: 5,
+                    touchSensitivity: 5,
+                    keyboardScrolling: true,
+                    sectionSelector: '.section',
+                    animateAnchor: false,
+
+                    //events
+                    onLeave: function(index, nextIndex, direction){},
+                    afterLoad: function(anchorLink, index){},
+                    afterRender: function(){},
+                });
+            });
+        </script>
+        <script>
+            function viewMenu() {
+                let menu = document.getElementById("menu");
+                if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
+                    menu.style.display = "block";
+                    document.getElementsByTagName("header").style.background = "#242424";
+                }
+                else {
+                    menu.style.display = "none";
+                }
+            }
+        </script>
+        <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>

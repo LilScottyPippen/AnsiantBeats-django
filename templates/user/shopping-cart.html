@@ -252,15 +252,15 @@
                     <label>
                         <input id="coupon-input" name="coupon-input-element"/>
                     </label>
-                    <button id='coupone-btn'>Apply</button>
+                    <button id='coupon`-btn'>Apply</button>
                 </div>
               </div>
               <script>
-                $('body').on('click', '#coupone-btn', function(event) {
+                $('body').on('click', '#coupon-btn', function(event) {
                   event.preventDefault();
                   let couponCode = $('#coupon-input').val();
                   $.ajax({
-                    url: '{% url 'coupone' %}',
+                    url: '{% url 'coupon' %}',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -268,8 +268,22 @@
                       'sum': {{ amount }}
                     },
                     success: function(response) {
-                        html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
-                        $('.amount-info-container').html(html)
+                        if(response.success()) {
+                            html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
+                            $('.amount-info-container').html(html)
+
+                             Swal.fire({
+                                 title: 'Good job!',
+                                 icon: 'success',
+                                 text: response.message
+                             })
+                        }else{
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: response.message,
+                            })
+                        }
                     }
                   });
               })
@@ -303,7 +317,7 @@
                 {% endif %}
               </div>
               <div class="policy-container">
-                <p>Read <span>refund policy</span></p>
+                <p onclick="window.location='{% url 'policy' %}'">Read <span>refund policy</span></p>
               </div>
             </div>
         </div>

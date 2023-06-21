@@ -1,0 +1,2194 @@
+@import url('https://fonts.googleapis.com/css2?family=Freehand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bayon&family=Freehand&family=Itim&family=Roboto:wght@500&display=swap');
+
+@font-face {
+    font-family: 'BEYNO';
+    src: url(/static/fonts/BEYNO/AnyConv.com__BEYNO.eot);
+    src: local('☺'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.eot?') format('embedded-opentype'), url('/static/fonts/BEYNO/AnyConv.com__BEYNO.woff') format('woff'), url('/static/fonts/BEYNO/BEYNO.ttf') format('truetype');
+}
+
+/*Убрать полосу прокрутки для всей страницы*/
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.scale {
+    transition: transform 1s;
+    transition: color 0.5s ease;
+    color: #ABABAB;
+    cursor: pointer;
+  }
+
+.scale:hover {
+    transform: scale(1.1);
+    color: white;
+  }
+
+.preloader {
+    /*фиксированное позиционирование*/
+    position: fixed;
+    /* координаты положения */
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    /* фоновый цвет элемента */
+    background: #00000081;
+    /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+    z-index: 1001;
+  }
+
+  .preloader__row {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-top: -35px;
+    margin-left: -35px;
+    text-align: center;
+    animation: preloader-rotate 2s infinite linear;
+  }
+
+  .preloader__item {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    background-color: #eba000;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    animation: preloader-bounce 2s infinite ease-in-out;
+  }
+
+  .preloader__item:last-child {
+    top: auto;
+    bottom: 0;
+    animation-delay: -1s;
+  }
+
+  @keyframes preloader-rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes preloader-bounce {
+
+    0%,
+    100% {
+      transform: scale(0);
+    }
+
+    50% {
+      transform: scale(1);
+    }
+  }
+
+  .loaded_hiding .preloader {
+    transition: 0.3s opacity;
+    opacity: 0;
+  }
+
+  .loaded .preloader {
+    display: none;
+  }
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+body {
+    width: 100%;
+    background-color: #0a090c;
+    /* position: absolute; */
+
+}
+
+header {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+}
+
+.box {
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.item {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+
+}
+
+.limit-header {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+}
+
+.left-header {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+.right-header {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+.header-logo {
+    height: 90%;
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+
+.header-logo-img {
+    height: 100%;
+    display: flex;
+}
+
+.header-logo-img img {
+    object-fit: contain;
+    width: 50px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.header-logo-text {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.right-header-container {
+    height: 100%;
+    margin-left: auto;
+    display: flex;
+}
+
+.menu-item {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 20px;
+}
+
+.menu-item p {
+    font-family: "Bayon";
+    color: #ABABAB;
+    white-space: nowrap;
+    font-size: 17px;
+}
+
+.between-container {
+    width: 1px;
+    height: 40%;
+    background-color: #ABABAB;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.login-container {
+    height: 100%;
+    display: flex;
+}
+
+.login-container p {
+    font-family: "Bayon";
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    font-size: 17px;
+}
+
+.right-header-cart {
+    display: flex;
+    height: 100%;
+    margin-left: 30px;
+}
+
+.header-cart-img {
+    display: flex;
+    height: 100%;
+}
+
+.header-cart-img img {
+    object-fit: contain;
+    width: 25px;
+}
+
+.right-header-cart-text {
+    display: flex;
+    height: 100%;
+    margin-left: 5px;
+}
+
+.right-header-cart-text p {
+    font-family: "Bayon";
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 17px;
+}
+
+
+.main-parad-container {
+    width: 99vw;
+    height: 100vh;
+    background-image: url(/images/studio4.jpg);
+    background-repeat: round;
+    opacity: 50%;
+    object-fit: contain;
+    position: absolute;
+    z-index: -1;
+}
+
+.main-parad-filter-container {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90.03deg, #161616 0.03%, rgba(31, 31, 31, 0.65) 55.21%, rgba(28, 28, 28, 0) 99.3%);
+}
+
+.main-parad-first-filter-container {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.main-parad-poverh-filter {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(92.5deg, #222222 2.49%, rgba(36, 36, 36, 0) 51.41%, #161616 98.33%);
+}
+
+.main-caption {
+    width: 100%;
+
+    display: flex;
+}
+
+.first{
+        background-image: url(/static/images/hmpg.png);
+        position: relative;
+        overflow: hidden;
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+
+.main-logo {
+    display: flex;
+    margin: auto;
+}
+
+.logo-img img {
+    object-fit: contain;
+    width: 170px;
+}
+
+.between-logo-container {
+    width: 3px;
+    border-radius: 200px;
+    height: 220px;
+    background: linear-gradient(180deg, #A0ACB6 0%, #3E4347 50%, #D49A51 100%);
+    margin-left: 50px;
+
+}
+
+.logo-text {
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 40px;
+}
+
+.text-beatstore p {
+    font-family: 'BEYNO';
+    background: linear-gradient(180deg, #A0ACB6 70%, #A26E15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+    font-size: 50px;
+}
+
+.text-sound p {
+    font-family: 'BEYNO';
+    background: linear-gradient(180deg, #A0ACB6 0%, #A26E15 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+    font-size: 20px;
+    margin-top: 20px;
+
+    text-shadow:
+        0 0 1px #fff,
+        0 0 10px #A26E15,
+        0 0 20px #947a4c,
+        0 0 20px #A26E15;
+}
+
+.slide-bottom {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+right: 0;
+text-align: center;
+    top: 85%;
+}
+
+.slide-bottom p {
+    font-family: 'Bayon';
+    font-size: 20px;
+    color: #ABABAB;
+}
+
+.slide-bottom img {
+    object-fit: contain;
+    width: 50px;
+}
+
+.main-container {
+    width: 100%;
+    border-top: 100px;
+    background: linear-gradient(100.89deg, rgb(16, 15, 17) 13.47%, rgb(19, 19, 20) 20.47%, rgb(31, 31, 34) 48.99%, #212123 55%, rgb(22, 22, 22) 75.53%, rgb(4 4 4) 100%);
+}
+
+.main-releases-container {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.releases-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.section-release-container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.quote-release-container {
+    width: 35%;
+    height: 60%;
+    display: flex;
+}
+
+.quote-release-container p {
+    font-family: "Bayon";
+    font-size: 30px;
+    margin: auto;
+    text-align: center;
+    border-top: 2px solid #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.release-container {
+    width: 65%;
+    height: 60%;
+    display: flex;
+}
+
+.second{
+    background: linear-gradient(100.89deg, #161616 2.47%, #202020 48.99%, #161616 75.53%);
+}
+
+.container-last-beats {
+    width: 80%;
+    height: 50%;
+    display: flex;
+    margin: auto;
+    background: linear-gradient(100.89deg, #161616 2.47%, #202020 48.99%, #161616 75.53%);
+    border: 2px solid #D59A51;
+    border-radius: 70px;
+    padding-top: 20px;
+    padding-bottom: 150px;
+    border-radius: 70px;
+    background-image: url(/images/studio3.jpg);
+    background-repeat: no-repeat;
+    object-fit: contain;
+    background-size: 100% 100%;
+    position: relative;
+    /* -moz-box-shadow:0 0 10px #979797;
+    -webkit-box-shadow:0 0 10px #979797;
+    box-shadow: 0 0 100px #979797a3; */
+    overflow: hidden;
+}
+
+#wrapper {
+    position: absolute;
+    width: 100%;
+    height: 130%;
+    background-color: rgba(22, 22, 22, 0.863);
+    margin-top: -50px;
+    z-index: -1;
+}
+
+.last-beat-item {
+    width: 200px;
+    height: 200px;
+    margin-left: 50px;
+}
+
+.last-beat-item-img {
+    display: flex;
+    width: 100%;
+}
+
+.last-beat-item-img img {
+    display: flex;
+    object-fit: contain;
+    width: 100px;
+    margin: auto;
+    border: #979797 solid 3px;
+    border-radius: 10px;
+}
+
+.title-last-beat-item {
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.title-last-beat-item p {
+    font-family: 'Bayon';
+    margin: auto;
+    display: flex;
+    color: white;
+    font-size: 25px;
+}
+
+.about-last-beat-item {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+}
+
+.about-last-beat-item p {
+    font-family: 'Bayon';
+    margin: auto;
+    display: flex;
+    color: rgb(173, 173, 173);
+    font-size: 15px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.price-last-beat-item {
+    margin-top: 0px;
+    display: flex;
+    width: 100%;
+}
+
+.price-last-beat-item p {
+    margin: auto;
+    display: flex;
+    color: white;
+    font-size: 30px;
+    font-family: "Bayon";
+    font-weight: bold;
+}
+
+.button-to-playlist {
+    width: 100%;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.button-to-playlist button {
+    width: 50%;
+    height: 100px;
+    background-color: #1616169a;
+
+    border-radius: 20px;
+    font-family: "Bayon";
+    font-size: 23px;
+    cursor: pointer;
+    outline: 1px solid;
+    outline-color: #ffffff;
+    outline-offset: 0px;
+    transition: all 600ms cubic-bezier(0.2, 0, 0, 0.8);
+}
+
+.button-to-playlist button:hover {
+    color: #b38f10;
+    outline-color: #b38f10;
+    border: #b3901000;
+    outline-offset: 15px;
+    background-color: #58585800;
+    transform: translateY(-20px);
+}
+
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    60%,
+    100% {
+        transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+        transform: translateY(-20px);
+    }
+
+    80% {
+        transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+}
+
+
+.release-title {
+    text-align: right;
+    margin-top: 150px;
+}
+
+.section{
+    overflow: hidden;
+}
+
+.release-title p {
+    font-family: 'Bayon';
+    color: #D59A51;
+    font-size: 30px;
+    margin-right: 130px;
+    display: inline-block;
+    border-bottom: 2px solid #D59A51;
+    transform: rotate(5deg);
+}
+
+.worth-buying-first-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: #0a090c;
+}
+
+.best-png-container {
+    width: 30%;
+    display: flex;
+    margin: auto;
+}
+
+.best-png-container img {
+    object-fit: contain;
+    width: 300px;
+    margin: auto;
+}
+
+.worth-buying-container {
+    margin-right: 100px;
+    width: 60%;
+    height: 600px;
+    position: relative;
+    background-size: 100% 100%;
+    position: relative;
+    margin: auto;
+}
+
+.title-worth {
+    z-index: 1000;
+    position: inherit;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    height: 20%;
+
+}
+
+.title-worth p {
+    color: #ffffff;
+    font-family: 'BEYNO';
+    font-size: 40px;
+    margin: auto;
+}
+
+.worth-items-container {
+    display: flex;
+    width: 100%;
+    height: 80%;
+}
+
+.worth-item {
+    width: 33.333%;
+    z-index: 1;
+    margin-top: 50px;
+}
+
+.worth-item-title {
+    width: 100%;
+    height: 10%;
+    text-align: center;
+}
+
+.worth-item-title p {
+    font-family: 'Bayon';
+    font-size: 30px;
+}
+
+.worth-item-img {
+    width: 100%;
+    height: 30%;
+    display: flex;
+}
+
+.worth-item-img img {
+    margin: auto;
+    object-fit: contain;
+    width: 60px;
+}
+
+.worth-item-desc {
+    width: 90%;
+    height: 10%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.worth-item-desc p {
+    margin-top: 20px;
+    font-family: 'Bayon';
+    font-size: 20px;
+}
+
+.types-beats-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.third{
+    background: linear-gradient(100.89deg, #161616 2.47%, #202020 48.99%, #161616 75.53%);
+    z-index: 5;
+}
+
+.types-beats-images-container {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+.types-beats-text-container {
+    width: 50%;
+    height: 100%;
+}
+
+.type-image {
+    height: 130px;
+    width: 130px;
+}
+
+.trap {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 120px;
+    left: 200px;
+}
+
+.types-container{
+    position: relative;
+    margin: auto;
+    width: 1000px;
+    height: 80%;
+}
+
+.trap p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.drill {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 170px;
+    left: 420px;
+}
+
+.drill p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.oldschool {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 320px;
+    left: 50px;
+}
+
+.oldschool p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.liric {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 380px;
+    left: 270px;
+}
+
+.liric p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.rap {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 600px;
+    left: 500px;
+}
+
+.rap p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.club {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 650px;
+    left: 300px;
+}
+
+.club p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.lo-fi {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 570px;
+    left: 100px;
+}
+
+.lo-fi p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.rb {
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 390px;
+    left: 540px;
+}
+
+.rb p {
+    font-family: 'Bayon';
+    font-size: 23px;
+}
+
+.title-types-beats {
+    width: 100%;
+    display: flex;
+    height: 55%;
+}
+
+.title-types-beats p {
+    font-family: 'Bayon';
+    font-size: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    text-align: center;
+    line-height: 60px;
+}
+
+.desc-types-beats {
+    width: 100%;
+    display: flex;
+    height: 45%;
+}
+
+.desc-types-beats p {
+    font-family: 'Beyno';
+    font-size: 25px;
+    margin: auto;
+    color: #ABABAB;
+}
+
+.licenses-container {
+    width: 100%;
+    height: 100vh;
+    background-color: #181818a8;
+    position: relative;
+}
+
+.licenses-back{
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: url(/images/licenses-container.webp);
+    background-size: 100% 100%;
+    object-fit: cover;
+    filter: brightness(50%);
+}
+
+.title-licenses {
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+
+.title-licenses p {
+    font-family: 'Beyno';
+    font-size: 35px;
+    margin: auto;
+    text-shadow:
+        0 0 1px #ffffff98,
+        0 0 10px #ffffff98,
+        0 0 0px #ffffff98,
+        0 0 0px #ffffff98;
+    color: #ffffff98;
+    margin-top: 150px;
+}
+
+.licenses {
+    width: 100%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+.license-item {
+    margin: auto;
+    /* width: 20%; */
+    height: auto;
+    border-radius: 20px;
+    border: 0.1px solid #ffffff91;
+    padding: 20px;
+    /* Белая рамка */
+}
+
+.license-title {
+    width: 100%;
+    height: 1%;
+    display: flex;
+}
+
+.license-title p {
+    margin: auto;
+    margin-left: 20px;
+    font-family: 'Beyno';
+    font-size: 25px;
+}
+
+.license-item ul {
+    margin-left: 50px;
+    font-family: 'Bayon';
+    margin-right: auto;
+    margin-top: 50px;
+    font-size: 15px;
+}
+
+.license-price {
+    width: 100%;
+    display: flex;
+    margin-top: 100px;
+}
+
+.license-price p {
+    font-size: 40px;
+    font-family: 'Bayon';
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.thour{
+    background: linear-gradient(100.89deg, rgb(22, 22, 22) 13.47%, rgb(19, 19, 20) 20.47%, rgb(31, 31, 34) 48.99%, #212123 55%, rgb(19, 19, 20) 75.53%, rgb(16, 15, 17) 100%);
+}
+
+.contact-limit-container {
+    border-radius: 50px;
+    width: 90%;
+    height: 75%;
+    margin: auto;
+}
+
+.question-container {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+.question-container p {
+    font-size: 25px;
+    font-family: 'Bayon';
+    margin: auto;
+    color: #AAAAAA;
+}
+
+.contact-title-container {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+.contact-title-container p {
+    font-size: 40px;
+    font-family: 'Bayon';
+    margin: auto;
+}
+
+.contact-title-container img {
+    object-fit: contain;
+    width: 30px;
+    margin-left: 10px;
+}
+
+.inputs-container {
+    font-size: 25px;
+    line-height: 40px;
+    font-family: 'Bayon';
+    display: flex;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.input-item {
+    margin-left: 50px;
+}
+
+input {
+    background: #1A1A1A;
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid #868686;
+    border-radius: 10px;
+    height: 40px;
+    padding: 5px;
+}
+
+.desc-container {
+    width: 100%;
+    margin-top: 30px;
+    font-size: 25px;
+    line-height: 40px;
+    font-family: 'Bayon';
+    margin-left: 50px;
+}
+
+textarea {
+    background: #1A1A1A;
+    border: 1px solid #868686;
+    border-radius: 10px;
+    height: 300px;
+    width: 94%;
+    padding: 5px;
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.contact-limit-container button {
+    width: 10%;
+    height: 50px;
+    background-color: #161616;
+
+    border-radius: 20px;
+    font-family: "Bayon";
+    font-size: 20px;
+    cursor: pointer;
+    outline: 1px solid;
+    outline-color: #2e2e2e86;
+    outline-offset: 0px;
+    transition: all 600ms cubic-bezier(0.2, 0, 0, 0.8);
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 50px;
+
+}
+
+.contact-limit-container button:hover {
+    color: #b38f10;
+    outline-color: #b38f10;
+    border: #b3901000;
+    outline-offset: 15px;
+    background-color: #58585800;
+    transform: translateY(-20px);
+}
+
+.button-submin-container {
+    width: 100%;
+    height: 20%;
+    display: flex;
+}
+
+.element-animation {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.element-animation.element-show {
+    opacity: 1;
+    transition: all 3s;
+    transform: translateY(0%);
+}
+
+
+.element-animation2 {
+    opacity: 0;
+    transform: translateX(70px);
+}
+
+.element-animation2.element-show2 {
+    opacity: 1;
+    transition: all 3s;
+    transform: translateX(0%);
+}
+
+.element-animation3 {
+    opacity: 0;
+    transform: translateX(-70px);
+}
+
+.element-animation3.element-show3 {
+    opacity: 1;
+    transition: all 3s;
+    transform: translateX(0%);
+}
+
+.mobile-right-header{
+    display: none;
+}
+
+.open-menu{
+    display: none;
+}
+
+@media(max-width: 1800px){
+    .type-image {
+        height: 150px;
+        width: 150px;
+    }
+
+    .trap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 80px;
+        left: 220px;
+    }
+
+    .trap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .drill {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 170px;
+        left: 470px;
+    }
+
+    .drill p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .oldschool {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 200px;
+        left: 20px;
+    }
+
+    .oldschool p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .liric {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 380px;
+        left: 300px;
+    }
+
+    .liric p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 620px;
+        left: 520px;
+    }
+
+    .rap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .club {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 650px;
+        left: 270px;
+    }
+
+    .club p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .lo-fi {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 570px;
+        left: 70px;
+    }
+
+    .lo-fi p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rb {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 390px;
+        left: 550px;
+    }
+
+    .rb p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+}
+
+@media(max-width: 1500px){
+    .type-image {
+        height: 110px;
+        width: 110px;
+    }
+
+    .trap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 90px;
+        left: 200px;
+    }
+
+    .trap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .drill {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 140px;
+        left: 400px;
+    }
+
+    .drill p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .oldschool {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 260px;
+        left: 50px;
+    }
+
+    .oldschool p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .liric {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 300px;
+        left: 250px;
+    }
+
+    .liric p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 480px;
+        left: 440px;
+    }
+
+    .rap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .club {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 500px;
+        left: 270px;
+    }
+
+    .club p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .lo-fi {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 450px;
+        left: 70px;
+    }
+
+    .lo-fi p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rb {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 320px;
+        left: 420px;
+    }
+
+    .rb p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .types-beats-text-container{
+        width: 30%;
+    }
+
+    .types-beats-images-container{
+        width: 70%;
+    }
+
+    .types-container{
+        width: inherit;
+    }
+}
+
+@media(max-width: 1240px){
+    .quote-release-container{
+        display: none;
+    }
+
+    .release-container{
+        width: 100%;
+    }
+
+    .container-last-beats{
+        width: 700px;
+    }
+
+    .release-title{
+        width: 800px;
+    }
+
+    .release-title p{
+        margin-right: 0px;
+    }
+
+    .best-png-container img{
+        width: 200px;
+    }
+
+    .title-worth p{
+        font-size: 30px;
+    }
+
+    .worth-item-title p{
+        font-size: 25px;
+    }
+
+    .type-image {
+        height: 100px;
+        width: 100px;
+    }
+
+    .trap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 120px;
+        left: 150px;
+    }
+
+    .trap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .drill {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 170px;
+        left: 300px;
+    }
+
+    .drill p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .oldschool {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 280px;
+        left: 20px;
+    }
+
+    .oldschool p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .liric {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 320px;
+        left: 200px;
+    }
+
+    .liric p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 520px;
+        left: 330px;
+    }
+
+    .rap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .club {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 500px;
+        left: 200px;
+    }
+
+    .club p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .lo-fi {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 470px;
+        left: 70px;
+    }
+
+    .lo-fi p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rb {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 350px;
+        left: 350px;
+    }
+
+    .rb p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .types-beats-text-container{
+        width: 30%;
+    }
+
+    .types-beats-images-container{
+        width: 70%;
+    }
+
+    .types-container{
+        width: inherit;
+        margin-left: 50px;
+    }
+
+    .types-beats-container{
+        /* display: block; */
+    }
+
+    .title-types-beats p{
+        font-size: 30px;
+    }
+
+    .desc-types-beats p{
+        font-size: 15px;
+    }
+}
+
+@media(max-width: 894px){
+    .left-header{
+        width: 35%;
+    }
+
+    .release-title{
+        width: 700px;
+    }
+}
+
+
+
+@media(max-width: 768px){
+
+
+    .container-last-beats{
+        width: 500px;
+        height: 180px;
+    }
+
+    .last-beat-item{
+        margin-left: 10px;
+    }
+
+    .last-beat-item-img{
+        width: 100%;
+    }
+
+    .last-beat-item-img img{
+        width: 70px;
+    }
+
+    .release-title{
+        width: 500px;
+    }
+
+    .button-to-playlist{
+        display: none;
+    }
+
+    .right-header{
+        display: none;
+    }
+
+    .mobile-right-header{
+        display: flex;
+        width: 70%;
+    }
+
+    .mobile-right-header img{
+        width: 25px;
+        height: 25px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    header{
+        height: 100px;
+        position: absolute;
+    }
+
+    .logo-img img{
+        width: 100px;
+    }
+
+    .main-logo{
+        display: block;
+        text-align: center;
+    }
+
+    .between-logo-container{
+        display: none;
+    }
+
+    .logo-text{
+        margin-left: 0px;
+        margin-top: 20px;
+    }
+
+    .text-beatstore p{
+        font-size: 30px;
+    }
+
+    .text-sound p{
+        font-size: 15px;
+    }
+
+    .slide-bottom p{
+        font-size: 15px;
+    }
+
+    .slide-bottom img{
+        width: 20px;
+    }
+
+
+    .open-menu{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #242424;
+        z-index: 1000;
+        margin-top: 100px;
+        display: none;
+        border-bottom: 1px #363636 solid;
+        border-top: 1px #363636 solid;
+    }
+
+    .open-menu-item{
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 50px;
+        display: flex;
+        cursor: pointer;
+    }
+
+    .open-menu-item p{
+        margin: auto;
+        font-family: 'bayon';
+        font-size: 20px;
+    }
+
+    .best-png-container{
+        display: none;
+    }
+
+    .worth-buying-container{
+        width: 100%;
+    }
+
+    .type-image {
+        height: 100px;
+        width: 100px;
+    }
+
+    .trap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 120px;
+        left: 0px;
+    }
+
+    .trap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .drill {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 120px;
+        left: 150px;
+    }
+
+    .types-container{
+        margin-left: 0px;
+    }
+
+    .drill p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .oldschool {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 280px;
+        left: 0px;
+    }
+
+    .oldschool p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .liric {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 280px;
+        left: 150px;
+    }
+
+    .liric p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 440px;
+        left: 0px;
+    }
+
+    .rap p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .club {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 440px;
+        left: 150px;
+    }
+
+    .club p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .lo-fi {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 580px;
+        left: 0px;
+    }
+
+    .lo-fi p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .rb {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 580px;
+        left: 150px;
+    }
+
+    .rb p {
+        font-family: 'Bayon';
+        font-size: 23px;
+    }
+
+    .contact-limit-container {
+        border-radius: 50px;
+        width: 100%;
+        height: 75%;
+        margin: auto;
+    }
+
+    .question-container {
+        width: 100%;
+        height: 5%;
+        display: flex;
+    }
+
+    .question-container p {
+        font-size: 20px;
+        font-family: 'Bayon';
+        margin: auto;
+        color: #AAAAAA;
+    }
+
+    .contact-title-container {
+        width: 100%;
+        height: 10%;
+        display: flex;
+    }
+
+    .contact-title-container p {
+        font-size: 30px;
+        font-family: 'Bayon';
+        margin: auto;
+    }
+
+    .contact-title-container img {
+        object-fit: contain;
+        width: 20px;
+        margin-left: 10px;
+    }
+
+    .inputs-container {
+        font-size: 20px;
+        line-height: 40px;
+        font-family: 'Bayon';
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .input-item {
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+
+    input {
+        background: #1A1A1A;
+        border: 1px solid #868686;
+        border-radius: 10px;
+        height: 30px;
+        width: 100%;
+    }
+
+    .desc-container {
+        width: 100%;
+        margin-top: 10px;
+        font-size: 20px;
+        line-height: 40px;
+        font-family: 'Bayon';
+        margin-left: auto;
+        margin-right: auto;
+        width: 85%;
+    }
+
+    textarea {
+        background: #1A1A1A;
+        border: 1px solid #868686;
+        border-radius: 10px;
+        height: 100px;
+        width: 100%;
+    }
+
+    .contact-limit-container button {
+        width: 30%;
+        height: 50px;
+        background-color: #382c04;
+
+        border-radius: 20px;
+        font-family: "Bayon";
+        font-size: 20px;
+        cursor: pointer;
+        outline: 1px solid;
+        outline-color: #b38f10;
+        outline-offset: 0px;
+        transition: all 600ms cubic-bezier(0.2, 0, 0, 0.8);
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 10px;
+    }
+
+    .contact-limit-container button:hover {
+        color: #b38f10;
+        outline-color: #b38f10;
+        border: #b3901000;
+        outline-offset: 0px;
+        background-color: #58585800;
+        transform: translateY(-10px);
+    }
+
+    .button-submin-container {
+        width: 100%;
+        height: 20%;
+        display: flex;
+    }
+
+    .button-submin-container button{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+@media(max-width: 510px){
+
+    .first{
+        background-repeat: no-repeat;
+        background-position-x: -400px;
+        background-size: 250% 100%;
+    }
+
+    .release-title{
+        width: 300px;
+    }
+
+    .container-last-beats{
+        width: 400px;
+        height: 180px;
+    }
+
+    .last-beat-item{
+        margin-left: 10px;
+    }
+
+    .last-beat-item-img{
+        width: 100%;
+    }
+
+    .last-beat-item-img img{
+        width: 70px;
+    }
+
+    .title-worth p{
+        font-size: 20px;
+    }
+
+    .worth-item-title p{
+        font-size: 20px;
+    }
+
+    .worth-item-img{
+        height: 20%;
+    }
+
+    .worth-item-img img{
+        width: 40px;
+    }
+
+    .worth-item-desc p{
+        font-size: 15px;
+    }
+
+
+    .type-image {
+        height: 70px;
+        width: 70px;
+    }
+
+    .trap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 100px;
+        left: 0px;
+    }
+
+    .trap p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .drill {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+    }
+
+    .types-container{
+        margin-left: 0px;
+    }
+
+    .drill p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .oldschool {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 210px;
+        left: 0px;
+    }
+
+    .oldschool p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .liric {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 210px;
+        left: 100px;
+    }
+
+    .liric p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .rap {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 320px;
+        left: 0px;
+    }
+
+    .rap p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .club {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 320px;
+        left: 100px;
+    }
+
+    .club p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .lo-fi {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 430px;
+        left: 0px;
+    }
+
+    .lo-fi p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .rb {
+        width: 200px;
+        text-align: center;
+        align-items: center;
+        position: absolute;
+        top: 430px;
+        left: 100px;
+    }
+
+    .rb p {
+        font-family: 'Bayon';
+        font-size: 15px;
+    }
+
+    .title-types-beats p{
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    .desc-types-beats p{
+        font-size: 15px;
+        white-space: nowrap;
+    }
+}
+
+@media(max-width: 405px){
+    .release-title{
+        width: 300px;
+    }
+
+    .container-last-beats{
+        width: 300px;
+        height: 180px;
+    }
+
+    .last-beat-item{
+        margin-left: 10px;
+    }
+
+    .last-beat-item-img{
+        width: 100%;
+    }
+
+    .last-beat-item-img img{
+        width: 60px;
+    }
+
+    .title-last-beat-item p{
+        font-size: 15px;
+    }
+
+    .about-last-beat-item p{
+        font-size: 15px;
+}
+
+    .price-last-beat-item p{
+        font-size: 20px;
+    }
+
+    .release-title p{
+        font-size: 20px;
+    }
+
+    .title-worth{
+        margin-top: 50px;
+    }
+
+    .desc-types-beats p{
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+.policy-container{
+    width: 100vw;
+    height: 90vh;
+    margin-top: 80px;
+    display: flex;
+}
+
+.policy-text{
+
+
+}
+
+.policy-text{
+  overflow: auto;
+    width: 95%;
+    height: 90%;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.policy-text h1{
+  font-size: 30px;
+  color: #b3b3b3;
+  margin-left: 15px;
+}
+
+.policy-text h2{
+  font-size: 15px;
+  color: #b3b3b3;
+  margin-left: 15px;
+}
+
+.policy-text h3{
+  font-size: 15px;
+  color: #b3b3b3;
+  margin-left: 50px;
+}

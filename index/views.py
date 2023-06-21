@@ -40,6 +40,9 @@ def beats_page(request):
         beat_cart = Beat.objects.get(beat_id=item['id'])
         amount += beat_cart.price
 
+    if request.session.get('filter_values'):
+        del request.session['filter_values']
+
     context = {
         'beat': beat,
         'key': keys,
@@ -112,61 +115,69 @@ def filter_beats(request):
 
     print(filter_values)
 
-    if filter_type == 'key':
-        beats = Beat.objects.filter(tonal__in=tonal_values)
-    elif filter_type == 'mood':
-        beats = Beat.objects.filter(mood__in=mood_values)
-    elif filter_type == 'genres':
-        try:
-            beats = Beat.objects.filter(type__in=genre_values)
-        except ValueError:
-            beats = Beat.objects.all()
-    elif filter_type == 'teg':
-        if filter_value == 'new':
-            beats = Beat.objects.filter(isNew=True)
-        elif filter_value == 'gold':
-            beats = Beat.objects.filter(isGold=True)
-        elif filter_value == 'all':
-            beats = Beat.objects.all()
-        else:
-            return JsonResponse({'message': 'Invalid filter value'}, status=400)
-    elif filter_type == 'newest':
-        if filter_value == 'ascending':
-            beats = Beat.objects.order_by('price')
-        elif filter_value == 'descending':
-            beats = Beat.objects.order_by('-price')
-        else:
-            return JsonResponse({'message': 'Invalid filter value'}, status=400)
-    elif filter_type == 'search':
-        beats = Beat.objects.filter(title__icontains=filter_value)
-    elif filter_type == 'price' and 'min_price' in filter_values and 'max_price' in filter_values:
+    beats = Beat.objects.all()
+
+    if 'newest' in filter_values:
+        newest_value = filter_values['newest']
+        if newest_value == 'ascending':
+            beats = beats.order_by('price')
+        elif newest_value == 'descending':
+            beats = beats.order_by('-price')
+
+    if 'tonal' in filter_values:
+        tonal_values = filter_values['tonal']
+        beats = beats.filter(tonal__in=tonal_values)
+
+    if 'mood' in filter_values:
+        mood_values = filter_values['mood']
+        beats = beats.filter(mood__in=mood_values)
+
+    if 'genres' in filter_values:
+        genre_values = filter_values['genres']
+        beats = beats.filter(type__in=genre_values)
+
+    if 'teg' in filter_type:
+        if 'new' in filter_value:
+            beats = beats.filter(isNew=True)
+        elif 'gold' in filter_value:
+            beats = beats.filter(isGold=True)
+
+    if filter_type == 'search' and 'search' in filter_values:
+        search_value = filter_values['search']
+        beats = beats.filter(title__icontains=search_value)
+
+    if filter_type == 'price' and 'min_price' in filter_values and 'max_price' in filter_values:
         min_price = filter_values['min_price']
         max_price = filter_values['max_price']
-        beats = Beat.objects.filter(price__gte=min_price, price__lte=max_price)
-    elif 'min_bpm' in filter_values and 'max_bpm' in filter_values:
+        beats = beats.filter(price__gte=min_price, price__lte=max_price)
+
+    if 'min_bpm' in filter_values and 'max_bpm' in filter_values:
         min_bpm = filter_values['min_bpm']
         max_bpm = filter_values['max_bpm']
-        beats = Beat.objects.filter(bpm__gte=min_bpm, bpm__lte=max_bpm)
-    elif filter_type == 'reset':
+        beats = beats.filter(bpm__gte=min_bpm, bpm__lte=max_bpm)
+        print(beats)
+
+    if filter_type == 'reset':
         beats = Beat.objects.all()
-    else:
-        return JsonResponse({'message': 'Invalid filter type'}, status=400)
 
     cart_keys = list(request.session.get('cart', {}).keys())
-    beat_data = list(map(lambda beat: {
-        'beat_id': beat.beat_id,
-        'title': beat.title,
-        'cover': beat.cover,
-        'beat': beat.beat,
-        'type': beat.type.title,
-        'tonal': beat.tonal.title,
-        'isNew': beat.isNew,
-        'isGold': beat.isGold,
-        'isAddedToCart': str(beat.beat_id) in cart_keys,
-        'duration': beat.duration,
-        'bpm': beat.bpm,
-        'price': beat.price,
-    }, beats))
+    beat_data = [
+        {
+            'beat_id': beat.beat_id,
+            'title': beat.title,
+            'cover': beat.cover,
+            'beat': beat.beat,
+            'type': beat.type.title,
+            'tonal': beat.tonal.title,
+            'isNew': beat.isNew,
+            'isGold': beat.isGold,
+            'isAddedToCart': str(beat.beat_id) in cart_keys,
+            'duration': beat.duration,
+            'bpm': beat.bpm,
+            'price': beat.price,
+        }
+        for beat in beats
+    ]
     return JsonResponse({'beats': beat_data}, safe=False)
 
 
@@ -183,13 +194,14 @@ def create_ticket_views(request):
 
 
 @csrf_exempt
-def apply_coupone(request):
+def apply_coupon(request):
     u_code = request.POST.get('code')
-    print(u_code)
     sum = int(request.POST.get('sum'))
-    print(sum)
-    coupone = Coupone.objects.get(code=u_code)
-    discount = int(coupone.discount)
+    coupon = Coupone.objects.get(code=u_code)
+    discount = int(coupon.discount)
     sum -= discount
-    print(sum)
     return JsonResponse({'success': True, 'sum': sum, 'discount': discount}, safe=False)
+
+
+def policy_page(request):
+    return render(request, 'index/policy.html')

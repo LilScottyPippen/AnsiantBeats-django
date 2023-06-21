@@ -56,6 +56,11 @@
                                 </p>
                             </div>
                             <div class="menu-item">
+                                <p class="scale" onclick="window.location='{% url 'policy' %}'">
+                                    Policy
+                                </p>
+                           </div>
+                            <div class="menu-item">
                                 <p class="scale" onclick="window.location='https://taplink.cc/ansiantbeats'">
                                     socials
                                 </p>
@@ -89,7 +94,7 @@
                 </div>
             </header>
             <div class="open-menu" id="menu">
-                <div class="open-menu-item" onclick="window.location='playlist.html'">
+                <div class="open-menu-item" onclick="window.location='{% url 'beats_page' %}'">
                     <p>
                         Beats
                     </p>
@@ -103,6 +108,11 @@
                     <p>
                         Licenses
                     </p>
+                </div>
+                <div class="open-menu-item">
+                        <p onclick="window.location='{% url 'policy' %}'">
+                            Policy
+                        </p>
                 </div>
                 <div class="open-menu-item">
                     <p onclick="window.location='https://taplink.cc/ansiantbeats'">
@@ -460,6 +470,7 @@
                 let menu = document.getElementById("menu");
                 if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
                     menu.style.display = "block";
+                    document.getElementsByTagName("header").style.background = "#242424";
                 }
                 else {
                     menu.style.display = "none";
