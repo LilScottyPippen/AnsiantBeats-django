@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['83.229.84.153', 'ansiantbeats.store', 'www.ansiantbeats.store']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -126,8 +126,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
 
-CELERY_BROKER_URL = "redis://0.0.0.0:32768"
-CELERY_RESULT_BACKEND = "redis://0.0.0.0:32768"
+CELERY_BROKER_URL = "redis://0.0.0.0:6379"
+CELERY_RESULT_BACKEND = "redis://0.0.0.0:6379"
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_BEAT_SCHEDULE = {
     'update_beat_new_status': {
