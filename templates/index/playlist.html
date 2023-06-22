@@ -227,7 +227,7 @@
                         </p>
                     </div>
                     <div class="menu-item">
-                        <p class="scale">
+                        <p class="scale" onclick="window.location='{% url 'policy' %}'">
                             Policy
                         </p>
                     </div>
@@ -722,7 +722,7 @@
                                 <div class="beat-elements">
                                     <div class="beat-price">
                                         <p>
-                                            ${{ beat.price }}
+                                            ${{ beat.basic_price }}
                                         </p>
                                     </div>
                                     <div class="button-to-card">
@@ -1063,7 +1063,7 @@
                                     isMatch = true;
                                 }
                             }
-                            html = '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                            html = '<div class="header-cart-img"><img class="scale" src="{% static 'images/purchase2.png' %}" alt="" onclick="window.location=\{% url 'shop_cart' %}\"> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
                             $('.right-header-cart').html(html)
                             html = '<button id="player-delete-from-cart" beat_id="' + beat_id + '">ADDED✓</button>'
                             $('#player-button-cart').html(html)
@@ -1104,7 +1104,8 @@
                                     isMatch = true;
                                 }
                             }
-                            html = '<div class="header-cart-img"> <img src="{% static 'images/purchase2.png' %}" alt=""> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                            html = '<div class="header-cart-img"><img class="scale" src="{% static 'images/purchase2.png' %}" alt="" onclick="window.location=\{% url 'shop_cart' %}\"> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
+                            html = '<div class="header-cart-img"><img class="scale" src="{% static 'images/purchase2.png' %}" alt="" onclick="window.location=\{% url 'shop_cart' %}\"> </div> <div class="right-header-cart-text"> <p> $' + amount +'</p> </div>'
                             $('.right-header-cart').html(html)
                             html = '<button id="player-add-to-cart" beat_id="' + beat_id + '">ADD TO CART</button>'
                             $('#player-button-cart').html(html)

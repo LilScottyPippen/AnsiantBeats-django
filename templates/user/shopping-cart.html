@@ -104,7 +104,7 @@
                               <div class="license-product">
                                 <select name="" id="cusSelectbox">
                                     {% for license in license %}
-                                        <option value="{{ license.name }}" price="{{ license.price }}">{{ license.name }} - {{ license.price }}$</option>
+                                        <option value="{{ license.name }}" price="{{ license.price }}" level="{{ license.license_level }}">{{ license.name }} - {{ license.price }}$</option>
                                     {% endfor %}
                                 </select>
                                   <img src="{% static 'images/privacy.png' %}" alt="">
@@ -146,23 +146,27 @@
                                     }
                                 }
                             })});
-                            let license = 'BASIC'
+                            let license = 'BASIC';
+
                             $(document).ready(function() {
-                                let price = $(this).find('option:selected').attr('price');
-                                let amount = Number(price) + {{ amount }};
-                                let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
-                                $('.amount-info-container').html(html)
-                            },
+                                let price = $('#cusSelectbox').find('option:selected').attr('price');
+                                if (license !== '1') {
+                                    let amount = Number(price) + {{ amount }};
+                                    let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>';
+                                    $('.amount-info-container').html(html);
+                                }
+                            });
 
                             $('body').on('click', '#cusSelectbox', function(event) {
                                 event.preventDefault();
                                 license = $(this).val();
                                 let price = $(this).find('option:selected').attr('price');
-                                let amount = Number(price) + {{ amount }};
-                                let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>'
-                                $('.amount-info-container').html(html)
-                            }))
-
+                                if (license !== '1') {
+                                    let amount = Number(price) + {{ amount }};
+                                    let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>';
+                                    $('.amount-info-container').html(html);
+                                }
+                            });
 
                             paypal.Buttons({
                                 createOrder: function(data, actions) {
@@ -252,42 +256,45 @@
                     <label>
                         <input id="coupon-input" name="coupon-input-element"/>
                     </label>
-                    <button id='coupon`-btn'>Apply</button>
+                    <button id='coupon-btn'>Apply</button>
                 </div>
               </div>
               <script>
                 $('body').on('click', '#coupon-btn', function(event) {
-                  event.preventDefault();
-                  let couponCode = $('#coupon-input').val();
-                  $.ajax({
-                    url: '{% url 'coupon' %}',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                      'code': couponCode,
-                      'sum': {{ amount }}
-                    },
-                    success: function(response) {
-                        if(response.success()) {
-                            html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
-                            $('.amount-info-container').html(html)
+                    event.preventDefault();
+                    let couponCode = $('#coupon-input').val();
+                    let selectedLicense = $('#license-selectbox option:selected');
+                    let licenseName = selectedLicense.val();
+                    let licensePrice = parseInt(selectedLicense.attr('price'));
+                    $.ajax({
+                        url: '{% url 'coupon' %}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'code': couponCode,
+                            'sum': {{ amount }}
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
+                                $('.amount-info-container').html(html)
 
-                             Swal.fire({
-                                 title: 'Good job!',
-                                 icon: 'success',
-                                 text: response.message
-                             })
-                        }else{
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Oops...',
-                              text: response.message,
-                            })
+                                Swal.fire({
+                                    title: 'Good job!',
+                                    icon: 'success',
+                                    text: response.message
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: response.message,
+                                })
+                            }
                         }
-                    }
-                  });
-              })
-              </script>
+                    });
+                })
+            </script>
               <div class="amount-info-container">
                   <div class="amount-content">
                     <div class="title-amount">

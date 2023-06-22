@@ -13,7 +13,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['83.229.84.153', 'ansiantbeats.store', 'www.ansiantbeats.store']
+ALLOWED_HOSTS = ['127.0.0.1', '83.229.84.153', 'ansiantbeats.store', 'www.ansiantbeats.store']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

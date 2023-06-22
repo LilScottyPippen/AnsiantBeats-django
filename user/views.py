@@ -285,12 +285,15 @@ def add_to_cart(request):
 def shopping_cart(request):
     try:
         cart = request.session.get('cart', {})
+        print(cart)
+        basic_license = License.objects.get(license_level=1)
         beat_license = License.objects.all()
 
         cart_items = []
         amount = 0
         for item in cart.values():
             beat = Beat.objects.get(beat_id=item['id'])
+            price = beat.price + basic_license.price
             cart_items.append({
                 'id': beat.beat_id,
                 'title': beat.title,
@@ -298,9 +301,9 @@ def shopping_cart(request):
                 'type': beat.type,
                 'tonal': beat.tonal,
                 'bpm': beat.bpm,
-                'price': beat.price
+                'price': price
             })
-            amount += beat.price
+            amount += price
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
     context = {
@@ -314,9 +317,15 @@ def shopping_cart(request):
 def get_cart(request):
     try:
         cart = request.session.get('cart', {})
+        selected_license = request.session.get('license', 'BASIC')  # Получение выбранной лицензии из сессии
+        basic_license = License.objects.get(license_level=1)
         cart_items = []
         for item in cart.values():
             beat = Beat.objects.get(beat_id=item['id'])
+            beat_price = beat.price
+            if selected_license != 'BASIC':
+                selected_license_obj = License.objects.get(name=selected_license)
+                beat_price += selected_license_obj.price
             cart_items.append({
                 'id': beat.beat_id,
                 'title': str(beat.title),
@@ -324,13 +333,12 @@ def get_cart(request):
                 'type': str(beat.type),
                 'tonal': str(beat.tonal),
                 'bpm': str(beat.bpm),
-                'price': str(beat.price)
+                'price': beat_price
             })
         data = json.dumps(cart_items)
         return JsonResponse(data, safe=False)
     except Exception as e:
         return JsonResponse({'success': True, 'message': str(e)})
-
 
 def get_license(request):
     try:

@@ -84,6 +84,11 @@ class Beat(models.Model):
         except Exception as e:
             print(e)
 
+    def basic_price(self):
+        first_level_license = License.objects.get(license_level=1)
+        return self.price + first_level_license.price
+
+
 class License(models.Model):
     name = models.CharField(max_length=100)
     license_level = models.IntegerField()
