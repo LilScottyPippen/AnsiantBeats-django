@@ -642,6 +642,17 @@
 
                     document.getElementById("search-input").value = ''
 
+                   const buttons = document.querySelectorAll('.button-active');
+
+                    buttons.forEach(button => {
+                      button.classList.remove('button-active');
+                    });
+
+                    const buttonMain = document.querySelectorAll('#button-main');
+                    buttonMain.forEach(buttons => {
+                      buttons.classList.toggle('button-active');
+                    });
+
                     $.ajax({
                         url: '{% url 'filter' %}',
                         type: 'POST',
