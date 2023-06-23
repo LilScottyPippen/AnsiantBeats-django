@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ansiant Beatstore</title>
+        <link rel="stylesheet" type="text/css"
+            href="{% static 'css/policy.css' %}" />
+        <link rel="shortcut icon" href="{% static 'images/logo.png' %}"
+            type="image/x-icon" />
+        <link rel="stylesheet" type="text/css"
+            href="{% static 'css/animate.min.css' %}">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css"
+            href="{% static 'css/jquery.pagepiling.css' %}" />
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script>
+            window.onload = function () {
+                document.body.classList.add('loaded_hiding');
+                window.setTimeout(function () {
+                    document.body.classList.add('loaded');
+                    document.body.classList.remove('loaded_hiding');
+                }, 500);
+            }
+        </script>
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/jquery.event.frame.js' %}"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="{% static 'js/jquery.pagepiling.js' %}"></script>
+        <div class="preloader">
+            <div class="preloader__row">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+            </div>
+        </div>
+        <div id="pagepiling">
+            <header>
+                <div class="limit-header">
+                    <div class="left-header">
+                        <div class="header-logo"
+                            onclick="window.location='{% url 'index' %}'">
+                            <div class="header-logo-img">
+                                <img src="{% static 'images/logo.png' %}" alt>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-header">
+                        <div class="right-header-container">
+                            <div class="menu-item">
+                                <p class="scale"
+                                    onclick="window.location='{% url 'beats_page' %}'">
+                                    BEATS
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    licenses
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale">
+                                    Policy
+                                </p>
+                            </div>
+                            <div class="menu-item">
+                                <p class="scale"
+                                    onclick="window.location='https://taplink.cc/ansiantbeats'">
+                                    socials
+                                </p>
+                            </div>
+
+                            <div class="between-container">
+
+                            </div>
+
+                            <div class="login-container">
+                                {% if request.user.is_authenticated %}
+                                <p class="scale"
+                                    onclick="window.location='{% url 'profile' %}'">profile</p>
+                                {% else %}
+                                <p class="scale"
+                                    onclick="window.location='{% url 'login' %}'">login</p>
+                                {% endif %}
+                            </div>
+                            <div class="right-header-cart">
+                                <div class="header-cart-img">
+                                    <img
+                                        src="{% static '/images/purchase2.png' %}"
+                                        alt
+                                        onclick="window.location = '{% url 'shop_cart' %}'"
+                                        style="cursor: pointer">
+                                </div>
+                                <div class="right-header-cart-text">
+                                    <p>{{ amount }}$</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-right-header">
+                        <img src="{% static '/images/menu.png' %}" alt
+                            onclick="viewMenu()">
+                    </div>
+                </div>
+            </header>
+            <div class="open-menu" id="menu">
+                <div class="open-menu-item"
+                    onclick="window.location='{% url 'beats_page' %}'">
+                    <p>
+                        Beats
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Contact us
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p>
+                        Licenses
+                    </p>
+                </div>
+                <div class="menu-item">
+                    <p class="scale">
+                        Policy
+                    </p>
+                </div>
+                <div class="open-menu-item">
+                    <p
+                        onclick="window.location='https://taplink.cc/ansiantbeats'">
+                        Socials
+                    </p>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="open-menu-item"
+                    onclick="window.location='{% url 'profile' %}'">
+                    <p>
+                        Profile
+                    </p>
+                </div>
+                {% else %}
+                <div class="open-menu-item"
+                    onclick="window.location='{% url 'login' %}'">
+                    <p>
+                        Login
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="section first">
+                <div class="main-caption">
+                    <div class="policy-container">
+                        <div class="policy-text">
+                            <h1>1. Baisc Lease</h1>
+                            <h2>$25</h2>
+                            <h3>1.1. Receive Untagged MP3</h3>
+                            <h3>1.2. Sell Up To 2,000 Units</h3>
+                            <h3>1.3. 50,000 Stream Cap</h3>
+                            <h3>1.4. Must Credit « (Prod. AnsiantBeats) » In
+                                Title & Description</h3>
+                            <h1>2. Premium Lease</h1>
+                            <h2>$40</h2>
+                            <h3>2.1. Receive Untagged WAV</h3>
+                            <h3>2.2. Sell Up To 50,000 Units</h3>
+                            <h3>2.3.100,000 Stream Cap</h3>
+                            <h3>2.4. Must Credit « (Prod. AnsiantBeats) » In
+                                Title & Description</h3>
+                            <h1>3. Trackout Lease</h1>
+                            <h2>$80</h2>
+                            <h3>3.1. Receive Untagged WAV + Trackout Stems </h3>
+                            <h3>3.2. Sell Up To 7,000 Units</h3>
+                            <h3>3.3. 250,000 Stream Cap</h3>
+                            <h3>3.4. Must Credit « (Prod. AnsiantBeats) » In Title & Description</h3>
+                            <h1>4. Unlimited Lease</h1>
+                            <h2>$150</h2>
+                            <h3>4.1. Receive Untagged WAV + Trackout Stems</h3>
+                            <h3>4.2. Sell Unlimited</h3>
+                            <h3>4.3. Unlimited Stream Cap</h3>
+                            <h3>4.4. Must Credit « (Prod. AnsiantBeats) » In Title & Description</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('#pagepiling').pagepiling({
+                    menu: null,
+                    direction: 'vertical',
+                    verticalCentered: true,
+                    sectionsColor: [],
+                    anchors: [],
+                    scrollingSpeed: 200,
+                    easing: 'linear',
+                    loopBottom: false,
+                    loopTop: false,
+                    css3: true,
+                    navigation: {
+                        'textColor': '#000',
+                        'bulletsColor': '#a18f70',
+                        'position': 'right',
+                        'tooltips': ['Home', 'New releases', 'Why its worth buying here?', 'Types beats', 'Contact us']
+                    },
+                    normalScrollElements: null,
+                    normalScrollElementTouchThreshold: 5,
+                    touchSensitivity: 5,
+                    keyboardScrolling: true,
+                    sectionSelector: '.section',
+                    animateAnchor: false,
+
+                    //events
+                    onLeave: function(index, nextIndex, direction){},
+                    afterLoad: function(anchorLink, index){},
+                    afterRender: function(){},
+                });
+            });
+        </script>
+        <script>
+            function viewMenu() {
+                let menu = document.getElementById("menu");
+                if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
+                    menu.style.display = "block";
+                    document.getElementsByTagName("header").style.background = "#242424";
+                }
+                else {
+                    menu.style.display = "none";
+                }
+            }
+        </script>
+        <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>

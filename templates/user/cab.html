@@ -162,15 +162,6 @@
                     </div>
                 {% endif %}
 
-                <div class="item-menu policy">
-                  <div class="item-icon-block">
-                    <img src="{% static 'images/privacy.png' %}" alt="">
-                  </div>
-                  <div class="item-text-block">
-                    <p> POLICY</p>
-                  </div>
-                </div>
-
                 <div class="item-menu sign" onclick="window.location='{% url 'logout' %}'">
                   <div class="item-icon-block">
                     <img src="{% static 'images/sign-out.png' %}" alt="">
@@ -311,19 +302,6 @@
                   <button>Upload</button>
                 </div>
               </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                  <img src="{% static 'images/nickname.png' %}" alt="">
-                </div>
-
-                <div class="title-setting-profile">
-                  <p>Nickname</p>
-                </div>
-
-                <div class="info-setting-profile">
-                  <p>{{ request.user.username }}</p>
-                </div>
-              </div>
 
               <div class="item-setting-profile">
                 <div class="icon-setting">
@@ -336,33 +314,6 @@
 
                 <div class="info-setting-profile">
                   <p>{{ request.user.email }}</p>
-                </div>
-              </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                  <img src="{% static 'images/profile-instagram.png' %}" alt="">
-                </div>
-
-                <div class="title-setting-profile">
-                  <p>Instagram</p>
-                </div>
-
-                <div class="info-setting-profile">
-                  <p></p>
-                </div>
-              </div>
-              <div class="item-setting-profile">
-                <div class="icon-setting">
-                  <img src="{% static 'images/notification.png' %}" alt="">
-                </div>
-
-                <div class="title-setting-profile">
-                  <p>Mailing by mail
-                  </p>
-                </div>
-
-                <div class="info-setting-profile">
-                  <div class="switch-btn switch-on"></div>
                 </div>
               </div>
             </div>
