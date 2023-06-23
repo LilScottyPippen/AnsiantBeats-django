@@ -693,7 +693,7 @@
                             <div class="beat-item">
                                 <div class="beat-img">
                                     <img class="beat-img-cls" src="{{ beat.cover }}" alt="">
-                                    <div id="play-beat-container" class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
+                                    <div id="play-beat-container" class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
                                         <img src="{% static 'images/play.png' %}" alt="">
                                     </div>
                                 </div>
@@ -832,7 +832,7 @@
                     <div class="mobile-beats-container">
                         {% for beat in beat %}
                             <div class="mobile-beat-item">
-                                <div class="mobile-beat-image-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}">
+                                <div class="mobile-beat-image-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
                                     <img src="{{ beat.cover }}" alt="">
                                         <div class="play-beat-container">
                                             <img src="{% static 'images/play.png' %}" alt="">
@@ -911,12 +911,10 @@
                               <div class="volume icono-volumeMedium"></div>
                             </div>
 
-                            <div class="volume-slider">
-                              <div class="volume-percentage"></div>
-                            </div>
+                            <input type="range" id="volume-input" min="0" max="1" step="0.1" value="1">
                           </div>
 
-                          <img src="{% static 'images/download.png' %}" alt="">
+                            <a href="" id="beat-download"><img src="{% static 'images/download.png' %}" alt=""></a>
 
                           <div class="time">
                             <div id="current" class="current">0:00</div>
@@ -966,6 +964,7 @@
             document.getElementById('beat-cover').src = $(this).attr('cover')
             document.getElementById('song').innerText = $(this).attr('title')
             document.getElementById('length').innerText = $(this).attr('duration')
+            document.getElementById('beat-download').href = $(this).attr('download')
 
             let html = ''
 
@@ -1007,6 +1006,12 @@
                 playButton.classList.remove('pause');
                 playButton.classList.add('play');
             }
+        });
+
+        const volumeInput = document.getElementById('volume-input');
+        volumeInput.addEventListener('input', function() {
+            const volume = parseFloat(volumeInput.value);
+            audioPlayer.volume = volume;
         });
 
         audioPlayer.addEventListener('timeupdate', function() {
