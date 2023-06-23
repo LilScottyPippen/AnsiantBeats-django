@@ -317,7 +317,7 @@ def shopping_cart(request):
 def get_cart(request):
     try:
         cart = request.session.get('cart', {})
-        selected_license = request.session.get('license', 'BASIC')  # Получение выбранной лицензии из сессии
+        selected_license = request.session.get('license', 'BASIC')
         basic_license = License.objects.get(license_level=1)
         cart_items = []
         for item in cart.values():

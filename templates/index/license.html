@@ -60,12 +60,12 @@
                                 </p>
                             </div>
                             <div class="menu-item">
-                                <p class="scale">
+                                <p class="scale" onclick="window.location='{% url 'license' %}'">
                                     licenses
                                 </p>
                             </div>
                             <div class="menu-item">
-                                <p class="scale">
+                                <p class="scale" onclick="window.location='{% url 'policy' %}'">
                                     Policy
                                 </p>
                             </div>
@@ -118,17 +118,12 @@
                     </p>
                 </div>
                 <div class="open-menu-item">
-                    <p>
-                        Contact us
-                    </p>
-                </div>
-                <div class="open-menu-item">
-                    <p>
+                    <p class="scale" onclick="window.location='{% url 'license' %}'">
                         Licenses
                     </p>
                 </div>
                 <div class="menu-item">
-                    <p class="scale">
+                    <p class="scale" onclick="window.location='{% url 'policy' %}'">
                         Policy
                     </p>
                 </div>

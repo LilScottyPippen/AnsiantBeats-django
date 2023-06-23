@@ -15,6 +15,7 @@ def index_page(request):
     for item in cart.values():
         beat_cart = Beat.objects.get(beat_id=item['id'])
         amount += beat_cart.price
+    request.session['amount'] = amount
     context = {
         'last_beat': last_beat,
         'amount': amount,
@@ -204,8 +205,16 @@ def apply_coupon(request):
 
 
 def policy_page(request):
-    return render(request, 'index/policy.html')
+    amount = request.session.get('amount')
+    context = {
+        'amount': amount
+    }
+    return render(request, 'index/policy.html', context)
 
 
 def license_page(request):
-    return render(request, 'index/license.html')
+    amount = request.session.get('amount')
+    context = {
+        'amount': amount
+    }
+    return render(request, 'index/license.html', context)
