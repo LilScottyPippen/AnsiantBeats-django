@@ -375,6 +375,13 @@ video {
   }
 }
 
+.volume-container input{
+  background: #1c1c1c !important;
+  border-radius: 30px;
+  border: 2px solid white;
+  height: 19px;
+}
+
 @media(max-width: 360px) {
   .player-button button {
     width: 50px;

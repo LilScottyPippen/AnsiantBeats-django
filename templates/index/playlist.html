@@ -935,7 +935,7 @@
         </audio>
         <script>
             let player = document.getElementById('play-beat-container');
-            let audioElement = document.getElementById('google-player');
+            let audioElement = player.querySelector('.google-player');
             if (audioElement.src === '') {
                 document.getElementById('player').style.display = 'none';
             }
@@ -943,6 +943,7 @@
             player.addEventListener('click', function(){
                 document.getElementById('player').style.display = 'flex';
             })
+
         </script>
     </div>
     <script type="text/javascript" src="/js/index.js"></script>
