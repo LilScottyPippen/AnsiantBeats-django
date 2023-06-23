@@ -8,6 +8,7 @@ urlpatterns = [
     path('', index_page, name='index'),
     path('beat/', beats_page, name='beats_page'),
     path('policy', policy_page, name='policy'),
+    path('license', license_page, name='license'),
 
     # Functions
     path('create_ticket', create_ticket_views, name='ticket'),

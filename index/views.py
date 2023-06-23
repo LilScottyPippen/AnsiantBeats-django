@@ -205,3 +205,7 @@ def apply_coupon(request):
 
 def policy_page(request):
     return render(request, 'index/policy.html')
+
+
+def license_page(request):
+    return render(request, 'index/license.html')
