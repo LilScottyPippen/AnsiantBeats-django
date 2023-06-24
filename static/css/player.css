@@ -71,7 +71,7 @@ body .content .lyrics>div.highlighted {
   font-size: 48px;
 }
 
-body .player {
+.player {
   z-index: 10;
   background: #F9F9F9;
   color: #000;
@@ -89,6 +89,7 @@ body .player {
   background-color: #272727;
   border-radius: 20px;
 }
+
 
 body .player .beat-cover{
     width: 80px;

@@ -82,7 +82,7 @@
                 <div class="filter-content">
                     <button class="scale button-active" id="button-main1" onclick="changeColorFilter(this)" data-filter-value="all">ALL</button>
                     <button class='teg-btn' id="button1" onclick="changeColorFilter(this)" data-filter-value="new">NEW</button>
-                    <button class='teg-btn'  onclick="changeColorFilter(this)" data-filter-value="gold">GOLD</button>
+                    <button class='teg-btn' id="button1" onclick="changeColorFilter(this)" data-filter-value="gold">GOLD</button>
                 </div>
             </div>
         </div>
@@ -139,10 +139,10 @@
                         </div>
                         <div class="filter-range-content">
                             <div class="rangeslider">
-                                <input class="min2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="0" />
-                                <input class="max2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="200" />
-                                <span class="range_min2 light left">{{ min_price }} $</span>
-                                <span class="range_max2 light right">{{ max_price }} $</span>
+                                <input class="min2" name="range_1" type="range" min="65" max="500" value="65">
+                                <input class="max2" name="range_1" type="range" min="65" max="500" value="500">
+                                <span class="range_min2 light left">65 $</span>
+                                <span class="range_max2 light right">500 $</span>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                         <div class="filter-range-content">
                             <div class="rangeslider">
                                 <input class="min" name="range_2" type="range" min="{{ min_bpm }}" max="{{ min_bmp }}" value="0" />
-                                <input class="max" name="range_2" type="range" min="{{ min_bpm }} " max="{{ max_bpm }} " value="200" />
+                                <input class="max" name="range_2" type="range" min="{{ min_bpm }} " max="{{ max_bpm }} " value="{{ max_bpm }}" />
                                 <span class="range_min light left">{{ min_bpm }} bpm</span>
                                 <span class="range_max light right">{{ max_bpm }} bpm</span>
                             </div>
@@ -317,7 +317,7 @@
                                             if(isGold){
                                                 html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                             }
-                                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                             html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
         
                                             html += '<div class="button-to-card">';
@@ -401,7 +401,7 @@
                                         if(isGold){
                                             html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                         }
-                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                         html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
                                         html += '<div class="button-to-card">';
@@ -431,7 +431,7 @@
                             <div class="dropdown-content2">
                                 <div class="rangeslider">
                                     <input class="min2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="0" />
-                                    <input class="max2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="200" />
+                                    <input class="max2" name="range_1" type="range" min="{{ min_price }}" max="{{ max_price }}" value="{{ max_price }}" />
                                     <span class="range_min2 light left">{{ min_price }} $</span>
                                     <span class="range_max2 light right">{{ max_price }} $</span>
                                 </div>
@@ -498,7 +498,7 @@
                                         if(isGold){
                                             html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                         }
-                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                         html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
                                         html += '<div class="button-to-card">';
@@ -539,7 +539,7 @@
                                     'filterValue': searchQuery
                                 },
                                 success: function (response) {
-                                    html = ''
+                                    let html = ''
                                     response.beats.forEach(function (beat) {
                                         html += '<div class="beat-item"> <div class="beat-img"> <img class="beat-img-cls" src="' + beat.cover + '" alt="">'
                                         html += '<div id="play-beat-container" class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" isGold="' + beat.isGold + '">'
@@ -556,7 +556,7 @@
                                         if(isGold){
                                             html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                         }
-                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                        html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                         html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
                                         html += '<div class="button-to-card">';
@@ -568,6 +568,47 @@
                                         html += '</div></div></div>';
                                     })
                                     $('.beat-items-container').html(html)
+
+                                    html = '';
+                                    response.beats.forEach(function (beat) {
+                                        html += '<div class="mobile-beat-item">';
+                                        html += '<div class="mobile-beat-image-container">';
+                                        html += '<img src="' + beat.cover + '" alt="">';
+                                        html += '<div class="play-beat-container" beat_id="' + beat.beat_id + '" beat="' + beat.beat + '" title="' + beat.title + '" cover="' + beat.cover + '" duration="' + beat.duration + '" download="' + beat.beat + '">';
+                                        html += '<img src="{% static 'images/play.png' %}" alt=""></div></div>';
+                                        html += '<div class="mobile-beat-text">';
+                                        html += '<div class="mobile-beat-text__up">';
+                                        html += '<p>' + beat.title + ' <span>| ' + beat.type + '</span></p></div>';
+                                        html += '<div class="mobile-beat-text__bottom">';
+                                        html += '<div class="parametrs-beat">';
+
+                                        if (beat.isNew) {
+                                            html += '<div class="beat-parametr new"><p>NEW</p></div>';
+                                        }
+
+                                        if (beat.isGold) {
+                                            html += '<div class="beat-parametr premium"><p>Gold</p></div>';
+                                        }
+
+                                        html += '<div class="beat-parametr"><p>' + beat.tonal + '</p></div>';
+                                        html += '<div class="beat-parametr"><p>' + beat.bpm + ' bpm</p></div>';
+                                        html += '<div class="beat-parametr"><p>' + beat.mood + '</p></div>';
+                                        html += '</div></div></div>';
+                                        html += '<div class="mobile-beat__to-card-container">';
+                                        html += '<div class="to-card-block">';
+                                        html += '<p>' + beat.price + '$</p>';
+                                        html += '<div class="mobile-add-to-cart-btn">';
+
+                                        if (beat.isAddedToCart) {
+                                            html += '<button id="delete-from-cart" beat_id="' + beat.beat_id + '">ADDED✓</button>';
+                                        } else {
+                                            html += '<button id="add-to-cart" beat_id="' + beat.beat_id + '">ADD TO CARD</button>';
+                                        }
+
+                                        html += '</div></div></div></div>';
+                                    });
+
+                                    $('.mobile-beats-container').html(html);
                                 }
                         })
                     })
@@ -586,7 +627,7 @@
                     {% for genre in genre %}
                         <button class="scale" id="button" onclick="changeColorGenre(this)" data-filter-value="{{ genre.id }}">{{ genre.title }}</button>
                     {% endfor %}
-                    <p class="reset-button" data-filter-type="reset">Reset</p>
+                    <p class="scale reset-button" data-filter-type="reset">Reset</p>
                 </div>
             </div>
             <script>
@@ -620,7 +661,7 @@
                                     if(isGold){
                                         html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                     }
-                                    html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                    html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                     html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
                                     html += '<div class="button-to-card">';
@@ -653,6 +694,11 @@
                       buttons.classList.toggle('button-active');
                     });
 
+                    const buttonMain1 = document.querySelectorAll('#button-main1');
+                    buttonMain1.forEach(buttons => {
+                      buttons.classList.toggle('button-active');
+                    });
+
                     $.ajax({
                         url: '{% url 'filter' %}',
                         type: 'POST',
@@ -678,7 +724,7 @@
                                 if(isGold){
                                     html += '<div class="beat-parametr premium"><p>Gold</p></div>'
                                 }
-                                html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>'
+                                html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                                 html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>'
 
                                 html += '<div class="button-to-card">';
@@ -728,6 +774,9 @@
                                     </div>
                                     <div class="beat-parametr">
                                         <p>{{ beat.bpm }} bpm</p>
+                                    </div>
+                                    <div class="beat-parametr">
+                                        <p>{{ beat.mood }}</p>
                                     </div>
                                 </div>
                                 <div class="beat-elements">
@@ -843,9 +892,9 @@
                     <div class="mobile-beats-container">
                         {% for beat in beat %}
                             <div class="mobile-beat-item">
-                                <div class="mobile-beat-image-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
+                                <div class="mobile-beat-image-container">
                                     <img src="{{ beat.cover }}" alt="">
-                                        <div class="play-beat-container">
+                                        <div class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
                                             <img src="{% static 'images/play.png' %}" alt="">
                                         </div>
                                 </div>
@@ -908,10 +957,6 @@
                 <div class="bottom">
                     <div class="audio-player">
                         <input id="range" type="range" style="height: 5px; border-radius: 5px;" >
-{#                        <div class="timeline">#}
-{#                            <input id="range" type="range" style="height: 5px; border-radius: 5px;" >#}
-{#                          <div class="progress"></div>#}
-{#                        </div>#}
                         <div class="controls">
                           <div class="play-container">
                             <div id="toggle-play" class="toggle-play play">
@@ -945,16 +990,28 @@
             <source src="" type="audio/mp3">
         </audio>
         <script>
-            let player = document.getElementById('play-beat-container');
-            let audioElement = player.querySelector('.google-player');
+            let player = document.querySelectorAll('.play-beat-container');
+            let audioElement = document.getElementById('google-player');
+
             if (audioElement.src === '') {
                 document.getElementById('player').style.display = 'none';
             }
 
-            player.addEventListener('click', function(){
-                document.getElementById('player').style.display = 'flex';
-            })
+            player.forEach(function(element) {
+                element.addEventListener('click', function(){
+                    document.getElementById('player').style.display = 'flex';
+                });
+            });
 
+            function viewFilter() {
+                let menu = document.getElementById("filter-menu");
+                if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
+                    menu.style.display = "block";
+                }
+                else {
+                    menu.style.display = "none";
+                }
+            }
         </script>
     </div>
     <script type="text/javascript" src="/js/index.js"></script>
@@ -1204,6 +1261,7 @@
             $(range_min).html(minVal + ' bpm');
             $(range_max).html(maxVal + ' bpm');
 
+
             $('.ranges-filter input[name="range_2"]').on('change', function () {
                 var minVal = parseInt($(this).parent().find('.min').val());
                 var maxVal = parseInt($(this).parent().find('.max').val());
@@ -1235,7 +1293,7 @@
                             if (isGold) {
                                 html += '<div class="beat-parametr premium"><p>Gold</p></div>';
                             }
-                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>';
+                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                             html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>';
 
                             html += '<div class="button-to-card">';
@@ -1340,7 +1398,7 @@
                             if (isGold) {
                                 html += '<div class="beat-parametr premium"><p>Gold</p></div>';
                             }
-                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> </div>';
+                            html += '<div class="beat-parametr"> <p>' + beat.tonal + '</p> </div> <div class="beat-parametr"> <p>' + beat.bpm + ' bpm</p> </div> <div class="beat-parametr"> <p>' + beat.mood + '</p> </div>  </div>'
                             html += '<div class="beat-elements"> <div class="beat-price"> <p>$' + beat.price + '</p> </div>';
 
                             html += '<div class="button-to-card">';

@@ -170,6 +170,7 @@ def filter_beats(request):
             'beat': beat.beat,
             'type': beat.type.title,
             'tonal': beat.tonal.title,
+            'mood': beat.mood.title,
             'isNew': beat.isNew,
             'isGold': beat.isGold,
             'isAddedToCart': str(beat.beat_id) in cart_keys,
