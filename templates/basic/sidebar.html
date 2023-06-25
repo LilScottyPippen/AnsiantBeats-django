@@ -1,0 +1,35 @@
+<div class="open-menu" id="menu">
+    <div class="open-menu-item" onclick="window.location='{% url 'beats_page' %}'">
+        <p>
+            Beats
+        </p>
+    </div>
+    <div class="open-menu-item">
+        <p onclick="window.location='{% url 'license' %}'">
+            Licenses
+        </p>
+    </div>
+    <div class="open-menu-item">
+        <p onclick="window.location='{% url 'policy' %}'">
+            Policy
+        </p>
+    </div>
+    <div class="open-menu-item">
+        <p onclick="window.location='https://taplink.cc/ansiantbeats'">
+            Socials
+        </p>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div class="open-menu-item" onclick="window.location='{% url 'profile' %}'">
+            <p>
+                Profile
+            </p>
+        </div>
+    {% else %}
+        <div class="open-menu-item" onclick="window.location='{% url 'login' %}'">
+            <p>
+                Login
+            </p>
+        </div>
+    {% endif %}
+</div>

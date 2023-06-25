@@ -1,5 +1,4 @@
 import json
-import uuid
 import random
 import requests
 import urllib.parse
@@ -8,13 +7,10 @@ from django.urls import reverse
 from django.conf import settings
 from django.db.models import Max
 from django.core import serializers
-from django.contrib import messages
 from django.core.cache import cache
-from django.core.mail import send_mail
 from .tasks import send_verification_email
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
-from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -90,7 +86,6 @@ def reset_password(request):
     except NotImplementedError:
         current_password = request.POST.get('old_pass')
         user = User.objects.get(email=request.POST.get('email'))
-        print(user.check_password(current_password))
         if not user.check_password(current_password):
             email = request.POST.get('email')
             code = ''
@@ -277,6 +272,12 @@ def add_to_cart(request):
             'id': beat.beat_id,
         }
         request.session['cart'] = cart
+
+        amount = 0
+        for item in cart.values():
+            beat_cart = Beat.objects.get(beat_id=item['id'])
+            amount += beat_cart.price
+        request.session['amount'] = amount
         return JsonResponse({'success': True}, safe=False)
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)}, safe=False)
@@ -285,15 +286,14 @@ def add_to_cart(request):
 def shopping_cart(request):
     try:
         cart = request.session.get('cart', {})
-        print(cart)
-        basic_license = License.objects.get(license_level=1)
         beat_license = License.objects.all()
 
         cart_items = []
         amount = 0
         for item in cart.values():
             beat = Beat.objects.get(beat_id=item['id'])
-            price = beat.price + basic_license.price
+            price = beat.price
+            amount += price
             cart_items.append({
                 'id': beat.beat_id,
                 'title': beat.title,
@@ -303,7 +303,6 @@ def shopping_cart(request):
                 'bpm': beat.bpm,
                 'price': price
             })
-            amount += price
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
     context = {
@@ -323,7 +322,7 @@ def get_cart(request):
         for item in cart.values():
             beat = Beat.objects.get(beat_id=item['id'])
             beat_price = beat.price
-            if selected_license != 'BASIC':
+            if selected_license != basic_license:
                 selected_license_obj = License.objects.get(name=selected_license)
                 beat_price += selected_license_obj.price
             cart_items.append({
@@ -340,6 +339,7 @@ def get_cart(request):
     except Exception as e:
         return JsonResponse({'success': True, 'message': str(e)})
 
+
 def get_license(request):
     try:
         beat_license = License.objects.all()
@@ -355,6 +355,12 @@ def license_improvement(request):
         beat_id = request.POST.get('beat_id')
         beat_item = OrderItems.objects.get(beat_id=beat_id)
         max_license_level = License.objects.aggregate(Max('license_level'))['license_level__max']
+        transaction = request.POST.get('transaction_id')
+        status = request.POST.get('status')
+        try:
+            Order.objects.create(transaction_id=transaction, user_id=request.user, status=status)
+        except Exception as e:
+            Order.objects.create(transaction_id=transaction, user_id=request.user, status=str(e))
 
         if beat_item.license.license_level != max_license_level:
             higher_license = License.objects.filter(license_level__gt=beat_item.license.license_level).first()
@@ -395,6 +401,11 @@ def delete_item(request):
                 request.session['cart'] = cart
                 item_found = True
                 break
+        amount = 0
+        for item in cart.values():
+            beat_cart = Beat.objects.get(beat_id=item['id'])
+            amount += beat_cart.price
+        request.session['amount'] = amount
         if item_found:
             return JsonResponse({'success': True}, safe=False)
         else:
@@ -416,8 +427,15 @@ def create_order(request):
                 order = Order.objects.create(transaction_id=transaction, user_id=request.user, status=status)
                 for item in cart.values():
                     beat = Beat.objects.get(beat_id=item['id'])
+                    beat.isPlaylist = False
+                    beat.save()
                     OrderItems.objects.create(order_id=order, beat=beat, license=beat_license, amount=beat.price)
                 del request.session['cart']
+                amount = 0
+                for item in cart.values():
+                    beat_cart = Beat.objects.get(beat_id=item['id'])
+                    amount += beat_cart.price
+                request.session['amount'] = amount
             except Exception as e:
                 Order.objects.create(transaction_id=transaction, user_id=request.user, status=str(e))
         else:

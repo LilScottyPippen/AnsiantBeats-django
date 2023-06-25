@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from .models import Beat, Tonal, Types, Mood, Coupone
+from .models import Beat, Tonal, Types, Mood, Coupon
+from index.models import License
 from django.db.models import Min, Max
 from .tasks import create_ticket
 
@@ -10,12 +11,12 @@ def index_page(request):
     last_beat = Beat.objects.order_by('-beat_id')[:3]
 
     cart = request.session.get('cart', {})
-
     amount = 0
     for item in cart.values():
         beat_cart = Beat.objects.get(beat_id=item['id'])
-        amount += beat_cart.price
+        amount += beat_cart.price + License.objects.get(license_level=1).price
     request.session['amount'] = amount
+
     context = {
         'last_beat': last_beat,
         'amount': amount,
@@ -39,7 +40,8 @@ def beats_page(request):
     amount = 0
     for item in cart.values():
         beat_cart = Beat.objects.get(beat_id=item['id'])
-        amount += beat_cart.price
+        amount += beat_cart.price + License.objects.get(license_level=1).price
+    request.session['amount'] = amount
 
     if request.session.get('filter_values'):
         del request.session['filter_values']
@@ -114,8 +116,6 @@ def filter_beats(request):
 
     request.session['filter_values'] = filter_values
 
-    print(filter_values)
-
     beats = Beat.objects.all()
 
     if 'newest' in filter_values:
@@ -156,7 +156,6 @@ def filter_beats(request):
         min_bpm = filter_values['min_bpm']
         max_bpm = filter_values['max_bpm']
         beats = beats.filter(bpm__gte=min_bpm, bpm__lte=max_bpm)
-        print(beats)
 
     if filter_type == 'reset':
         beats = Beat.objects.all()
@@ -198,11 +197,16 @@ def create_ticket_views(request):
 @csrf_exempt
 def apply_coupon(request):
     u_code = request.POST.get('code')
-    sum = int(request.POST.get('sum'))
-    coupon = Coupone.objects.get(code=u_code)
+    amount = request.session.get('amount')
+
+    coupon = Coupon.objects.get(code=u_code)
     discount = int(coupon.discount)
-    sum -= discount
-    return JsonResponse({'success': True, 'sum': sum, 'discount': discount}, safe=False)
+
+    licenses_total = int(request.POST.get('licenses_total'))
+    amount += licenses_total
+    amount -= discount
+
+    return JsonResponse({'success': True, 'sum': amount, 'discount': discount}, safe=False)
 
 
 def policy_page(request):

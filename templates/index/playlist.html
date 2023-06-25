@@ -35,41 +35,7 @@
         </div>
     </div>
 
-    <div class="open-menu" id="menu">
-        <div class="open-menu-item" onclick="window.location.href='{% url 'index' %}'">
-            <p>
-                Home
-            </p>
-        </div>
-        <div class="open-menu-item">
-            <p>
-                Contact me
-            </p>
-        </div>
-        <div class="open-menu-item">
-            <p>
-                Licenses
-            </p>
-        </div>
-        <div class="open-menu-item">
-            <p>
-                <a href="https://taplink.cc/ansiantbeats">Socials</a>
-            </p>
-        </div>
-        {% if request.user.is_authenticated %}
-            <div class="open-menu-item" onclick="window.location='{% url 'profile' %}'">
-            <p>
-                Profile
-            </p>
-        </div>
-        {% else %}
-            <div class="open-menu-item" onclick="window.location='{% url 'auth' %}'">
-            <p>
-                Login
-            </p>
-        </div>
-        {% endif %}
-    </div>
+    {% include 'basic/sidebar.html' %}
 
     <div class="mobile-filter-menu" id="filter-menu">
         <div class="mobile-filter__item">
@@ -199,72 +165,7 @@
             </div>
         </div>
     </div>
-    <header>
-        <div class="limit-header">
-            <div class="left-header">
-                <div class="header-logo" onclick="window.location='{% url 'index' %}'">
-                    <div class="header-logo-img">
-                        <img src="{% static '/images/logo.png' %}" alt="">
-                    </div>
-                    <div class="header-logo-container-text">
-                        <div class="header-logo-text">
-                            <p>ansiant</p>
-                            <p>beats</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="right-header">
-                <div class="right-header-container">
-                    <div class="menu-item">
-                        <p class="scale" onclick="window.location='{% url 'index' %}'">
-                            HOME
-                        </p>
-                    </div>
-                    <div class="menu-item">
-                        <p class="scale" onclick="window.location='{% url 'license' %}'">
-                            Licenses
-                        </p>
-                    </div>
-                    <div class="menu-item">
-                        <p class="scale" onclick="window.location='{% url 'policy' %}'">
-                            Policy
-                        </p>
-                    </div>
-                    <div class="menu-item">
-                        <p class="scale" onclick="window.location='https://taplink.cc/ansiantbeats'">
-                            Socials
-                        </p>
-                    </div>
-
-                    <div class="between-container">
-
-                    </div>
-
-                    <div class="login-container">
-                        {% if request.user.is_authenticated %}
-                            <p class="scale" onclick="window.location='{% url 'profile' %}'">profile</p>
-                        {% else %}
-                            <p class="scale" onclick="window.location='{% url 'login' %}'">login</p>
-                        {% endif %}
-                    </div>
-                    <div class="right-header-cart">
-                        <div class="header-cart-img" onclick="window.location='{% url 'shop_cart' %}'">
-                            <img class="scale" src="{% static '/images/purchase2.png' %}" alt="">
-                        </div>
-                        <div class="right-header-cart-text">
-                            <p>${{ amount }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mobile-right-header">
-                <img src="{% static 'images/menu.png' %}" alt="" onclick="viewMenu()">
-            </div>
-        </div>
-    </header>
-
+    {% include 'basic/header.html' %}
     <div class="main-container">
         <div class="preloader">
             <div class="preloader__row">
@@ -747,53 +648,55 @@
                 <div class="limit-beats-container">
                     <div class="beat-items-container">
                         {% for beat in beat %}
-                            <div class="beat-item">
-                                <div class="beat-img">
-                                    <img class="beat-img-cls" src="{{ beat.cover }}" alt="">
-                                    <div id="play-beat-container" class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
-                                        <img src="{% static 'images/play.png' %}" alt="">
-                                    </div>
-                                </div>
-                                <div class="title-beat">
-                                    <p id="title-beat">{{ beat.title }}</p>
-                                    <span>{{ beat.type }}</span>
-                                </div>
-                                <div class="parametrs-beat">
-                                    {% if beat.isNew == True %}
-                                        <div class="beat-parametr new">
-                                            <p>NEW</p>
+                            {% if beat.isPlaylist == True %}
+                                <div class="beat-item">
+                                    <div class="beat-img">
+                                        <img class="beat-img-cls" src="{{ beat.cover }}" alt="">
+                                        <div id="play-beat-container" class="play-beat-container" beat_id="{{ beat.beat_id }}" beat="{{ beat.beat }}" title="{{ beat.title }}" cover="{{ beat.cover }}" duration="{{ beat.duration }}" download="{{ beat.beat }}">
+                                            <img src="{% static 'images/play.png' %}" alt="">
                                         </div>
-                                    {% endif %}
-                                    {% if beat.isGold == True %}
-                                        <div class="beat-parametr premium">
-                                                <p>Gold</p>
-                                        </div>
-                                    {% endif %}
-                                    <div class="beat-parametr">
-                                        <p>{{ beat.tonal }}</p>
                                     </div>
-                                    <div class="beat-parametr">
-                                        <p>{{ beat.bpm }} bpm</p>
+                                    <div class="title-beat">
+                                        <p id="title-beat">{{ beat.title }}</p>
+                                        <span>{{ beat.type }}</span>
                                     </div>
-                                    <div class="beat-parametr">
-                                        <p>{{ beat.mood }}</p>
-                                    </div>
-                                </div>
-                                <div class="beat-elements">
-                                    <div class="beat-price">
-                                        <p>
-                                            ${{ beat.basic_price }}
-                                        </p>
-                                    </div>
-                                    <div class="button-to-card">
-                                        {% if beat.beat_id|stringformat:'s' in cart.keys %}
-                                                <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
-                                        {% else %}
-                                            <button id="add-to-cart" beat_id="{{ beat.beat_id }}">ADD TO CARD</button>
+                                    <div class="parametrs-beat">
+                                        {% if beat.isNew == True %}
+                                            <div class="beat-parametr new">
+                                                <p>NEW</p>
+                                            </div>
                                         {% endif %}
+                                        {% if beat.isGold == True %}
+                                            <div class="beat-parametr premium">
+                                                    <p>Gold</p>
+                                            </div>
+                                        {% endif %}
+                                        <div class="beat-parametr">
+                                            <p>{{ beat.tonal }}</p>
+                                        </div>
+                                        <div class="beat-parametr">
+                                            <p>{{ beat.bpm }} bpm</p>
+                                        </div>
+                                        <div class="beat-parametr">
+                                            <p>{{ beat.mood }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="beat-elements">
+                                        <div class="beat-price">
+                                            <p>
+                                                ${{ beat.basic_price }}
+                                            </p>
+                                        </div>
+                                        <div class="button-to-card">
+                                            {% if beat.beat_id|stringformat:'s' in cart.keys %}
+                                                    <button id="delete-from-cart" beat_id="{{ beat.beat_id }}">ADDED✓</button>
+                                            {% else %}
+                                                <button id="add-to-cart" beat_id="{{ beat.beat_id }}">ADD TO CARD</button>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <script>
@@ -1442,5 +1345,17 @@
         }
         $('input[type="range"]').on('input', rangeInputChangeEventHandler);
     })();
+</script>
+<script>
+    function viewMenu() {
+        let menu = document.getElementById("menu");
+        if (getComputedStyle(menu).getPropertyValue("display") === 'none') {
+            menu.style.display = "block";
+            document.getElementsByTagName("header").style.background = "#242424";
+        }
+        else {
+            menu.style.display = "none";
+        }
+    }
 </script>
 </html>

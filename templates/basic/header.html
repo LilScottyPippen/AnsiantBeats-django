@@ -1,0 +1,66 @@
+{% load static %}
+<header>
+    <div class="limit-header">
+        <div class="left-header">
+            <div class="header-logo" onclick="window.location='{% url 'index' %}'">
+                <div class="header-logo-img">
+                    <img src="{% static 'images/logo.png' %}" alt="">
+                </div>
+                <div class="header-logo-container-text">
+                    <div class="header-logo-text">
+                        <p>ansiant</p>
+                        <p>beats</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-header">
+            <div class="right-header-container">
+                <div class="menu-item">
+                    <p class="scale" onclick="window.location='{% url 'beats_page' %}'">
+                        BEATS
+                    </p>
+                </div>
+                <div class="menu-item">
+                    <p class="scale" onclick="window.location='{% url 'license' %}'">
+                        licenses
+                    </p>
+                </div>
+                <div class="menu-item">
+                    <p class="scale" onclick="window.location='{% url 'policy' %}'">
+                        Policy
+                    </p>
+               </div>
+                <div class="menu-item">
+                    <p class="scale" onclick="window.location='https://taplink.cc/ansiantbeats'">
+                        socials
+                    </p>
+                </div>
+
+                <div class="between-container">
+
+                </div>
+
+                <div class="login-container">
+                    {% if request.user.is_authenticated %}
+                        <p class="scale" onclick="window.location='{% url 'profile' %}'">profile</p>
+                    {% else %}
+                        <p class="scale" onclick="window.location='{% url 'login' %}'">login</p>
+                    {% endif %}
+                </div>
+                <div class="right-header-cart">
+                    <div class="header-cart-img">
+                        <img src="{% static '/images/purchase2.png' %}" alt="" onclick="window.location = '{% url 'shop_cart' %}'" style="cursor: pointer">
+                    </div>
+                    <div class="right-header-cart-text">
+                        <p>{{ amount }}$</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile-right-header">
+            <img src="{% static '/images/menu.png' %}" alt="" onclick="viewMenu()">
+        </div>
+    </div>
+</header>

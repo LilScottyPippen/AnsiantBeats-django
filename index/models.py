@@ -43,6 +43,7 @@ class Beat(models.Model):
     mood = models.ForeignKey(Mood, on_delete=models.CASCADE, null=True)
     isGold = models.BooleanField(default=False)
     isNew = models.BooleanField(default=True)
+    isPlaylist = models.BooleanField(default=True)
     duration = models.CharField(max_length=10, null=True, blank=True)
     bpm = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(blank=False)
@@ -109,7 +110,7 @@ class Ticket(models.Model):
         return f'{self.id} | {self.subject} | {self.email}'
 
 
-class Coupone(models.Model):
+class Coupon(models.Model):
     title = models.CharField(max_length=255)
     code = models.CharField(max_length=255)
     discount = models.IntegerField()

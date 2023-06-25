@@ -102,12 +102,12 @@
                                 <p>{{ cart.price }}$</p>
                               </div>
                               <div class="license-product">
-                                <select name="" id="cusSelectbox">
+                                <select name="" class="cusSelectbox">
                                     {% for license in license %}
                                         <option value="{{ license.name }}" price="{{ license.price }}" level="{{ license.license_level }}">{{ license.name }} - {{ license.price }}$</option>
                                     {% endfor %}
                                 </select>
-                                  <img src="{% static 'images/privacy.png' %}" alt="">
+                                  <img src="{% static 'images/privacy.png' %}" style="cursor: pointer" alt="" onclick="window.location='{% url 'license' %}'">
                               </div>
                               <button class="remove-item-btn" data-item-id="{{ cart.id }}">Delete</button>
                           </div>
@@ -147,25 +147,41 @@
                                 }
                             })});
                             let license = 'BASIC';
+                            let amount = {{ amount }};
+                            let totalPrice = amount;
 
                             $(document).ready(function() {
-                                let price = $('#cusSelectbox').find('option:selected').attr('price');
-                                if (license !== '1') {
-                                    let amount = Number(price) + {{ amount }};
-                                    let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>';
-                                    $('.amount-info-container').html(html);
-                                }
+                              let totalAmount = {{ amount }}; // Инициализация общей суммы
+
+                              $('.cusSelectbox option:selected').each(function() {
+                                let price = $(this).attr('price'); // Используйте $(this) для получения значения price для каждого выбранного элемента
+                                let amount = Number(price) + totalAmount; // Добавьте price к общей сумме
+
+                                totalAmount = amount; // Обновление общей суммы для следующих итераций
+
+                                let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>';
+                                $('.amount-info-container').html(html);
+                              });
                             });
 
-                            $('body').on('click', '#cusSelectbox', function(event) {
-                                event.preventDefault();
-                                license = $(this).val();
-                                let price = $(this).find('option:selected').attr('price');
-                                if (license !== '1') {
-                                    let amount = Number(price) + {{ amount }};
-                                    let html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + amount + '$</p><p>-0$</p><p>' + amount + '$</p></div></div>';
-                                    $('.amount-info-container').html(html);
-                                }
+
+                            // Вне события клика объявляем переменные amount и totalPrice
+
+                            $(document).ready(function() {
+                              $('.cusSelectbox').change(function() {
+                                var totalAmount = parseInt('{{ amount }}');
+
+                                $('.cusSelectbox option:selected').each(function() {
+                                  var licensePrice = parseInt($(this).attr('price'));
+                                  totalAmount += licensePrice;
+                                });
+
+                                // Обновление HTML суммы
+                                var grossAmount = totalAmount.toString();
+                                var discountAmount = '0';
+                                var html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + grossAmount + '$</p><p>' + discountAmount + '$</p><p>' + totalAmount + '$</p></div></div>';
+                                $('.amount-info-container').html(html);
+                              });
                             });
 
                             paypal.Buttons({
@@ -263,20 +279,26 @@
                 $('body').on('click', '#coupon-btn', function(event) {
                     event.preventDefault();
                     let couponCode = $('#coupon-input').val();
-                    let selectedLicense = $('#license-selectbox option:selected');
-                    let licenseName = selectedLicense.val();
-                    let licensePrice = parseInt(selectedLicense.attr('price'));
+                    let selectedLicenses = $('.cusSelectbox option:selected');
+
+                    let licensesTotal = selectedLicenses.map(function() {
+                        return parseInt($(this).attr('price'));
+                    }).get().reduce(function(a, b) {
+                        return a + b;
+                    }, 0);
+
                     $.ajax({
                         url: '{% url 'coupon' %}',
                         type: 'POST',
                         dataType: 'json',
                         data: {
                             'code': couponCode,
-                            'sum': {{ amount }}
+                            'sum': {{ amount }},
+                            'licenses_total': licensesTotal
                         },
                         success: function(response) {
                             if (response.success) {
-                                html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum + response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + response.sum + '$</p></div></div>'
+                                html = '<div class="amount-content"><div class="title-amount"><p>Gross</p><p>Discount</p><p>Total</p></div><div class="cost-amount"><p>' + (response.sum - response.discount) + '$</p><p>-' + response.discount + '$</p><p>' + (response.sum - response.discount - response.discount) + '$</p></div></div>'
                                 $('.amount-info-container').html(html)
 
                                 Swal.fire({
@@ -310,7 +332,7 @@
                   </div>
               </div>
               <div class="reviewed-container">
-                <input type="checkbox" class="custom-checkbox" name="scales" checked>
+                <input type="checkbox" class="custom-checkbox" id="checkbox" name="scales">
                 <label for="scales">I reviewed and agree to the Track(s) License Agreements</label>
               </div>
               <div class="payment-container">
@@ -331,5 +353,17 @@
       </div>
     </div>
     <script type="text/javascript" src="{% static 'js/shopping-cart.js' %}"></script>
+    <script>
+        var checkbox = document.getElementById("checkbox");
+        var container = document.querySelector(".payment-container");
+        container.style.display = "none";
+        checkbox.addEventListener("change", function() {
+          if (checkbox.checked) {
+            container.style.display = "block";
+          } else {
+            container.style.display = "none";
+          }
+        });
+    </script>
   </body>
 </html>

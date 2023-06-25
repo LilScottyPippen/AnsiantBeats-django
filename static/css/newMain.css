@@ -172,6 +172,25 @@ header {
     margin-bottom: auto;
 }
 
+.header-logo-container-text {
+    height: auto;
+    margin-left: 15px;
+    display: flex;
+}
+
+.header-logo-text p {
+    font-family: beyno;
+    font-size: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: linear-gradient(127.83deg, #A0A9AD -30.77%, #41464A 20.51%, #D59A51 120.99%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    font-size: 15px;
+}
+
 .right-header-container {
     height: 100%;
     margin-left: auto;

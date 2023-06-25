@@ -65,13 +65,15 @@
                     });
                 },
                 onApprove: function(data, actions) {
-                    return actions.order.capture().then(function() {
+                    return actions.order.capture().then(function(details) {
                         $.ajax({
                             url: '{% url 'license_improvement' %}',
                             type: 'POST',
                             dataType: 'json',
                             data: {
-                                'beat_id': beat_id
+                                'beat_id': beat_id,
+                                'transaction_id': details.id,
+                                'status': details.status
                             },
                             success: function (response){
                                 if (response.success){
