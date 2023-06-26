@@ -197,16 +197,24 @@ def create_ticket_views(request):
 @csrf_exempt
 def apply_coupon(request):
     u_code = request.POST.get('code')
-    amount = request.session.get('amount')
+    amount = 0
+    cart = request.session.get('cart')
+    for item in cart.values():
+        beat_cart = Beat.objects.get(beat_id=item['id'])
+        amount += beat_cart.price
+    request.session['amount'] = amount
+    print('Amount:' + str(amount))
 
     coupon = Coupon.objects.get(code=u_code)
     discount = int(coupon.discount)
-
+    print('discount:' + str(discount))
     licenses_total = int(request.POST.get('licenses_total'))
+    print('License:' + str(licenses_total))
+    suma = amount + licenses_total
     amount += licenses_total
     amount -= discount
-
-    return JsonResponse({'success': True, 'sum': amount, 'discount': discount}, safe=False)
+    print('Amount:' + str(amount))
+    return JsonResponse({'success': True, 'sum': suma, 'discount': discount}, safe=False)
 
 
 def policy_page(request):
